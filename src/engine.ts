@@ -1,12 +1,31 @@
 import { load } from "./loader";
 import hooks from "./hooks";
+import { makePersistedObject } from "./persisted-object";
+
+interface GameState {
+  currentPage: string;
+}
 
 export class Game {
   currentPage: SVGElement;
+  state: GameState;
 
   constructor() {
     globalThis.game = this;
+
     this.currentPage = null as unknown as SVGAElement; // this is fine because navigate will set it
+    this.state = makePersistedObject("game_state", {
+      currentPage: "__start__",
+    });
+    this.navigate(this.state.currentPage);
+  }
+
+  reset() {
+    this.currentPage = null as unknown as SVGAElement; // this is fine because navigate will set it
+    localStorage.removeItem("game_state");
+    this.state = makePersistedObject("game_state", {
+      currentPage: "__start__",
+    });
     this.navigate("__start__");
   }
 
@@ -26,8 +45,9 @@ export class Game {
       eval(ts);
     }
 
-    const root = document.getElementById("root");
-    root?.replaceChildren(game.currentPage);
+    const pageContainer = document.getElementById("page");
+    pageContainer?.replaceChildren(game.currentPage);
+    this.state.currentPage = page;
   }
 
   get(name: string): EngineShape {
@@ -50,9 +70,10 @@ export class EngineShape {
     this.svgElement = svgElement;
   }
 
-  onClick(handler: () => void) {
+  onClick(handler: () => void): this {
     this.svgElement.style.cursor = "pointer";
     this.svgElement.addEventListener("click", () => handler());
+    return this;
   }
 }
 

@@ -1,4 +1,4 @@
-import { Game } from "./index";
+import { Game } from "./engine";
 
 export {};
 
