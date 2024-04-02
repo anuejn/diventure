@@ -1,0 +1,25 @@
+{
+  "name": "diventure-engine",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "check": "npm-run-all --continue-on-error check:*",
+    "format": "prettier -w 'src/**/*.(ts)'",
+    "check:tsc": "tsc --noEmit --incremental",
+    "check:eslint": "eslint . --ext ts --report-unused-disable-directives --max-warnings 0",
+    "check:format": "prettier --check 'src/**/*.(ts)'",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.5.0",
+    "@typescript-eslint/parser": "^7.5.0",
+    "eslint": "^8.57.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.2.5",
+    "typescript": "^5.2.2",
+    "vite": "^5.1.6"
+  }
+}
