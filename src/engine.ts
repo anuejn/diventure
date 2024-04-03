@@ -2,10 +2,6 @@ import { load } from "./loader";
 import hooks from "./hooks";
 import { makePersistedObject } from "./persisted-object";
 
-interface GameState {
-  currentPage: string;
-}
-
 export class Game {
   currentPage: SVGElement;
   state: GameState;
@@ -75,6 +71,20 @@ export class EngineShape {
     this.svgElement.addEventListener("click", () => handler());
     return this;
   }
+  hide(): this {
+    this.svgElement.style.opacity = "0";
+    return this;
+  }
 }
 
 new Game();
+
+// we add this horrible polyfill because browsers are pretty bad at respecting svg cursor attributes
+document.addEventListener("mousemove", (e) => {
+  if (e?.target && "style" in e.target) {
+    console.log((e.target as HTMLElement).style.cursor);
+    document.documentElement.style.cursor = (
+      e.target as HTMLElement
+    ).style.cursor;
+  }
+});

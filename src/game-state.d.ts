@@ -1,0 +1,3 @@
+interface GameState {
+  currentPage: string;
+}
