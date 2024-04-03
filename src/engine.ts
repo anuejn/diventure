@@ -36,7 +36,7 @@ export class Game {
         const pageContainer = document.getElementById("page");
         pageContainer?.replaceChildren(game.currentPage);
       }
-    })
+    });
   }
 
   reset() {
