@@ -40,7 +40,6 @@ async function updateGraph() {
     for (const node of document.getElementsByClassName("node")) {
       node.addEventListener("click", () => {
         game.state.currentPage = node.id;
-        window.location.replace("/");
       });
     }
   });

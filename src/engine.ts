@@ -14,6 +14,29 @@ export class Game {
       currentPage: "__start__",
     });
     this.navigate(this.state.currentPage);
+
+    this.state.on(async (lastState) => {
+      if (lastState?.currentPage != game.state.currentPage) {
+        const page = game.state.currentPage;
+        console.log(`loading page: ${page}`);
+
+        const svg = (await load(`${page}.svg`)) || "<svg></svg>";
+        const parser = new DOMParser();
+        const svgDoc = parser.parseFromString(svg, "image/svg+xml");
+        game.currentPage = svgDoc.children[0] as SVGElement;
+
+        hooks.forEach((hook) => hook());
+
+        const ts = await load(`${page}.ts`);
+        if (ts) {
+          // TODO: add typescript type stripping
+          eval(ts);
+        }
+
+        const pageContainer = document.getElementById("page");
+        pageContainer?.replaceChildren(game.currentPage);
+      }
+    })
   }
 
   reset() {
@@ -26,23 +49,6 @@ export class Game {
   }
 
   async navigate(page: string): Promise<void> {
-    console.log(`loading page: ${page}`);
-
-    const svg = (await load(`${page}.svg`)) || "<svg></svg>";
-    const parser = new DOMParser();
-    const svgDoc = parser.parseFromString(svg, "image/svg+xml");
-    game.currentPage = svgDoc.children[0] as SVGElement;
-
-    hooks.forEach((hook) => hook());
-
-    const ts = await load(`${page}.ts`);
-    if (ts) {
-      // TODO: add typescript type stripping
-      eval(ts);
-    }
-
-    const pageContainer = document.getElementById("page");
-    pageContainer?.replaceChildren(game.currentPage);
     this.state.currentPage = page;
   }
 

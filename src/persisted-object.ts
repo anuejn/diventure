@@ -1,6 +1,6 @@
-type Callback = () => void;
+type Callback<T> = (lastState: T | undefined) => void;
 export type PersistedObject<T> = {
-  on: (callback: Callback) => void;
+  on: (callback: Callback<T>) => void;
 } & T;
 
 export function makePersistedObject<T>(
@@ -17,16 +17,17 @@ export function makePersistedObject<T>(
   type TypeInProxy = {
     value: T;
     path: (keyof T)[];
-    listeners: Callback[];
+    listeners: Callback<T>[];
   };
 
   const target = { value, path: [], listeners: [] };
 
   window.addEventListener("storage", (e) => {
     if (e.key == storageKey) {
+      const lastState = JSON.parse(JSON.stringify(target.value));
       target.value = JSON.parse(e.newValue || "{}");
       for (const callback of target.listeners) {
-        (callback as Callback)();
+        (callback as Callback<T>)(lastState);
       }
     }
   });
@@ -39,9 +40,9 @@ export function makePersistedObject<T>(
         }
 
         if (p == "on") {
-          return (callback: Callback) => {
+          return (callback: Callback<T>) => {
             target.listeners.push(callback);
-            callback();
+            callback(undefined);
           };
         }
 
@@ -63,6 +64,8 @@ export function makePersistedObject<T>(
         }
       },
       set(target, p, newValue) {
+        const lastState = JSON.parse(JSON.stringify(target.value));
+
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let parent = target.value as any;
         for (const segment of path) {
@@ -73,7 +76,7 @@ export function makePersistedObject<T>(
 
         localStorage.setItem(storageKey, JSON.stringify(target.value));
         for (const callback of target.listeners) {
-          callback();
+          callback(lastState);
         }
         return true;
       },
