@@ -78,13 +78,3 @@ export class EngineShape {
 }
 
 new Game();
-
-// we add this horrible polyfill because browsers are pretty bad at respecting svg cursor attributes
-document.addEventListener("mousemove", (e) => {
-  if (e?.target && "style" in e.target) {
-    console.log((e.target as HTMLElement).style.cursor);
-    document.documentElement.style.cursor = (
-      e.target as HTMLElement
-    ).style.cursor;
-  }
-});
