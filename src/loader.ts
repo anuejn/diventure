@@ -12,3 +12,9 @@ export async function load(path: string): Promise<string | undefined> {
     return (await entry()) as string;
   }
 }
+
+export async function pages(): Promise<string[]> {
+  return Object.keys(data)
+    .filter((x) => x.endsWith(".ts") && !x.endsWith(".d.ts"))
+    .map((x) => x.replace(basePath + "/", "").replace(".ts", ""));
+}
