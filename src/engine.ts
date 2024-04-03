@@ -1,10 +1,10 @@
 import { load } from "./loader";
 import hooks from "./hooks";
-import { makePersistedObject } from "./persisted-object";
+import { makePersistedObject, PersistedObject } from "./persisted-object";
 
 export class Game {
   currentPage: SVGElement;
-  state: GameState;
+  state: PersistedObject<GameState>;
 
   constructor() {
     globalThis.game = this;
