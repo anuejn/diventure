@@ -1,6 +1,10 @@
-type Callback<T> = (lastState: T | undefined) => void;
+type Callback<T> = (newState: T, lastState: T | undefined) => void;
 export type PersistedObject<T> = {
-  on: (callback: Callback<T>) => void;
+  subscribe: (callback: Callback<T>) => void;
+  subscribeChild: <K extends keyof T>(
+    child: K,
+    callback: Callback<T[K]>,
+  ) => void;
 } & T;
 
 export function makePersistedObject<T>(
@@ -27,7 +31,7 @@ export function makePersistedObject<T>(
       const lastState = JSON.parse(JSON.stringify(target.value));
       target.value = JSON.parse(e.newValue || "{}");
       for (const callback of target.listeners) {
-        (callback as Callback<T>)(lastState);
+        (callback as Callback<T>)(target.value, lastState);
       }
     }
   });
@@ -39,10 +43,25 @@ export function makePersistedObject<T>(
           return () => target.value;
         }
 
-        if (p == "on") {
+        if (p == "subscribe") {
           return (callback: Callback<T>) => {
             target.listeners.push(callback);
-            callback(undefined);
+            callback(target.value, undefined);
+          };
+        }
+
+        if (p == "subscribeChild") {
+          return <K extends keyof T>(child: K, callback: Callback<T[K]>) => {
+            target.listeners.push((newState, lastState) => {
+              if (
+                lastState != undefined &&
+                JSON.stringify(newState[child]) !=
+                  JSON.stringify(lastState[child])
+              ) {
+                callback(newState[child], lastState[child]);
+              }
+            });
+            callback(target.value[child], undefined);
           };
         }
 
@@ -76,7 +95,7 @@ export function makePersistedObject<T>(
 
         localStorage.setItem(storageKey, JSON.stringify(target.value));
         for (const callback of target.listeners) {
-          callback(lastState);
+          callback(target.value, lastState);
         }
         return true;
       },

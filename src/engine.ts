@@ -5,51 +5,56 @@ import { makePersistedObject, PersistedObject } from "./persisted-object";
 export class Game {
   currentPage: SVGElement;
   state: PersistedObject<GameState>;
+  pageLoading: boolean;
 
   constructor() {
     globalThis.game = this;
 
     this.currentPage = null as unknown as SVGAElement; // this is fine because navigate will set it
+    this.pageLoading = false;
+
     this.state = makePersistedObject("game_state", {
-      currentPage: "__start__",
+      currentPlace: "__start__",
     });
-    this.navigate(this.state.currentPage);
-
-    this.state.on(async (lastState) => {
-      if (lastState?.currentPage != game.state.currentPage) {
-        const page = game.state.currentPage;
-        console.log(`loading page: ${page}`);
-
-        const svg = (await load(`${page}.svg`)) || "<svg></svg>";
-        const parser = new DOMParser();
-        const svgDoc = parser.parseFromString(svg, "image/svg+xml");
-        game.currentPage = svgDoc.children[0] as SVGElement;
-
-        hooks.forEach((hook) => hook());
-
-        const ts = await load(`${page}.ts`);
-        if (ts) {
-          // TODO: add typescript type stripping
-          eval(ts);
-        }
-
-        const pageContainer = document.getElementById("page");
-        pageContainer?.replaceChildren(game.currentPage);
-      }
+    this.state.subscribeChild("currentPlace", async (place) => {
+      this.navigate(place);
     });
   }
 
   reset() {
     this.currentPage = null as unknown as SVGAElement; // this is fine because navigate will set it
     localStorage.removeItem("game_state");
+
     this.state = makePersistedObject("game_state", {
-      currentPage: "__start__",
+      currentPlace: undefined as unknown as string,
     });
-    this.navigate("__start__");
+    this.state.subscribeChild("currentPlace", async (place) => {
+      this.navigate(place);
+    });
   }
 
-  async navigate(page: string): Promise<void> {
-    this.state.currentPage = page;
+  async navigate(place: string): Promise<void> {
+    if (this.pageLoading) return;
+    this.pageLoading = true;
+    console.log(`loading place: ${place}`);
+    this.state.currentPlace = place;
+
+    const svg = (await load(`places/${place}.svg`)) || "<svg></svg>";
+    const parser = new DOMParser();
+    const svgDoc = parser.parseFromString(svg, "image/svg+xml");
+    game.currentPage = svgDoc.children[0] as SVGElement;
+
+    hooks.forEach((hook) => hook());
+
+    const ts = await load(`places/${place}.ts`);
+    if (ts) {
+      // TODO: add typescript type stripping
+      eval(ts);
+    }
+
+    const pageContainer = document.getElementById("page");
+    pageContainer?.replaceChildren(game.currentPage);
+    this.pageLoading = false;
   }
 
   get(name: string): EngineShape {
@@ -61,7 +66,7 @@ export class Game {
         return new EngineShape(element);
       }
     }
-    throw Error(`can't find object with named '${name}' on this page`);
+    throw Error(`can't find object with named '${name}' on this place`);
   }
 }
 

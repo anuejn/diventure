@@ -1,3 +1,3 @@
 interface GameState {
-  currentPage: string;
+  currentPlace: string;
 }

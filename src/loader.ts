@@ -1,7 +1,7 @@
 // TDOO: this is our preliminary static loader
 
 const basePath = "../example";
-const data = import.meta.glob("../example/*", {
+const data = import.meta.glob("../example/**/*", {
   query: "?raw",
   import: "default",
 });
@@ -13,8 +13,13 @@ export async function load(path: string): Promise<string | undefined> {
   }
 }
 
-export async function pages(): Promise<string[]> {
+export async function places(): Promise<string[]> {
   return Object.keys(data)
-    .filter((x) => x.endsWith(".ts") && !x.endsWith(".d.ts"))
-    .map((x) => x.replace(basePath + "/", "").replace(".ts", ""));
+    .filter(
+      (x) =>
+        x.startsWith(basePath + "/places/") &&
+        x.endsWith(".ts") &&
+        !x.endsWith(".d.ts"),
+    )
+    .map((x) => x.replace(basePath + "/places/", "").replace(".ts", ""));
 }

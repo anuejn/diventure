@@ -1,35 +1,29 @@
 import { instance } from "@viz-js/viz";
-import { load, pages } from "./loader";
+import { load, places } from "./loader";
 import { makePersistedObject } from "./persisted-object";
 import { Game } from "./engine";
 
 window.game = {} as Game;
 game.state = makePersistedObject("game_state", {
-  currentPage: "__start__",
+  currentPlace: "__start__",
 });
 
-game.state.on(() => {
-  updateGraph();
-  updateStatePre();
-});
-
-function updateStatePre() {
+game.state.subscribe((state) => {
   const stateContainer = document.getElementById("state");
   if (stateContainer) {
-    stateContainer.innerText = JSON.stringify(game.state, null, 4);
+    stateContainer.innerText = JSON.stringify(state, null, 4);
   }
-}
-
-async function updateGraph() {
+});
+game.state.subscribeChild("currentPlace", (currentPlace) => {
   instance().then(async (viz) => {
     let connections = "";
-    for (const page of await pages()) {
-      connections += `"${page}" [id="${page}"${game.state.currentPage == page ? ', color="red"' : ""}]\n`;
-      const content = await load(`${page}.ts`);
+    for (const place of await places()) {
+      connections += `"${place}" [id="${place}"${place == currentPlace ? ', color="red"' : ""}]\n`;
+      const content = await load(`places/${place}.ts`);
       const matches = (content || "").matchAll(/navigate\((.*)\)/g);
       for (const match of matches) {
         const param = match[1].replace(/["']/g, "");
-        connections += `"${page}" -> "${param}"\n`;
+        connections += `"${place}" -> "${param}"\n`;
       }
     }
 
@@ -39,8 +33,8 @@ async function updateGraph() {
 
     for (const node of document.getElementsByClassName("node")) {
       node.addEventListener("click", () => {
-        game.state.currentPage = node.id;
+        game.state.currentPlace = node.id;
       });
     }
   });
-}
+});
