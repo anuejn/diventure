@@ -1,12 +1,12 @@
 import { instance } from "@viz-js/viz";
-import { load, places } from "./loader";
+import { loadTsString, places } from "./loader";
 import { makePersistedObject } from "./persisted-object";
 import { Game } from "./engine";
 
 window.game = {} as Game;
 game.state = makePersistedObject("game_state", {
   currentPlace: "__start__",
-});
+} as GameState);
 
 game.state.subscribe((state) => {
   const stateContainer = document.getElementById("state");
@@ -19,7 +19,7 @@ game.state.subscribeChild("currentPlace", (currentPlace) => {
     let connections = "";
     for (const place of await places()) {
       connections += `"${place}" [id="${place}"${place == currentPlace ? ', color="red"' : ""}]\n`;
-      const content = await load(`places/${place}.ts`);
+      const content = await loadTsString(`places/${place}.ts`);
       const matches = (content || "").matchAll(/navigate\((.*)\)/g);
       for (const match of matches) {
         const param = match[1].replace(/["']/g, "");

@@ -1,6 +1,5 @@
+import { loadSvg, loadTs } from "./loader";
 import { makePersistedObject, PersistedObject } from "./persisted-object";
-import { loadSvg } from "./svgLoader";
-import { loadTs } from "./tsLoader";
 
 export class Game {
   currentPage: SVGElement;
@@ -21,24 +20,21 @@ export class Game {
   }
 
   reset() {
-    this.currentPage = null as unknown as SVGAElement; // this is fine because navigate will set it
-    Object.keys(this.state)
-      .filter((k) => k != "currentPlace")
-      .forEach((k) => {
-        delete this.state[k as keyof GameState];
-      });
-    this.navigate("__start__");
+    window.localStorage.removeItem("game_state");
+    window.location.reload();
   }
 
   async navigate(place: string): Promise<void> {
     console.log(`loading place: ${place}`);
     this.state.currentPlace = place;
 
-    game.currentPage = await loadSvg(`places/${place}.svg`);
+    const svg = await loadSvg(`places/${place}.svg`);
+    if (svg) {
+      const pageContainer = document.getElementById("page");
+      pageContainer?.replaceChildren(svg);
+      this.currentPage = svg;
+    }
     await loadTs(`places/${place}.ts`);
-
-    const pageContainer = document.getElementById("page");
-    pageContainer?.replaceChildren(game.currentPage);
   }
 
   get(name: string): EngineShape {
