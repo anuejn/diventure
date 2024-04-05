@@ -36,6 +36,16 @@ export function makePersistedObject<T>(
     }
   });
 
+  const getParent = (target: TypeInProxy, path: (keyof T)[]) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let parent = target.value as any;
+    for (const segment of path) {
+      parent = Reflect.get(parent, segment);
+    }
+
+    return parent;
+  };
+
   const makeProxy = (path: (keyof T)[]): T =>
     new Proxy<TypeInProxy>(target, {
       get(target, p) {
@@ -65,32 +75,24 @@ export function makePersistedObject<T>(
           };
         }
 
-        const key = p as keyof T;
-
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let parent = target.value as any;
-        for (const segment of path) {
-          parent = Reflect.get(parent, segment);
-        }
-
-        const value = Reflect.get(parent, key);
+        const parent = getParent(target, path);
+        const value = Reflect.get(parent, p);
         if (typeof value == "object" && value != null) {
-          return makeProxy([...path, key]);
+          return makeProxy([...path, p as keyof T]);
         } else if (typeof value == "function") {
           return value.bind(parent);
         } else {
           return value;
         }
       },
+      has(target, p) {
+        const parent = getParent(target, path);
+        return Reflect.has(parent, p);
+      },
       set(target, p, newValue) {
         const lastState = JSON.parse(JSON.stringify(target.value));
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let parent = target.value as any;
-        for (const segment of path) {
-          parent = Reflect.get(parent, segment);
-        }
-
+        const parent = getParent(target, path);
         Reflect.set(parent, p, newValue);
 
         localStorage.setItem(storageKey, JSON.stringify(target.value));
@@ -102,12 +104,7 @@ export function makePersistedObject<T>(
       deleteProperty(target, p) {
         const lastState = JSON.parse(JSON.stringify(target.value));
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let parent = target.value as any;
-        for (const segment of path) {
-          parent = Reflect.get(parent, segment);
-        }
-
+        const parent = getParent(target, path);
         Reflect.deleteProperty(parent, p);
 
         localStorage.setItem(storageKey, JSON.stringify(target.value));
