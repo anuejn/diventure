@@ -14,12 +14,20 @@ export async function load(path: string): Promise<string | undefined> {
 }
 
 export async function places(): Promise<string[]> {
-  return Object.keys(data)
-    .filter(
-      (x) =>
-        x.startsWith(basePath + "/places/") &&
-        x.endsWith(".ts") &&
-        !x.endsWith(".d.ts"),
-    )
-    .map((x) => x.replace(basePath + "/places/", "").replace(".ts", ""));
+  return [
+    ...new Set(
+      Object.keys(data)
+        .filter(
+          (x) =>
+            x.startsWith(basePath + "/places/") &&
+            (x.endsWith(".ts") || x.endsWith(".svg")),
+        )
+        .map((x) =>
+          x
+            .replace(basePath + "/places/", "")
+            .replace(".ts", "")
+            .replace(".svg", ""),
+        ),
+    ),
+  ];
 }

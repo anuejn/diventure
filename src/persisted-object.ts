@@ -99,6 +99,23 @@ export function makePersistedObject<T>(
         }
         return true;
       },
+      deleteProperty(target, p) {
+        const lastState = JSON.parse(JSON.stringify(target.value));
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let parent = target.value as any;
+        for (const segment of path) {
+          parent = Reflect.get(parent, segment);
+        }
+
+        Reflect.deleteProperty(parent, p);
+
+        localStorage.setItem(storageKey, JSON.stringify(target.value));
+        for (const callback of target.listeners) {
+          callback(target.value, lastState);
+        }
+        return true;
+      },
     }) as T;
 
   return makeProxy([]) as PersistedObject<T>;
