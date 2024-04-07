@@ -1,17 +1,17 @@
 import { loadSvg, loadTs } from "./loader";
 import { makePersistedObject, PersistedObject } from "./persisted-object";
+import { getSvgElementByLabel, getSvgViewBox } from "./svg-utils";
 
 export class Game {
-  currentPage: SVGElement;
+  currentPlace?: Place;
   state: PersistedObject<GameState>;
 
   constructor() {
     globalThis.game = this;
 
-    this.currentPage = null as unknown as SVGAElement; // this is fine because navigate will set it
-
     this.state = makePersistedObject("game_state", {
       currentPlace: "__start__",
+      itemStates: {},
     });
     this.state.subscribeChild("currentPlace", async (place, oldPlace) => {
       if (place == oldPlace) return;
@@ -32,21 +32,39 @@ export class Game {
     if (svg) {
       const pageContainer = document.getElementById("page");
       pageContainer?.replaceChildren(svg);
-      this.currentPage = svg;
+      this.currentPlace = new Place(svg);
     }
     await loadTs(`places/${place}.ts`);
   }
 
-  get(name: string): EngineShape {
-    const elements = this.currentPage.getElementsByTagName(
-      "*",
-    ) as HTMLCollectionOf<SVGElement>;
-    for (const element of elements) {
-      if (element.getAttribute("inkscape:label") == name) {
-        return new EngineShape(element);
-      }
+  async loadItem(item: string, name = "0") {
+    const svgElement = await loadSvg(`items/${item}.svg`);
+    if (!svgElement) {
+      throw Error(`item named '${item}' does not exist`);
     }
-    throw Error(`can't find object with named '${name}' on this place`);
+    const compiledName = `${item}_${name}`;
+    if (!(name in game.state.itemStates)) {
+      game.state.itemStates[compiledName] = {};
+    }
+    return new Item(compiledName, svgElement);
+  }
+
+  getPlace(): Place {
+    if (!this.currentPlace) throw Error("current place is undefined");
+    return this.currentPlace;
+  }
+
+  getScale(): number {
+    const { width, height } =
+      this.getPlace().svgElement.getBoundingClientRect();
+    const viewBox = getSvgViewBox(this.getPlace().svgElement);
+    const scaleX = width / viewBox.width;
+    const scaleY = height / viewBox.height;
+    return Math.min(scaleX, scaleY);
+  }
+
+  get(name: string) {
+    return this.getPlace().get(name);
   }
 }
 
@@ -65,6 +83,82 @@ export class EngineShape {
   hide(): this {
     this.svgElement.style.opacity = "0";
     return this;
+  }
+}
+
+export class Place {
+  svgElement: SVGElement;
+
+  constructor(svgElement: SVGElement) {
+    this.svgElement = svgElement;
+  }
+
+  get(name: string): EngineShape {
+    return new EngineShape(getSvgElementByLabel(this.svgElement, name));
+  }
+}
+
+export class Item {
+  state: unknown;
+  svgElement: SVGElement;
+
+  constructor(name: string, svgElement: SVGElement) {
+    this.state = game.state.itemStates[name];
+    this.svgElement = svgElement;
+  }
+
+  place(at: EngineShape): Item {
+    const pageContainer = document.getElementById("page");
+    if (!pageContainer) throw Error("page container is gone");
+
+    const scale = game.getScale();
+    const viewBox = getSvgViewBox(this.svgElement);
+    const width = viewBox.width * scale;
+    const height = viewBox.height * scale;
+    this.svgElement.style.width = `${width}px`;
+    this.svgElement.style.height = `${height}px`;
+
+    const atRect = at.svgElement.getBoundingClientRect();
+
+    this.svgElement.style.position = "absolute";
+    this.svgElement.style.left = `${atRect.left + (atRect.width - width) / 2}px`;
+    this.svgElement.style.top = `${atRect.top + (atRect.height - height) / 2}px`;
+
+    pageContainer.appendChild(this.svgElement);
+
+    return this;
+  }
+
+  draggable(handleLabel: string) {
+    const handle = this.get(handleLabel);
+    handle.svgElement.style.cursor = "grab";
+
+    const draggingState = { startMouseX: 0, startMouseY: 0 };
+    const startRect = this.svgElement.getBoundingClientRect();
+    handle.svgElement.addEventListener("mousedown", (e) => {
+      draggingState.startMouseX = e.clientX;
+      draggingState.startMouseY = e.clientY;
+      handle.svgElement.style.cursor = "grabbing";
+
+      const onMove = (e: MouseEvent) => {
+        this.svgElement.style.left = `${startRect.left + e.clientX - draggingState.startMouseX}px`;
+        this.svgElement.style.top = `${startRect.top + e.clientY - draggingState.startMouseY}px`;
+      };
+      document.addEventListener("mousemove", onMove);
+
+      const onUp = () => {
+        this.svgElement.style.left = `${startRect.left}px`;
+        this.svgElement.style.top = `${startRect.top}px`;
+        document.removeEventListener("mousemove", onMove);
+        document.removeEventListener("mouseup", onUp);
+        handle.svgElement.style.cursor = "grab";
+      };
+      document.addEventListener("mouseup", onUp);
+    });
+  }
+
+  get(name: string): EngineShape {
+    return new EngineShape(getSvgElementByLabel(this.svgElement, name));
   }
 }
 
