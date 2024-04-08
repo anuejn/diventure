@@ -1,11 +1,11 @@
 // TDOO: this is our preliminary static loader
 
-const basePath = "../example/";
-const svgs = import.meta.glob("../example/**/*.svg", {
+const basePath = "../../game/";
+const svgs = import.meta.glob("../../game/**/*.svg", {
   query: "?raw",
   import: "default",
 });
-const ts = import.meta.glob("../example/**/*.ts", {
+const ts = import.meta.glob("../../game/**/*.ts", {
   query: "?url",
   import: "default",
 });
