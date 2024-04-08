@@ -1,7 +1,7 @@
 import { instance } from "@viz-js/viz";
-import { loadTsString, places } from "./loader";
-import { makePersistedObject } from "./persisted-object";
-import { Game } from "./engine";
+import { loadTsString, places } from "./util/loader";
+import { makePersistedObject } from "./util/persisted-object";
+import { Game } from "./game";
 
 window.game = {} as Game;
 game.state = makePersistedObject("game_state", {

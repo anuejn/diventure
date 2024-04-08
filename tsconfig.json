@@ -20,5 +20,5 @@
     "noFallthroughCasesInSwitch": true,
     "moduleDetection": "force",
   },
-  "include": ["src", "example"],
+  "include": ["engine", "game"],
 }

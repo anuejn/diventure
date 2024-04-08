@@ -7,10 +7,10 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "check": "npm-run-all --continue-on-error check:*",
-    "format": "prettier -w 'src/**/*.(ts)'",
+    "format": "prettier -w 'engine/**/*.(ts)'",
     "check:tsc": "tsc --noEmit --incremental",
     "check:eslint": "eslint . --ext ts --report-unused-disable-directives --max-warnings 0",
-    "check:format": "prettier --check 'src/**/*.(ts)'",
+    "check:format": "prettier --check 'engine/**/*.(ts)'",
     "preview": "vite preview"
   },
   "devDependencies": {

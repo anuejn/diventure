@@ -1,5 +1,7 @@
 /* eslint-disable no-var */
-import { Game, Place } from "./engine";
+import { Game } from "./game";
+import { Place } from "./place";
+import { Item } from "./item";
 
 export {};
 
