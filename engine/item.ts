@@ -38,33 +38,48 @@ export class Item {
 
     const draggingState = { startMouseX: 0, startMouseY: 0 };
     let startRect = this.svgElement.getBoundingClientRect();
-    handle.svgElement.addEventListener("mousedown", (e) => {
+
+    const getXY = (e: MouseEvent | TouchEvent): [number, number] => {
+      if ("clientX" in e) {
+        return [e.clientX, e.clientY];
+      } else {
+        return [e.touches[0].clientX, e.touches[0].clientY];
+      }
+    };
+
+    const onDown = (e: MouseEvent | TouchEvent) => {
       startRect = this.svgElement.getBoundingClientRect();
-      draggingState.startMouseX = e.clientX;
-      draggingState.startMouseY = e.clientY;
+      let xy = getXY(e);
+      [draggingState.startMouseX, draggingState.startMouseY] = xy;
       handle.svgElement.style.cursor = "grabbing";
       game.dragStartListeners.forEach((handler) => handler(this));
 
-      const onMove = (e: MouseEvent) => {
-        this.svgElement.style.left = `${startRect.left + e.clientX - draggingState.startMouseX}px`;
-        this.svgElement.style.top = `${startRect.top + e.clientY - draggingState.startMouseY}px`;
+      const onMove = (e: MouseEvent | TouchEvent) => {
+        xy = getXY(e);
+        this.svgElement.style.left = `${startRect.left + xy[0] - draggingState.startMouseX}px`;
+        this.svgElement.style.top = `${startRect.top + xy[1] - draggingState.startMouseY}px`;
       };
       document.addEventListener("mousemove", onMove);
+      document.addEventListener("touchmove", onMove);
 
-      const onUp = (e: MouseEvent) => {
+      const onUp = () => {
         this.svgElement.style.left = `${startRect.left}px`;
         this.svgElement.style.top = `${startRect.top}px`;
         document.removeEventListener("mousemove", onMove);
+        document.removeEventListener("touchmove", onMove);
         document.removeEventListener("mouseup", onUp);
+        document.removeEventListener("touchend", onUp);
+        document.removeEventListener("touchcancel", onUp);
         handle.svgElement.style.cursor = "grab";
         game.dragEndListeners.forEach((handler) => handler(this));
+
         for (const [shape, handler] of game.dropListeners) {
           const bBox = shape.svgElement.getBoundingClientRect();
           if (
-            e.clientX >= bBox.x &&
-            e.clientX <= bBox.x + bBox.width &&
-            e.clientY >= bBox.y &&
-            e.clientY <= bBox.y + bBox.height
+            xy[0] >= bBox.x &&
+            xy[0] <= bBox.x + bBox.width &&
+            xy[1] >= bBox.y &&
+            xy[1] <= bBox.y + bBox.height
           ) {
             handler(this);
             break;
@@ -72,7 +87,11 @@ export class Item {
         }
       };
       document.addEventListener("mouseup", onUp);
-    });
+      document.addEventListener("touchend", onUp);
+      document.addEventListener("touchcancel", onUp);
+    };
+    handle.svgElement.addEventListener("mousedown", onDown);
+    handle.svgElement.addEventListener("touchstart", onDown);
   }
 
   get(name: string): EngineShape {
