@@ -20,3 +20,20 @@ export function getSvgElementByLabel(
   }
   throw Error(`can't find object with label '${label}'`);
 }
+
+export function getSvgElementsByLabelPattern(
+  svg: SVGElement,
+  pattern: RegExp,
+): SVGElement[] {
+  const elements = svg.getElementsByTagName(
+    "*",
+  ) as HTMLCollectionOf<SVGElement>;
+  const list = [];
+  for (const element of elements) {
+    const elementLabel = element.getAttribute("inkscape:label");
+    if (elementLabel != undefined && pattern.test(elementLabel)) {
+      list.push(element);
+    }
+  }
+  return list;
+}

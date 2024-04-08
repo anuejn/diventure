@@ -1,3 +1,3 @@
-game.get('bg').onClick(() => {
+place.get('bg').onClick(() => {
     game.navigate('room')
 })

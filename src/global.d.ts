@@ -1,8 +1,11 @@
-import { Game } from "./engine";
+/* eslint-disable no-var */
+import { Game, Place } from "./engine";
 
 export {};
 
 declare global {
-  // eslint-disable-next-line no-var
   var game: Game;
+
+  var place: Place;
+  var item: Item;
 }

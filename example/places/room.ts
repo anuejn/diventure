@@ -1,11 +1,11 @@
-game.get('door').onClick(() => {
+place.get('door').onClick(() => {
     game.navigate('kitchen')
 })
 
-game.get('book').onClick(() => {
+place.get('book').onClick(() => {
     game.navigate('book')
 })
 
-game.get('bike').onClick(() => {
+place.get('bike').onClick(() => {
     game.navigate('map')
 })

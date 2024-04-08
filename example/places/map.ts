@@ -1,6 +1,6 @@
-game.get('uni').hide()
+place.get('uni').hide()
 
-game.get('home').onClick(() => {
+place.get('home').onClick(() => {
     game.state.mapNextLocation = 'room';
     game.navigate('bike')
 })

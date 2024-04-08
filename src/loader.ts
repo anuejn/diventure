@@ -49,10 +49,16 @@ export async function loadTsString(path: string): Promise<string | undefined> {
   return (await fetch(url).then((x) => x.text())) as string;
 }
 
-export async function loadTs(path: string): Promise<unknown> {
+export async function loadTs(
+  path: string,
+  environment: Record<string, unknown>,
+): Promise<unknown> {
   const string = await loadTsString(path);
-  const fn = eval(`async () => {\n${string}\n}`);
-  return await fn();
+
+  const fn = eval(
+    `async ({ ${Object.keys(environment).join(",")} }) => {\n${string}\n}`,
+  );
+  return await fn(environment);
 }
 
 export async function places(): Promise<string[]> {

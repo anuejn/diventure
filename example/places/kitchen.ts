@@ -1,6 +1,6 @@
-game.get('door').onClick(() => {
+place.get('door').onClick(() => {
     game.navigate('room')
 })
-game.get('fridge').onClick(() => {
+place.get('fridge').onClick(() => {
     game.navigate('fridge')
 })
