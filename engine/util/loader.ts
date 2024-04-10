@@ -2,7 +2,7 @@
 
 const basePath = "../../game/";
 const svgs = import.meta.glob("../../game/**/*.svg", {
-  query: "?raw",
+  query: "?url",
   import: "default",
 });
 const ts = import.meta.glob("../../game/**/*.ts", {
@@ -12,7 +12,8 @@ const ts = import.meta.glob("../../game/**/*.ts", {
 
 export async function loadSvg(path: string): Promise<SVGElement | undefined> {
   if (!(basePath + path in svgs)) return undefined;
-  const svg = (await svgs[basePath + path]()) as string;
+  const url = (await svgs[basePath + path]()) as string;
+  const svg = (await fetch(url).then((x) => x.text())) as string;
   if (!svg) {
     throw Error(`could not find svg at path ${path}`);
   }
