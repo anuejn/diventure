@@ -55,12 +55,13 @@ export class Item {
       game.dragStartListeners.forEach((handler) => handler(this));
 
       const onMove = (e: MouseEvent | TouchEvent) => {
+        e.preventDefault();
         xy = getXY(e);
         this.svgElement.style.left = `${startRect.left + xy[0] - draggingState.startMouseX}px`;
         this.svgElement.style.top = `${startRect.top + xy[1] - draggingState.startMouseY}px`;
       };
       document.addEventListener("mousemove", onMove);
-      document.addEventListener("touchmove", onMove);
+      document.addEventListener("touchmove", onMove, { passive: false });
 
       const onUp = () => {
         this.svgElement.style.left = `${startRect.left}px`;
