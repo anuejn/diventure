@@ -1,8 +1,9 @@
-place.get('uni').hide()
+place.get('uni').onClick(() => {
+    game.navigate('dustbin_open')
+})
 
 place.get('home').onClick(() => {
-    game.state.mapNextLocation = 'room';
-    game.navigate('bike')
+    game.navigate('room')
 })
 
 place.get('friend').onClick(() => {

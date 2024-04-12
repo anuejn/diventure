@@ -62,18 +62,20 @@ export async function loadTs(
   return await fn(environment);
 }
 
-export async function places(): Promise<string[]> {
+export async function elementsOfKind(
+  kind: "places" | "items" | "controls",
+): Promise<string[]> {
   return [
     ...new Set(
       [...Object.keys(ts), ...Object.keys(svgs)]
         .filter(
           (x) =>
-            x.startsWith(basePath + "places/") &&
+            x.startsWith(`${basePath}${kind}/`) &&
             (x.endsWith(".ts") || x.endsWith(".svg")),
         )
         .map((x) =>
           x
-            .replace(basePath + "places/", "")
+            .replace(`${basePath}${kind}/`, "")
             .replace(".ts", "")
             .replace(".svg", ""),
         ),

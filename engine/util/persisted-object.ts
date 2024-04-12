@@ -7,7 +7,7 @@ export type PersistedObject<T> = {
   ) => void;
 } & T;
 
-export function makePersistedObject<T>(
+export function makePersistedObject<T extends object>(
   storageKey: string,
   init: T,
 ): PersistedObject<T> {
@@ -50,7 +50,7 @@ export function makePersistedObject<T>(
     new Proxy<TypeInProxy>(target, {
       get(target, p) {
         if (p == "toJSON") {
-          return () => target.value;
+          return () => getParent(target, path);
         }
 
         if (p == "subscribe") {
@@ -85,10 +85,6 @@ export function makePersistedObject<T>(
           return value;
         }
       },
-      has(target, p) {
-        const parent = getParent(target, path);
-        return Reflect.has(parent, p);
-      },
       set(target, p, newValue) {
         const lastState = JSON.parse(JSON.stringify(target.value));
 
@@ -112,6 +108,17 @@ export function makePersistedObject<T>(
           callback(target.value, lastState);
         }
         return true;
+      },
+      ownKeys(target) {
+        return Reflect.ownKeys(getParent(target, path));
+      },
+      has(target, p) {
+        const parent = getParent(target, path);
+        return Reflect.has(parent, p);
+      },
+      getOwnPropertyDescriptor(target, p) {
+        const parent = getParent(target, path);
+        return Reflect.getOwnPropertyDescriptor(parent, p);
       },
     }) as T;
 

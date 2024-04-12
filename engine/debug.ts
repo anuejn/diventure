@@ -1,5 +1,5 @@
 import { instance } from "@viz-js/viz";
-import { loadTsString, places } from "./util/loader";
+import { loadTsString, elementsOfKind } from "./util/loader";
 import { makePersistedObject } from "./util/persisted-object";
 import { Game } from "./game";
 
@@ -17,7 +17,7 @@ game.state.subscribe((state) => {
 game.state.subscribeChild("currentPlace", (currentPlace) => {
   instance().then(async (viz) => {
     let connections = "";
-    for (const place of await places()) {
+    for (const place of await elementsOfKind("places")) {
       connections += `"${place}" [id="${place}"${place == currentPlace ? ', color="red"' : ""}]\n`;
       const content = await loadTsString(`places/${place}.ts`);
       const matches = (content || "").matchAll(/navigate\((.*)\)/g);

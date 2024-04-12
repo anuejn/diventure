@@ -8,3 +8,6 @@ globalThis.place = makeNotPresentObject(
 globalThis.item = makeNotPresentObject(
   "you cannot access 'item' in the current context. It is only valid in .ts files belonging to items",
 );
+globalThis.control = makeNotPresentObject(
+  "you cannot access 'control' in the current context. It is only valid in .ts files belonging to controls",
+);
