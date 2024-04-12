@@ -7,3 +7,6 @@ place.get('fridge').onClick(() => {
 place.get('upper_closet').onClick(() => {
     game.navigate('upper_closet')
 })
+place.get('lower_closet').onClick(() => {
+    game.navigate('lower_closet')
+})

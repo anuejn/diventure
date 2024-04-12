@@ -45,12 +45,12 @@
        id="image1"
        x="52.311806"
        y="108.70667" /><path
-       style="fill:#ff00ff;fill-opacity:0.42;stroke:#0fc028;stroke-width:0.665001"
+       style="fill:#ff00ff;fill-opacity:0.42;stroke:none;stroke-width:0.665001"
        d="m 182.12637,631.89872 381.57614,-66.87418 15.73512,594.00006 c -135.1691,53.9806 -264.76373,96.8122 -389.44371,129.8145 z"
        id="path1"
        sodipodi:nodetypes="ccccc"
        inkscape:label="door1" /><path
-       style="fill:#ff00ff;fill-opacity:0.42;stroke:#0fc028;stroke-width:0.665001"
+       style="fill:#ff00ff;fill-opacity:0.42;stroke:none;stroke-width:0.665001"
        d="m 1480.2721,513.88548 369.7748,11.80132 c 27.0746,235.43548 20.2854,459.58301 27.5364,688.4106 l -365.8411,-102.2782 z"
        id="path2"
        sodipodi:nodetypes="ccccc"
