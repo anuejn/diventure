@@ -1,1 +1,1 @@
-item.draggable("banana_shape")
+item.draggable("shape")

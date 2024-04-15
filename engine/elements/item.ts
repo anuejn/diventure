@@ -13,7 +13,7 @@ export class Item extends GameElement {
     });
     item.addStyles({
       transitionProperty: "width, height",
-      transitionDuration: "0.5s",
+      transitionDuration: "0.1s",
       transform: "translate(-50%, -50%)",
     });
 
