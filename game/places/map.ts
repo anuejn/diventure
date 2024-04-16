@@ -9,3 +9,7 @@ place.get('home').onClick(() => {
 place.get('friend').onClick(() => {
     game.navigate('Linas_house')
 })
+
+place.get('supermarket').onClick(() => {
+    game.navigate('supermarket')
+})

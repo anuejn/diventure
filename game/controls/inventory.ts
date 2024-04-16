@@ -31,3 +31,9 @@ control.get("backpack")
 control.getMany(/slot\d/).map(slot => {
     slot.onOtherDrop(item => item.anchor(slot, {size: 'fill'}))
 })
+
+// Starting Inventar
+const cash = (await game.loadOrGetItem("cash"));
+if (!cash.isAnchored()) {
+    cash.anchor(control.get("slot6"))
+}
