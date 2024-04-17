@@ -1,7 +1,3 @@
-place.get('uni').onClick(() => {
-    game.navigate('dustbin_open')
-})
-
 place.get('home').onClick(() => {
     game.navigate('room')
 })

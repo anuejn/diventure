@@ -1,4 +1,4 @@
-game.spawnItemOnce("banana", place.get("slot_1"))
+game.spawnItemOnce("banana", place.get("slot1"))
 
 place.getMany(/slot\d/).map(slot => {
     slot
