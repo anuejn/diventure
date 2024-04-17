@@ -3,14 +3,13 @@ import { GameElement } from "./element";
 import { loadSvg, loadTs } from "../util/loader";
 
 export class Item extends GameElement {
+  itemName: string;
+
   static async loadItem(itemName: string, id: string) {
     const svg = await loadSvg(`items/${itemName}.svg`);
     if (!svg) throw Error(`an item '${itemName}' does not exist`);
 
-    const item = new Item(svg, {
-      kind: "item",
-      id: id,
-    });
+    const item = new Item(svg, itemName, id);
     item.addStyles({
       transitionProperty: "width, height",
       transitionDuration: "0.1s",
@@ -19,6 +18,14 @@ export class Item extends GameElement {
 
     await loadTs(`items/${itemName}.ts`, { item });
     return item;
+  }
+
+  private constructor(svgElement: SVGElement, itemName: string, id: string) {
+    super(svgElement, {
+      kind: "item",
+      id: id,
+    });
+    this.itemName = itemName;
   }
 
   anchor(at: EngineShape, placementOptions: Partial<AnchorOptions> = {}): Item {
