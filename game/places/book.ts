@@ -7,3 +7,8 @@ if (!shoppinglist.isAnchored()) {
     shoppinglist.anchor(place.get("slot_paper"))
 }
 
+const invitation = (await game.loadOrGetItem("invitation"));
+if (!invitation.isAnchored()) {
+    invitation.anchor(place.get("slot_invitation"))
+}
+
