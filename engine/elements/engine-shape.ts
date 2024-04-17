@@ -1,5 +1,6 @@
 import { DnDHandler, DropHandler } from "../game";
 import { isPointInSvgElement } from "../util/svg-utils";
+import { Item } from "./item";
 
 export class EngineShape {
   svgElement: SVGElement;
@@ -70,5 +71,15 @@ export class EngineShape {
 
   addStyles(css: Partial<CSSStyleDeclaration>) {
     Object.assign(this.svgElement.style, css);
+  }
+
+  anchoredItems(): Item[] {
+    const toReturn = [];
+    for (const [id, anchor] of Object.entries(game.state.anchoredItems)) {
+      if (JSON.stringify(anchor.location) == JSON.stringify(this.path)) {
+        toReturn.push(game.items[id]);
+      }
+    }
+    return toReturn;
   }
 }

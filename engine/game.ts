@@ -39,7 +39,7 @@ export class Game {
     this.state.subscribeChild("anchoredItems", () => this.relayoutAnchors());
     window.addEventListener("resize", () => this.relayoutAnchors());
 
-    this.mousePos = {x: 0, y: 0};
+    this.mousePos = { x: 0, y: 0 };
     const onMove = (e: MouseEvent | TouchEvent) => {
       if ("clientX" in e) {
         this.mousePos.x = e.clientX;
@@ -48,7 +48,7 @@ export class Game {
         this.mousePos.x = e.touches[0].clientX;
         this.mousePos.y = e.touches[0].clientY;
       }
-    }
+    };
     window.addEventListener("mousemove", onMove);
     window.addEventListener("touchmove", onMove);
 

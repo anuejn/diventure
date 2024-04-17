@@ -33,7 +33,21 @@ control.get("backpack")
         item.addStyles({width: `${slotRect.width}px`, height: `${slotRect.height}px`});
     })
     .onOtherDragEnd(() => control.get("bg_backpack").setPulse(false))
-    .onOtherDrop(item => item.anchor(control.get("slot1"), {size: 'fill'}))
+    .onOtherDrop(item => {
+        let placed = false;
+        for (let i = 1; i <= 6; i++) {
+            const slot = control.get(`slot${i}`);
+            if (slot.anchoredItems().length == 0) {
+                item.anchor(slot, {size: 'fill'});
+                placed = true;
+                break;
+            } 
+        }
+        if (!placed) {
+            console.log("the backpack is full")
+        }
+        return placed
+    })
 
 control.getMany(/slot\d/).map(slot => {
     slot.onOtherDrop(item => item.anchor(slot, {size: 'fill'}))
