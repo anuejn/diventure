@@ -98,7 +98,7 @@ export class Item extends GameElement {
 
       game.dragStartListeners.forEach((handler) => handler(this));
 
-      const onUp = () => {
+      const onUp = async () => {
         document.removeEventListener("mousemove", onMove);
         document.removeEventListener("touchmove", onMove);
         document.removeEventListener("mouseup", onUp);
@@ -116,7 +116,7 @@ export class Item extends GameElement {
             game.mousePos.y >= bBox.y &&
             game.mousePos.y <= bBox.y + bBox.height
           ) {
-            handled = !!handler(this);
+            handled = !!(await handler(this));
             if (handled) break;
           }
         }
