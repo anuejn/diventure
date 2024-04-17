@@ -98,7 +98,7 @@ export class Item extends GameElement {
 
       game.dragStartListeners.forEach((handler) => handler(this));
 
-      const onUp = () => {
+      const onUp = async () => {
         document.removeEventListener("mousemove", onMove);
         document.removeEventListener("touchmove", onMove);
         document.removeEventListener("mouseup", onUp);
@@ -107,7 +107,6 @@ export class Item extends GameElement {
         handle.svgElement.style.cursor = "grab";
         game.dragEndListeners.forEach((handler) => handler(this));
 
-        let handled = false;
         for (const [shape, handler] of game.dropListeners) {
           const bBox = shape.svgElement.getBoundingClientRect();
           if (
@@ -116,11 +115,11 @@ export class Item extends GameElement {
             game.mousePos.y >= bBox.y &&
             game.mousePos.y <= bBox.y + bBox.height
           ) {
-            handled = !!handler(this);
-            if (handled) break;
+            handler(this);
+            if (this.isAnchored()) break;
           }
         }
-        if (!handled) {
+        if (!this.isAnchored()) {
           game.state.anchoredItems[this.path.id] = initialAnchor;
         }
       };

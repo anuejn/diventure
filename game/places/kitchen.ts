@@ -15,9 +15,10 @@ const items = ["flour", "sugar", "chocolate", "eggs"];
 
 const oven = place.get('oven')
 oven.onOtherDrop(async item => {
-    if (item.itemName in items) {
+    console.log(item.itemName)
+    if (items.includes(item.itemName)) {
+        console.log("anchored")
         item.anchor(oven)
-        return true;
     }
 
     // check if everythimg is there
@@ -25,11 +26,6 @@ oven.onOtherDrop(async item => {
     if (JSON.stringify(items.sort()) == JSON.stringify(itemsInOven.sort())) {
         for (const item of oven.anchoredItems()) {
             item.hide()
-            const cake = (await game.loadOrGetItem("cake"));
-            if (!cake.isAnchored()) {
-                cake.anchor(place.get("oven"))
-            }
-            
         }
     }
     

@@ -7,7 +7,6 @@ import { Control } from "./elements/control";
 import { getSvgScale, getSvgViewBox } from "./util/svg-utils";
 
 export type DnDHandler = (item: Item) => void;
-export type DropHandler = (item: Item) => unknown;
 
 export type XY = { x: number; y: number };
 
@@ -17,7 +16,7 @@ export class Game {
   // state shared with code in the elements folder (but private to the engine)
   dragStartListeners: DnDHandler[] = [];
   dragEndListeners: DnDHandler[] = [];
-  dropListeners: [EngineShape, DropHandler][] = [];
+  dropListeners: [EngineShape, DnDHandler][] = [];
   items: Record<string, Item> = {};
   controls: Record<string, Control> = {};
   currentPlace?: Place;

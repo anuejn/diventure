@@ -1,4 +1,4 @@
-import { DnDHandler, DropHandler } from "../game";
+import { DnDHandler } from "../game";
 import { isPointInSvgElement } from "../util/svg-utils";
 import { Item } from "./item";
 
@@ -41,17 +41,13 @@ export class EngineShape {
     game.dragEndListeners.push(handler);
     return this;
   }
-  onOtherDrop(handler: DropHandler): this {
+  onOtherDrop(handler: DnDHandler): this {
     game.dropListeners.push([this, handler]);
     return this;
   }
 
   hide(): this {
     this.svgElement.style.opacity = "0";
-    return this;
-  }
-  vanish(): this {
-    this.hide();
     this.svgElement.style.visibility = "hidden";
     return this;
   }
