@@ -34,19 +34,16 @@ control.get("backpack")
     })
     .onOtherDragEnd(() => control.get("bg_backpack").setPulse(false))
     .onOtherDrop(item => {
-        let placed = false;
         for (let i = 1; i <= 6; i++) {
             const slot = control.get(`slot${i}`);
             if (slot.anchoredItems().length == 0) {
                 item.anchor(slot, {size: 'fill'});
-                placed = true;
                 break;
             } 
         }
-        if (!placed) {
+        if (!item.isAnchored()) {
             console.log("the backpack is full")
         }
-        return placed
     })
 
 control.getMany(/slot\d/).map(slot => {
