@@ -10,3 +10,28 @@ place.get('upper_closet').onClick(() => {
 place.get('lower_closet').onClick(() => {
     game.navigate('lower_closet')
 })
+
+const items = ["flour", "sugar", "chocolate", "eggs"];
+
+const oven = place.get('oven')
+oven.onOtherDrop(async item => {
+    if (item.itemName in items) {
+        item.anchor(oven)
+        return true;
+    }
+
+    // check if everythimg is there
+    const itemsInOven = oven.anchoredItems().map(item => item.itemName);
+    if (JSON.stringify(items.sort()) == JSON.stringify(itemsInOven.sort())) {
+        for (const item of oven.anchoredItems()) {
+            item.hide()
+            const cake = (await game.loadOrGetItem("cake"));
+            if (!cake.isAnchored()) {
+                cake.anchor(place.get("oven"))
+            }
+            
+        }
+    }
+    
+})
+
