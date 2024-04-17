@@ -1,5 +1,5 @@
 
-place.get('bg_cashier').onClick(() => {
+place.get('exit').onClick(() => {
     game.navigate('map')
 })
 
