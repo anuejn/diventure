@@ -51,7 +51,4 @@ control.getMany(/slot\d/).map(slot => {
 })
 
 // Starting Inventar
-const cash = (await game.loadOrGetItem("cash"));
-if (!cash.isAnchored()) {
-    cash.anchor(control.get("slot6"), {size: 'fill'})
-}
+await game.spawnItemOnce("cash", control.get("slot6"), {size: 'fill'});

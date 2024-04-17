@@ -27,6 +27,7 @@ oven.onOtherDrop(async item => {
         for (const item of oven.anchoredItems()) {
             item.destroy()
         }
+        game.spawnItemOnce("cake", place.get("oven"))
     }
     
 })

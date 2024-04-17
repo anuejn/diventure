@@ -28,6 +28,7 @@ export class Game {
       currentPlace: "__start__",
       elementStates: {},
       anchoredItems: {},
+      onceSpawnedItems: [],
     });
 
     this.state.subscribeChild("currentPlace", async (place, oldPlace) => {
@@ -87,13 +88,38 @@ export class Game {
     pageContainer.style.opacity = "1";
   }
 
-  async loadOrGetItem(item: string, name = "0"): Promise<Item> {
-    const id = `${item}_${name}`;
+  async spawnItem(
+    item: string,
+    slot: EngineShape,
+    anchorOptions: Partial<AnchorOptions> = {},
+    id_extra = "",
+  ): Promise<Item> {
+    let id = item;
+    if (id_extra) {
+      id = `${item}:${id_extra}`;
+    }
     if (!(id in this.items)) {
       console.log("loading item", item, name);
       this.items[id] = await Item.loadItem(item, id);
     }
-    return this.items[id];
+    this.state.onceSpawnedItems.push(id);
+    return this.items[id].anchor(slot, anchorOptions);
+  }
+
+  async spawnItemOnce(
+    item: string,
+    slot: EngineShape,
+    anchorOptions: Partial<AnchorOptions> = {},
+    id_extra = "",
+  ): Promise<Item | null> {
+    let id = item;
+    if (id_extra) {
+      id = `${item}:${id_extra}`;
+    }
+    if (game.state.onceSpawnedItems.includes(id)) {
+      return null;
+    }
+    return this.spawnItem(item, slot, anchorOptions, id_extra);
   }
 
   getCurrentPlace(): Place {
@@ -111,8 +137,13 @@ export class Game {
       this.state.anchoredItems,
     )) {
       // TDOO: for now we can only anchor items
-      const [itemName, name] = element.split("_", 2);
-      const item = await this.loadOrGetItem(itemName, name);
+
+      if (!(element in this.items)) {
+        console.log("loading item", element);
+        const itemName = element.split(":", 2)[0];
+        this.items[element] = await Item.loadItem(itemName, element);
+      }
+      const item = this.items[element];
 
       const parent = item.getAnchorParent();
       const anchorShape = item.getAnchorShape();

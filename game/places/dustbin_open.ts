@@ -1,9 +1,4 @@
-
-
-const banana = (await game.loadOrGetItem("banana"));
-if (!banana.isAnchored()) {
-    banana.anchor(place.get("slot1"))
-}
+game.spawnItemOnce("banana", place.get("slot_1"))
 
 place.getMany(/slot\d/).map(slot => {
     slot

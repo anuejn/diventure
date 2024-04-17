@@ -27,18 +27,11 @@ place.get('dude').onOtherDrop(item => {
         item.destroy()
         place.get("cart").show()
 
-        spawnObjectInSlot("flour", "slot_1")
-        spawnObjectInSlot("chocolate", "slot_2")
-        spawnObjectInSlot("sugar", "slot_3")
-        spawnObjectInSlot("eggs", "slot_4")
+
+        game.spawnItemOnce("flour", place.get("slot_1"))
+        game.spawnItemOnce("chocolate", place.get("slot_2"))
+        game.spawnItemOnce("sugar", place.get("slot_3"))
+        game.spawnItemOnce("eggs", place.get("slot_4"))
         place.get('speech_3').show()
     }
 })
-
-async function spawnObjectInSlot(itemName: string, slot: string) {
-    const item = (await game.loadOrGetItem(itemName));
-    if (!item.isAnchored()) {
-        item.anchor(place.get(slot))
-    }
-}
-

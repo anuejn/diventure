@@ -17,4 +17,5 @@ interface GameState {
   currentPlace: string;
   elementStates: Record<string, unknown>;
   anchoredItems: Record<string, AnchorPlacement>;
+  onceSpawnedItems: string[];
 }
