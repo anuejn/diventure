@@ -6,7 +6,7 @@ control.addStyles({
 });
 control.anchor('right', 'bottom')
 control.get('inventory')
-    .vanish()
+    .hide()
     .addStyles({transition: 'opacity 0.3s'})
 
 // open & close inventory
@@ -18,7 +18,7 @@ control.get('backpack')
     })
 control.get('backpack_with_inventory')
     .onMouseOut(() => {
-        control.get('inventory').vanish()
+        control.get('inventory').hide()
         game.relayoutAnchors();
     })
 

@@ -48,10 +48,6 @@ export class EngineShape {
 
   hide(): this {
     this.svgElement.style.opacity = "0";
-    return this;
-  }
-  vanish(): this {
-    this.hide();
     this.svgElement.style.visibility = "hidden";
     return this;
   }
