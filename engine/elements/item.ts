@@ -1,6 +1,7 @@
 import { EngineShape } from "./engine-shape";
 import { GameElement } from "./element";
 import { loadSvg, loadTs } from "../util/loader";
+import { XY } from "../game";
 
 export class Item extends GameElement {
   itemName: string;
@@ -70,16 +71,7 @@ export class Item extends GameElement {
     const handle = this.get(handleLabel);
     handle.svgElement.style.cursor = "grab";
 
-    type Pos = { x: number; y: number };
-
-    const getElementPos = (elem: Element): Pos => {
-      const compStyle = window.getComputedStyle(elem);
-      return {
-        x: parseFloat(compStyle.left.replace("px", "")),
-        y: parseFloat(compStyle.top.replace("px", "")),
-      };
-    };
-    const getMousePos = (e: MouseEvent | TouchEvent): Pos => {
+    const getMousePos = (e: MouseEvent | TouchEvent): XY => {
       if ("clientX" in e) {
         return { x: e.clientX, y: e.clientY };
       } else {
@@ -87,27 +79,24 @@ export class Item extends GameElement {
       }
     };
 
-    let startMousePos = { x: 0, y: 0 };
-    let startElementPos = getElementPos(this.svgElement);
-
     const onDown = (e: MouseEvent | TouchEvent) => {
-      startElementPos = getElementPos(this.svgElement);
-      startMousePos = getMousePos(e);
       handle.svgElement.style.cursor = "grabbing";
       const initialAnchor = JSON.parse(
         JSON.stringify(game.state.anchoredItems[this.path.id]),
       );
       delete game.state.anchoredItems[this.path.id];
-      game.dragStartListeners.forEach((handler) => handler(this));
 
       const onMove = (e: MouseEvent | TouchEvent) => {
         e.preventDefault();
         const mousePos = getMousePos(e);
-        this.svgElement.style.left = `${startElementPos.x + mousePos.x - startMousePos.x}px`;
-        this.svgElement.style.top = `${startElementPos.y + mousePos.y - startMousePos.y}px`;
+        this.svgElement.style.left = `${mousePos.x}px`;
+        this.svgElement.style.top = `${mousePos.y}px`;
       };
+      onMove(e);
       document.addEventListener("mousemove", onMove);
       document.addEventListener("touchmove", onMove, { passive: false });
+
+      game.dragStartListeners.forEach((handler) => handler(this));
 
       const onUp = () => {
         document.removeEventListener("mousemove", onMove);
@@ -122,10 +111,10 @@ export class Item extends GameElement {
         for (const [shape, handler] of game.dropListeners) {
           const bBox = shape.svgElement.getBoundingClientRect();
           if (
-            game.clientX >= bBox.x &&
-            game.clientX <= bBox.x + bBox.width &&
-            game.clientY >= bBox.y &&
-            game.clientY <= bBox.y + bBox.height
+            game.mousePos.x >= bBox.x &&
+            game.mousePos.x <= bBox.x + bBox.width &&
+            game.mousePos.y >= bBox.y &&
+            game.mousePos.y <= bBox.y + bBox.height
           ) {
             handled = !!handler(this);
             if (handled) break;

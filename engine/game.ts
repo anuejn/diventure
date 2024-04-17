@@ -9,6 +9,8 @@ import { getSvgScale, getSvgViewBox } from "./util/svg-utils";
 export type DnDHandler = (item: Item) => void;
 export type DropHandler = (item: Item) => unknown;
 
+export type XY = { x: number; y: number };
+
 export class Game {
   state: PersistedObject<GameState>;
 
@@ -20,8 +22,7 @@ export class Game {
   controls: Record<string, Control> = {};
   currentPlace?: Place;
   loadingPlace?: string;
-  clientX: number = 0;
-  clientY: number = 0;
+  mousePos: XY;
 
   constructor() {
     this.state = makePersistedObject("game_state", {
@@ -38,10 +39,18 @@ export class Game {
     this.state.subscribeChild("anchoredItems", () => this.relayoutAnchors());
     window.addEventListener("resize", () => this.relayoutAnchors());
 
-    window.addEventListener("mousemove", (e) => {
-      this.clientX = e.clientX;
-      this.clientY = e.clientY;
-    });
+    this.mousePos = {x: 0, y: 0};
+    const onMove = (e: MouseEvent | TouchEvent) => {
+      if ("clientX" in e) {
+        this.mousePos.x = e.clientX;
+        this.mousePos.y = e.clientY;
+      } else {
+        this.mousePos.x = e.touches[0].clientX;
+        this.mousePos.y = e.touches[0].clientY;
+      }
+    }
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("touchmove", onMove);
 
     // load controls
     elementsOfKind("controls").then((controls) =>
