@@ -30,6 +30,8 @@ export class Item extends GameElement {
   }
 
   anchor(at: EngineShape, placementOptions: Partial<AnchorOptions> = {}): Item {
+    if (this.isDestroyed()) throw Error("tried to anchor a destroyed item");
+
     const options: AnchorOptions = { size: "real", ...placementOptions };
 
     game.state.anchoredItems[this.path.id] = {
@@ -116,10 +118,10 @@ export class Item extends GameElement {
             game.mousePos.y <= bBox.y + bBox.height
           ) {
             handler(this);
-            if (this.isAnchored()) break;
+            if (this.isAnchored() || this.isDestroyed()) break;
           }
         }
-        if (!this.isAnchored()) {
+        if (!(this.isAnchored() || this.isDestroyed())) {
           game.state.anchoredItems[this.path.id] = initialAnchor;
         }
       };
@@ -131,5 +133,22 @@ export class Item extends GameElement {
     handle.svgElement.addEventListener("touchstart", onDown);
 
     return this;
+  }
+
+  isDestroyed(): boolean {
+    return game.items[this.path.id] == undefined;
+  }
+
+  destroy() {
+    if (this.isAnchored()) {
+      delete game.state.anchoredItems[this.path.id];
+    }
+    delete game.items[this.path.id];
+
+    const viewport = document.getElementById("viewport");
+    if (!viewport) throw Error("viewport container is gone");
+    if (viewport.contains(this.svgElement)) {
+      viewport.removeChild(this.svgElement);
+    }
   }
 }

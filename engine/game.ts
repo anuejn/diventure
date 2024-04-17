@@ -103,7 +103,6 @@ export class Game {
 
   async relayoutAnchors() {
     if (this.loadingPlace) return;
-    console.log("relayoutAnchors()");
 
     const viewport = document.getElementById("viewport");
     if (!viewport) throw Error("viewport container is gone");

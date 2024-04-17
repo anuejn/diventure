@@ -19,12 +19,12 @@ place.get("cart").hide()
 place.get('dude').onOtherDrop(item => {
     if (item.itemName == "shoppinglist") {
         shoppinglist_handed = 1;
-        item.anchor(place.get("dude")).hide()
+        item.destroy()
         place.get('speech_2').show()
     }
 
     if (shoppinglist_handed == 1 && item.itemName == "cash") {
-        item.anchor(place.get("dude")).hide()
+        item.destroy()
         place.get("cart").show()
 
         spawnObjectInSlot("flour", "slot_1")

@@ -25,7 +25,7 @@ oven.onOtherDrop(async item => {
     const itemsInOven = oven.anchoredItems().map(item => item.itemName);
     if (JSON.stringify(items.sort()) == JSON.stringify(itemsInOven.sort())) {
         for (const item of oven.anchoredItems()) {
-            item.hide()
+            item.destroy()
         }
     }
     
