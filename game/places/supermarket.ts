@@ -14,6 +14,8 @@ place.get('dude').onClick(() => {
     }
 })
 
+place.get("cart").hide()
+
 place.get('dude').onOtherDrop(item => {
     if (item.itemName == "shoppinglist") {
         shoppinglist_handed = 1;
@@ -22,6 +24,9 @@ place.get('dude').onOtherDrop(item => {
     }
 
     if (shoppinglist_handed == 1 && item.itemName == "cash") {
+        item.anchor(place.get("dude")).hide()
+        place.get("cart").show()
+
         spawnObjectInSlot("flour", "slot_1")
         spawnObjectInSlot("chocolate", "slot_2")
         spawnObjectInSlot("sugar", "slot_3")
