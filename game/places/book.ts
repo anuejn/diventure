@@ -7,10 +7,10 @@ await game.spawnItemOnce("invitation", place.get("slot_2"));
 
 
 //to put papers back in order to read them
-/*
+
 place.getMany(/slot_\d/).map(slot => {
-    if (item.itemName == "shoppinglist" || item.itemName == "invitation") {
-    slot.onOtherDrop(item => item.anchor(slot))
-    }
+    //wie kann ma da nach item names abfragem, damit man keine bananen ins buch legen kann?
+    //if(){
+        slot.onOtherDrop(item => item.anchor(slot))
+    //}
 })
-*/
