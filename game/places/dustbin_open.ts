@@ -1,5 +1,11 @@
-game.spawnItemOnce("banana", place.get("slot1"))
+//game.spawnItemOnce("banana", place.get("slot1"))
 
+
+place.getMany(/slot_\d\d/).map(slot => {
+    slot.onOtherDrop(item => item.anchor(slot))
+})
+
+/*
 place.getMany(/slot\d/).map(slot => {
     slot
         .hide()
@@ -7,6 +13,7 @@ place.getMany(/slot\d/).map(slot => {
         .onOtherDragEnd(() => slot.hide())
         .onOtherDrop(item => item.anchor(slot))
 })
+*/
 
 place.get("lid").onClick(() => {
     game.navigate("map");

@@ -10,6 +10,9 @@ place.get('upper_closet').onClick(() => {
 place.get('lower_closet').onClick(() => {
     game.navigate('lower_closet')
 })
+place.get('dishes').onClick(() => {
+    //sound.get("plates").play();
+})
 place.get('bg_water').hide()
 let tap_on = false;
 place.get('tap').onClick(() => {
@@ -46,7 +49,6 @@ oven.onOtherDrop(async item => {
 
 
 // Buttons of the Oven
-
 function posterOnOff(button, bg_button){
     let button_turned = false;
     place.get(button).onClick(() => {

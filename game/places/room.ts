@@ -10,6 +10,9 @@ place.get('bike').onClick(() => {
     game.navigate('map')
 })
 
+place.get('chair').onClick(() => {
+    //sound.get("chair").play();
+})
 
 function posterOnOff(posterX, picture){
     let poster_on = false;

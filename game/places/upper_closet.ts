@@ -4,6 +4,10 @@ place.getMany(/door\d/).forEach(door=>{
     })
 })
 
+place.get('dishes').onClick(() => {
+    //sound.get("plates").play();
+})
+
 place.getMany(/slot_\d\d/).map(slot => {
     slot.onOtherDrop(item => item.anchor(slot))
 })
