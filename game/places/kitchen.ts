@@ -10,6 +10,17 @@ place.get('upper_closet').onClick(() => {
 place.get('lower_closet').onClick(() => {
     game.navigate('lower_closet')
 })
+place.get('bg_water').hide()
+let tap_on = false;
+place.get('tap').onClick(() => {
+    if(tap_on === false){
+        tap_on = true;
+        //sounds.get - nice try Lisa haha
+        place.get('bg_water').show()}
+    else{
+        tap_on = false;
+        place.get('bg_water').hide()}
+})
 
 const items = ["flour", "sugar", "chocolate", "eggs"];
 
@@ -32,3 +43,26 @@ oven.onOtherDrop(async item => {
     
 })
 
+
+// Buttons of the Oven
+
+function posterOnOff(button, bg_button){
+    let button_turned = false;
+    place.get(button).onClick(() => {
+        if(button_turned === false){
+            button_turned = true;
+            place.get(bg_button).show()}
+        else{
+            button_turned = false;
+            place.get(bg_button).hide()}
+    })
+}
+
+place.get("bg_button1").hide()
+place.get("bg_button2").hide()
+place.get("bg_button3").hide()
+place.get("bg_button4").hide()
+posterOnOff("ovenbutton1", "bg_button1")
+posterOnOff("ovenbutton2", "bg_button2")
+posterOnOff("ovenbutton3", "bg_button3")
+posterOnOff("ovenbutton4", "bg_button4")
