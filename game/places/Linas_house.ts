@@ -29,11 +29,13 @@ place.get('bg_lina').onOtherDrop(item => {
 })
 
 
-/*
-place.get('cake').onClick(() => {
-    place.get('bg_cake').hide()
-    console.log("hallo")
+let card_handed = 0;
+place.get('bg_lina').onOtherDrop(item => {
+    if (item.itemName == "invitation") {
+        card_handed = 1;
+        item.destroy()
+        place.get('bg_max').show()
+        place.get('bg_nadja').show()
+        place.get('bg_kim').show()
+    }
 })
-
-
-*/

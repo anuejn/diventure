@@ -15,10 +15,11 @@ let tap_on = false;
 place.get('tap').onClick(() => {
     if(tap_on === false){
         tap_on = true;
-        //sounds.get - nice try Lisa haha
+        //sound.get("tapwater").play();
         place.get('bg_water').show()}
     else{
         tap_on = false;
+        //sound.get("tapwater").pause();
         place.get('bg_water').hide()}
 })
 
