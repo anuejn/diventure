@@ -26,7 +26,7 @@ place.get('tap').onClick(() => {
         place.get('bg_water').hide()}
 })
 
-const items = ["flour", "sugar", "chocolate", "eggs"];
+const items = ["flour", "sugar", "chocolate", "eggs", "butter"];
 
 const oven = place.get('oven')
 oven.onOtherDrop(async item => {

@@ -32,6 +32,7 @@ place.get('dude').onOtherDrop(item => {
         game.spawnItemOnce("chocolate", place.get("slot_2"))
         game.spawnItemOnce("sugar", place.get("slot_3"))
         game.spawnItemOnce("eggs", place.get("slot_4"))
+        game.spawnItemOnce("butter", place.get("slot_5"))
         place.get('speech_3').show()
     }
 })
