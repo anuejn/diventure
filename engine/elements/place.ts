@@ -1,7 +1,11 @@
 import { loadSvg, loadTs } from "../util/loader";
 import { GameElement } from "./element";
 
+type LeaveCallback = () => void;
+
 export class Place extends GameElement {
+  leaveCallbacks: LeaveCallback[] = [];
+
   static async loadPlace(placeName: string) {
     const svg =
       (await loadSvg(`places/${placeName}.svg`)) ||
@@ -12,5 +16,9 @@ export class Place extends GameElement {
     });
     await loadTs(`places/${placeName}.ts`, { place: place });
     return place;
+  }
+
+  onLeave(leaveCallback: () => void) {
+    this.leaveCallbacks.push(leaveCallback);
   }
 }

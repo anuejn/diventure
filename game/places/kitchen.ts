@@ -11,19 +11,20 @@ place.get('lower_closet').onClick(() => {
     game.navigate('lower_closet')
 })
 place.get('dishes').onClick(() => {
-    //sound.get("plates").play();
+    game.getSound("plates").play()
 })
-place.get('bg_water').hide()
-let tap_on = false;
+
+function updateTap() {
+    game.getSound("tapwater").setLoop().play(place.state.tap_on);
+    place.get('bg_water').show(place.state.tap_on);
+}
+updateTap()
 place.get('tap').onClick(() => {
-    if(tap_on === false){
-        tap_on = true;
-        //sound.get("tapwater").play();
-        place.get('bg_water').show()}
-    else{
-        tap_on = false;
-        //sound.get("tapwater").pause();
-        place.get('bg_water').hide()}
+    place.state.tap_on = !place.state.tap_on;
+    updateTap()
+})
+place.onLeave(() => {
+    game.getSound("tapwater").pause();
 })
 
 const items = ["flour", "sugar", "chocolate", "eggs", "butter"];
@@ -49,7 +50,7 @@ oven.onOtherDrop(async item => {
 
 
 // Buttons of the Oven
-function posterOnOff(button, bg_button){
+function posterOnOff(button: string, bg_button: string){
     let button_turned = false;
     place.get(button).onClick(() => {
         if(button_turned === false){

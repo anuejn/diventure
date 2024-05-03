@@ -51,9 +51,13 @@ export class EngineShape {
     this.svgElement.style.visibility = "hidden";
     return this;
   }
-  show(): this {
-    this.svgElement.style.visibility = "visible";
-    this.svgElement.style.opacity = "1";
+  show(doShow?: boolean): this {
+    if (doShow) {
+      this.svgElement.style.visibility = "visible";
+      this.svgElement.style.opacity = "1";
+    } else {
+      this.hide();
+    }
     return this;
   }
 

@@ -4,6 +4,8 @@ import { Item } from "./elements/item";
 import { Place } from "./elements/place";
 import { EngineShape } from "./elements/engine-shape";
 import { Control } from "./elements/control";
+import { Sound } from "./elements/sound";
+
 import { getSvgScale, getSvgViewBox } from "./util/svg-utils";
 
 export type DnDHandler = (item: Item) => void;
@@ -22,6 +24,8 @@ export class Game {
   currentPlace?: Place;
   loadingPlace?: string;
   mousePos: XY;
+  audioContext: AudioContext;
+  sounds: Record<string, Sound>;
 
   constructor() {
     this.state = makePersistedObject("game_state", {
@@ -58,6 +62,19 @@ export class Game {
         this.controls[controlName] = await Control.loadControl(controlName);
       }),
     );
+
+    this.sounds = {};
+
+    this.audioContext = new AudioContext();
+    // we need to "unblock" the audio context at the first user interaction
+    const events = ["touchstart", "touchend", "mousedown", "keydown"];
+    const unlock = () => {
+      this.audioContext.resume().then(clean);
+    };
+    events.forEach((e) => document.body.addEventListener(e, unlock, false));
+    function clean() {
+      events.forEach((e) => document.body.removeEventListener(e, unlock));
+    }
   }
 
   reset() {
@@ -67,6 +84,10 @@ export class Game {
 
   async navigate(place: string): Promise<void> {
     if (this.loadingPlace == place) return;
+    if (this.currentPlace) {
+      this.currentPlace.leaveCallbacks.forEach((c) => c());
+    }
+
     console.log(`loading place: ${place}`);
     this.loadingPlace = place;
 
@@ -195,5 +216,13 @@ export class Game {
       }
     }
     return null;
+  }
+
+  getSound(file: string, id?: string): Sound {
+    const realId = id || file;
+    if (!(realId in this.sounds)) {
+      this.sounds[realId] = new Sound(file, realId);
+    }
+    return this.sounds[realId];
   }
 }

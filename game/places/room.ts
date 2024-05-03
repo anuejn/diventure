@@ -11,7 +11,7 @@ place.get('bike').onClick(() => {
 })
 
 place.get('chair').onClick(() => {
-    //sound.get("chair").play();
+    game.getSound("chair").play();
 })
 
 function posterOnOff(posterX, picture){

@@ -6,7 +6,8 @@ import {
 
 export class GameElement extends EngineShape {
   kind: unknown;
-  state: unknown;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  state: any;
 
   // name must be unique
   protected constructor(svgElement: SVGElement, path: Path) {
