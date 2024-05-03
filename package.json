@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "check": "npm-run-all --continue-on-error check:*",
     "format": "prettier -w 'engine/**/*.(ts)'",
     "check:tsc": "tsc --noEmit --incremental",
