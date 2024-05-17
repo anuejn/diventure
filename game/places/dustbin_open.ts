@@ -16,5 +16,5 @@ place.getMany(/slot\d/).map(slot => {
 */
 
 place.get("lid").onClick(() => {
-    game.navigate("map");
+    game.navigate("trashbins");
 })

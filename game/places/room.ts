@@ -1,9 +1,11 @@
 place.get('door').onClick(() => {
     game.navigate('kitchen')
+    game.getSound("door_handle").play();
 })
 
 place.get('book').onClick(() => {
     game.navigate('book')
+    game.getSound("book").play();
 })
 
 place.get('bike').onClick(() => {
@@ -14,15 +16,17 @@ place.get('chair').onClick(() => {
     game.getSound("chair").play();
 })
 
+let radio_on = true;
+place.get('radio').onClick(() => {
+    game.getSound("radio_fm").play(radio_on);
+    radio_on = !radio_on;
+})
+
 function posterOnOff(posterX, picture){
     let poster_on = false;
     place.get(posterX).onClick(() => {
-        if(poster_on === false){
-            poster_on = true;
-            place.get(picture).show()}
-        else{
-            poster_on = false;
-            place.get(picture).hide()}
+        poster_on = !poster_on;
+        place.get(picture).show(poster_on)
     })
 }
 

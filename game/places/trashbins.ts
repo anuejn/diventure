@@ -1,5 +1,5 @@
 place.get("floor").onClick(() => {
-    game.navigate("map");
+    game.navigate("backdoor_supermarket");
 })
 
 place.get("bin1").onClick(() => {

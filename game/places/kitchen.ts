@@ -1,5 +1,6 @@
 place.get('door').onClick(() => {
     game.navigate('room')
+    game.getSound("door_handle").play();
 })
 place.get('fridge').onClick(() => {
     game.navigate('fridge')
@@ -54,22 +55,16 @@ oven.onOtherDrop(async item => {
 // Buttons of the Oven
 let button_turned = false;
 function buttonsOnOff(button: string, bg_button: string){
+    let button_turned = false;
     place.get(button).onClick(() => {
-        if(button_turned === false){
-            console.log("an")
-            button_turned = true;
-            place.get(bg_button).show();}
-        else if(button_turned === true){
-            console.log("aus")
-            button_turned = false;
-            place.get(bg_button).hide();}
+        game.getSound("oven_switch").play();
+        place.get(bg_button).show(button_turned)
+        button_turned = !button_turned;
+        if(button_turned){game.getSound("gas_oven").play();}
+        else{game.getSound("gas_oven").pause();}
     })
 }
 
-//place.get("bg_button1").hide()
-//place.get("bg_button2").hide()
-place.get("bg_button3").hide()
-place.get("bg_button4").hide()
 buttonsOnOff("ovenbutton1", "bg_button1")
 buttonsOnOff("ovenbutton2", "bg_button2")
 buttonsOnOff("ovenbutton3", "bg_button3")

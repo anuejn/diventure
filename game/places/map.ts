@@ -8,10 +8,12 @@ place.get('friend').onClick(() => {
 
 place.get('locksmith').onClick(() => {
     game.navigate('locksmith')
+    game.getSound("door_bell2").play();
 })
 
 place.get('supermarket').onClick(() => {
     game.navigate('supermarket')
+    game.getSound("door_bell1").play();
 })
 
 place.get('supermarket').onOtherDrop(item => {

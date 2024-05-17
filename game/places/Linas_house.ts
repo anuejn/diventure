@@ -1,6 +1,16 @@
 place.get('door').onClick(() => {
     game.navigate('map')
+    game.getSound("door_handle").play();
 })
+
+let light_on = false;
+place.get('bg_lamp').onClick(() => {
+    light_on = !light_on;
+    place.get('light').show(light_on)
+    game.getSound("light_switch").play();
+})
+
+place.get('light').hide()
 
 place.get('bg_max').hide()
 place.get('bg_nadja').hide()
