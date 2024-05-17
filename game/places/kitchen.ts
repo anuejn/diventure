@@ -14,6 +14,8 @@ place.get('dishes').onClick(() => {
     game.getSound("plates").play()
 })
 
+// Tap Watter:
+place.state.tap_on = false;
 function updateTap() {
     game.getSound("tapwater").setLoop().play(place.state.tap_on);
     place.get('bg_water').show(place.state.tap_on);
@@ -50,23 +52,25 @@ oven.onOtherDrop(async item => {
 
 
 // Buttons of the Oven
-function posterOnOff(button: string, bg_button: string){
-    let button_turned = false;
+let button_turned = false;
+function buttonsOnOff(button: string, bg_button: string){
     place.get(button).onClick(() => {
         if(button_turned === false){
+            console.log("an")
             button_turned = true;
-            place.get(bg_button).show()}
-        else{
+            place.get(bg_button).show();}
+        else if(button_turned === true){
+            console.log("aus")
             button_turned = false;
-            place.get(bg_button).hide()}
+            place.get(bg_button).hide();}
     })
 }
 
-place.get("bg_button1").hide()
-place.get("bg_button2").hide()
+//place.get("bg_button1").hide()
+//place.get("bg_button2").hide()
 place.get("bg_button3").hide()
 place.get("bg_button4").hide()
-posterOnOff("ovenbutton1", "bg_button1")
-posterOnOff("ovenbutton2", "bg_button2")
-posterOnOff("ovenbutton3", "bg_button3")
-posterOnOff("ovenbutton4", "bg_button4")
+buttonsOnOff("ovenbutton1", "bg_button1")
+buttonsOnOff("ovenbutton2", "bg_button2")
+buttonsOnOff("ovenbutton3", "bg_button3")
+buttonsOnOff("ovenbutton4", "bg_button4")
