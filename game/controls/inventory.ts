@@ -44,6 +44,7 @@ control.get("backpack")
         if (!item.isAnchored()) {
             console.log("the backpack is full")
         }
+        game.getSound("drop").play(); // vamos ver!
     })
 
 control.getMany(/slot\d/).map(slot => {

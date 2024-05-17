@@ -1,4 +1,5 @@
 place.get('exit').onClick(() => {
+    game.getSound("door_exit").play();
     game.navigate('map')
 })
 

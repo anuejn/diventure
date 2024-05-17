@@ -1,9 +1,11 @@
 place.get('home').onClick(() => {
     game.navigate('room')
+    game.getSound("front_door").play();
 })
 
 place.get('friend').onClick(() => {
     game.navigate('Linas_house')
+    game.getSound("front_door").play();
 })
 
 place.get('locksmith').onClick(() => {

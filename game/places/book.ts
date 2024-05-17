@@ -1,4 +1,5 @@
 place.get('cover').onClick(() => {
+    game.getSound("book_close").play();
     game.navigate('room')
 })
 

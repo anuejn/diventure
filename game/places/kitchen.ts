@@ -15,6 +15,12 @@ place.get('dishes').onClick(() => {
     game.getSound("plates").play()
 })
 
+let extractor_on = true;
+place.get('airbutton').onClick(() => {
+    game.getSound("extractor").play(extractor_on);
+    extractor_on = !extractor_on;
+})
+
 // Tap Watter:
 place.state.tap_on = false;
 function updateTap() {
