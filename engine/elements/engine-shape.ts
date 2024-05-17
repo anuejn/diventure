@@ -52,7 +52,7 @@ export class EngineShape {
     return this;
   }
   show(doShow?: boolean): this {
-    if (doShow) {
+    if (doShow || doShow == undefined) {
       this.svgElement.style.visibility = "visible";
       this.svgElement.style.opacity = "1";
     } else {
