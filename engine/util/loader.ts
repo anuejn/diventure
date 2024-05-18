@@ -6,7 +6,7 @@ const svgs = import.meta.glob("../../game/**/*.svg", {
   import: "default",
 });
 const ts = import.meta.glob("../../game/**/*.ts", {
-  query: "?url",
+  query: "?worker&url",
   import: "default",
 });
 
@@ -47,7 +47,11 @@ function makePinkTransparent(svgElement: SVGElement) {
 export async function loadTsString(path: string): Promise<string | undefined> {
   if (!(basePath + path in ts)) return undefined;
   const url = (await ts[basePath + path]()) as string;
-  return (await fetch(url).then((x) => x.text())) as string;
+  const string = (await fetch(url).then((x) => x.text())) as string;
+  return string.replace(
+    `import "/node_modules/vite/dist/client/env.mjs"\n`,
+    "",
+  );
 }
 
 export async function loadTs(
@@ -55,10 +59,8 @@ export async function loadTs(
   environment: Record<string, unknown>,
 ): Promise<unknown> {
   const string = await loadTsString(path);
-
-  const fn = eval(
-    `async ({ ${Object.keys(environment).join(",")} }) => {\n${string}\n}`,
-  );
+  const code = `async ({ ${Object.keys(environment).join(",")} }) => {\n${string}\n}`;
+  const fn = eval(code);
   return await fn(environment);
 }
 

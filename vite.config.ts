@@ -11,7 +11,7 @@ function svgBase64ExtractPlugin(): Plugin {
     return data.replaceAll(/"data:image\/([a-z]+);base64,(.+)"/g, (_, filetype, base64) => {
       const buffer = Buffer.from(base64.replaceAll("&#10;", "\n"), "base64");
       const hash = crypto.createHash('sha256').update(buffer).digest("hex")
-      const filename = `svg-img-${hash}.${filetype}`;
+      const filename = `assets/svg-img-${hash}.${filetype}`;
       emitFile(filename, buffer)
       return `"${filename}"`;
     });
@@ -65,4 +65,11 @@ function svgBase64ExtractPlugin(): Plugin {
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [svgBase64ExtractPlugin()],
+  build: {
+    minify: false,
+    target: 'esnext',
+  },
+  worker: {
+    format: 'es'
+  }
 })

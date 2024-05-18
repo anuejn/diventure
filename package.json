@@ -6,12 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "preview": "vite preview",
     "check": "npm-run-all --continue-on-error check:*",
     "format": "prettier -w 'engine/**/*.(ts)'",
     "check:tsc": "tsc --noEmit --incremental",
     "check:eslint": "eslint . --ext ts --report-unused-disable-directives --max-warnings 0",
-    "check:format": "prettier --check 'engine/**/*.(ts)'",
-    "preview": "vite preview"
+    "check:format": "prettier --check 'engine/**/*.(ts)'"
   },
   "devDependencies": {
     "@types/mime": "^4.0.0",
