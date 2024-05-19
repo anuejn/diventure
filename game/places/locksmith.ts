@@ -2,7 +2,7 @@ place.get('exit').onClick(() => {
     game.getSound("door_exit").play();
     game.navigate('map')
 })
-
+/*
 let got_hint = true;
 const dialog = place.dialog(place.get("dialog_box"));
 (async () => {
@@ -50,5 +50,43 @@ const dialog = place.dialog(place.get("dialog_box"));
         game.getSound("key_chain").play();
         await sleep(1000);
         dialog.sayRight("Right!? I think so too, I just got them in recently!");
+    }
+})()
+
+*/
+const dialog = place.get("dialog_box").dialog();
+(async () => {
+    await place.get('dude').waitClick();
+    dialog.sayRight("Hello")
+    await sleep(1000)
+
+    let dialogGoesOn = true;
+    const answerOptions: Record<string, () => void> = {
+        "I am just checking out the keychains": async () => {
+            await sleep(1000)
+            dialog.sayRight("Okay then. Just tell me, when you need something.")
+            await place.get('dude').waitClick();
+            delete answerOptions["I am just checking out the keychains"];
+        },
+        "What do you sell here?": async () => {
+            await sleep(1000)
+            dialog.sayRight("dont you see that?")
+            await sleep(1000)
+            dialog.sayRight("I am a locksmith.")
+            await sleep(1000)
+            dialog.sayRight("I make keys!")
+            await sleep(3000);
+            delete answerOptions["What do you sell here?"];
+        },
+        "Uh, oh, I actually have to leave": async () => {
+            dialogGoesOn = false;
+            await sleep(1000)
+            dialog.sayRight("Okay then. See you!")
+        }
+    };
+    while (dialogGoesOn) {
+        dialog.sayRight("How can I help you?")
+        await sleep(1000)
+        await dialog.answerOptions(answerOptions);
     }
 })()

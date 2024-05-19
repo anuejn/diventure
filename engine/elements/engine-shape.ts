@@ -131,7 +131,7 @@ export class EngineShape {
     return toReturn;
   }
 
-  dialog(shape: EngineShape): Dialog {
-    return new Dialog(shape);
+  dialog(): Dialog {
+    return new Dialog(this);
   }
 }

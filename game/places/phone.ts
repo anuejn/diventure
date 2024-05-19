@@ -8,7 +8,7 @@ place.get("back").onClick(() => {
     game.navigate("backdoor_supermarket");
 })
 
-const dialog = place.dialog(place.get("dialog_box"));
+const dialog = place.get("dialog_box").dialog();
 (async () => {
     await place.get("home_button").waitClick();
 

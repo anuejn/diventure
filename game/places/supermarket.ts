@@ -1,25 +1,23 @@
 place.get("cart").show(place.state.showCart || false)
 
-const dialog = place.dialog(place.get("dialog_box"));
+const dialog = place.get("dialog_box").dialog();
 (async () => {
     await place.get("dude").waitClick();
-    dialog.sayRight("Hello");
-    await sleep(1000);
-    dialog.sayRight("What can I bring you?");
+    await dialog.sayRight("Hello");
+    await dialog.sayRight("How can I help you?");
 
-    const hintTimeout = setTimeout(() => dialog.sayRight("You have to give me your shopping list for me to know what to get you!"), 10000)
+    const hintTimeout = setTimeout(() => dialog.sayRight("If you give me your shopping list, I can fetch you the products!"), 10000)
     const shoppinglist = await place.get("dude").waitOtherDrop(item => item.itemName == "shoppinglist");
-    shoppinglist.hide()
-    dialog.sayLeft("Here is my shopping list");
     clearTimeout(hintTimeout);
+    shoppinglist.hide()
+    await dialog.sayLeft("Here is my shopping list");
 
-    await sleep(1000);
 
-    dialog.sayRight("That would make €€€")
+    await dialog.sayRight("That would make €€€")
     const hint2Timeout = setTimeout(() => dialog.sayRight("Hey, now you also have to give me money!"), 10000);
     const cash = await place.get("dude").waitOtherDrop(item => item.itemName == "cash")
-    cash.destroy()
     clearTimeout(hint2Timeout);
+    cash.destroy()
 
     place.get("cart").show()
     place.state.showCart = true;
@@ -32,14 +30,9 @@ const dialog = place.dialog(place.get("dialog_box"));
 
     shoppinglist.destroy()
 
-    dialog.sayLeft("Here you go");
-
-
-    await sleep(1000);
-
-    dialog.sayRight("Here you go");
-    await sleep(1000);
-    dialog.sayRight("Have a nice day!");
+    await dialog.sayLeft("Here you go");
+    await dialog.sayRight("Have a nice day!");
+    await dialog.sayRight("And don't forget anything.");
 })()
 
 place.get('exit').onClick(() => {

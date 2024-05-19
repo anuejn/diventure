@@ -37,6 +37,8 @@ html, body, #viewport, #page, #page > svg {
     animation: pulseKeyframes 0.7s infinite;
 }
 
+
+/* dialog stuff */
 .speech-bubble {
     border: 1px #6c69cf solid;
     color: #6c69cf;
@@ -74,4 +76,15 @@ html, body, #viewport, #page, #page > svg {
     top: 0;
     left: 0;
     background: linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 90%, rgba(255,255,255,1) 100%);
+}
+
+.answer-options-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    padding: 50px 0;
+    gap: 10px;
 }

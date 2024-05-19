@@ -51,7 +51,7 @@ place.get('bg_lina').onOtherDrop(item => {
 })
 
 
-const dialog = place.dialog(place.get("dialog_box_lina"));
+const dialog = place.get("dialog_box_lina").dialog();
 (async () => {
     await place.get("bg_lina").waitClick();
     dialog.sayRight("Hii Lina!");
