@@ -4,7 +4,7 @@ place.get('home').onClick(() => {
 })
 
 place.get('friend').onClick(() => {
-    game.navigate('Linas_house')
+    game.navigate('linas_house')
     game.getSound("front_door").play();
 })
 
