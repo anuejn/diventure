@@ -57,36 +57,33 @@ const dialog = place.dialog(place.get("dialog_box"));
 const dialog = place.get("dialog_box").dialog();
 (async () => {
     await place.get('dude').waitClick();
-    dialog.sayRight("Hello")
-    await sleep(1000)
+    await dialog.sayRight("Hello")
 
     let dialogGoesOn = true;
-    const answerOptions: Record<string, () => void> = {
+    const answerOptions: Record<string, () => Promise<void>> = {
         "I am just checking out the keychains": async () => {
             await sleep(1000)
             dialog.sayRight("Okay then. Just tell me, when you need something.")
             await place.get('dude').waitClick();
+            dialog.blank()
             delete answerOptions["I am just checking out the keychains"];
         },
         "What do you sell here?": async () => {
-            await sleep(1000)
-            dialog.sayRight("dont you see that?")
-            await sleep(1000)
-            dialog.sayRight("I am a locksmith.")
-            await sleep(1000)
-            dialog.sayRight("I make keys!")
+            await dialog.sayRight("dont you see that?")
+            await dialog.sayRight("I am a locksmith.")
+            await dialog.sayRight("I make keys!")
             await sleep(3000);
+            dialog.blank()
             delete answerOptions["What do you sell here?"];
         },
         "Uh, oh, I actually have to leave": async () => {
             dialogGoesOn = false;
             await sleep(1000)
-            dialog.sayRight("Okay then. See you!")
+            await dialog.sayRight("Okay then. See you!")
         }
     };
     while (dialogGoesOn) {
-        dialog.sayRight("How can I help you?")
-        await sleep(1000)
+        await dialog.sayRight("How can I help you?")
         await dialog.answerOptions(answerOptions);
     }
 })()

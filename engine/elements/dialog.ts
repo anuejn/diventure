@@ -67,6 +67,10 @@ export class Dialog {
     await this.say(text, "left");
   }
 
+  async blank() {
+    await this.say("", "blank");
+  }
+
   async answerOptions(
     options: Record<string, () => Promise<void>>,
     side = "left",
