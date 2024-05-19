@@ -15,6 +15,7 @@ place.get('dude').onClick(() => {
     }
     else if(click1 == true && click2 == false) {
         click2 = true;
+        game.getSound("key_chain").play();
         place.get('speech2').show()
     }
     else{
