@@ -10,14 +10,17 @@ control.get('inventory')
     .addStyles({transition: 'opacity 0.3s'})
 
 // open & close inventory
+let show = false;
 control.get('backpack')
     .onClick(() => {
-        control.get('inventory').show()
+        show = !show;
+        control.get('inventory').show(show)
         control.get("bg_backpack").setPulse(false)
         game.relayoutAnchors()
     })
 control.get('backpack_with_inventory')
     .onMouseOut(() => {
+        show = false;
         control.get('inventory').hide()
         game.relayoutAnchors();
     })

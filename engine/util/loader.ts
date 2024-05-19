@@ -1,4 +1,4 @@
-// TDOO: this is our preliminary static loader
+import { makePinkTransparent, makePointerEvents } from "./svg-utils";
 
 const basePath = "../../game/";
 const svgs = import.meta.glob("../../game/**/*.svg", {
@@ -21,27 +21,9 @@ export async function loadSvg(path: string): Promise<SVGElement | undefined> {
   const svgDoc = parser.parseFromString(svg, "image/svg+xml");
   const svgElement = svgDoc.children[0] as SVGElement;
   makePinkTransparent(svgElement);
+  makePointerEvents(svgElement, "none");
 
   return svgElement;
-}
-function makePinkTransparent(svgElement: SVGElement) {
-  const elements = svgElement.getElementsByTagName(
-    "*",
-  ) as HTMLCollectionOf<SVGElement>;
-  for (const element of elements) {
-    if (
-      element?.style?.fill == "rgb(255, 0, 255)" &&
-      element?.style?.fillOpacity == "0.42"
-    ) {
-      element.style.fillOpacity = "0";
-    }
-    if (
-      element?.style?.stroke == "rgb(255, 0, 255)" &&
-      element?.style?.strokeOpacity == "0.42"
-    ) {
-      element.style.strokeOpacity = "0";
-    }
-  }
 }
 
 export async function loadTsString(path: string): Promise<string | undefined> {

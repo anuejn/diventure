@@ -65,3 +65,35 @@ export function isPointInSvgElement(
   }
   return false;
 }
+
+export function makePointerEvents(svgElement: SVGElement, x: "none" | "auto") {
+  svgElement.style.pointerEvents = x;
+  const elements = svgElement.getElementsByTagName(
+    "*",
+  ) as HTMLCollectionOf<SVGElement>;
+  for (const element of elements) {
+    if (element.style) {
+      element.style.pointerEvents = x;
+    }
+  }
+}
+
+export function makePinkTransparent(svgElement: SVGElement) {
+  const elements = svgElement.getElementsByTagName(
+    "*",
+  ) as HTMLCollectionOf<SVGElement>;
+  for (const element of elements) {
+    if (
+      element?.style?.fill == "rgb(255, 0, 255)" &&
+      element?.style?.fillOpacity == "0.42"
+    ) {
+      element.style.fillOpacity = "0";
+    }
+    if (
+      element?.style?.stroke == "rgb(255, 0, 255)" &&
+      element?.style?.strokeOpacity == "0.42"
+    ) {
+      element.style.strokeOpacity = "0";
+    }
+  }
+}

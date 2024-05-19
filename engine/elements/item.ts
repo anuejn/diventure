@@ -2,6 +2,7 @@ import { EngineShape } from "./engine-shape";
 import { GameElement } from "./element";
 import { loadSvg, loadTs } from "../util/loader";
 import { XY } from "../game";
+import { makePointerEvents } from "../util/svg-utils";
 
 export class Item extends GameElement {
   itemName: string;
@@ -58,6 +59,7 @@ export class Item extends GameElement {
   draggable(handleLabel: string): this {
     const handle = this.get(handleLabel);
     handle.svgElement.style.cursor = "grab";
+    makePointerEvents(handle.svgElement, "auto");
 
     const getMousePos = (e: MouseEvent | TouchEvent): XY => {
       if ("clientX" in e) {

@@ -1,5 +1,5 @@
 import { DnDHandler } from "../game";
-import { isPointInSvgElement } from "../util/svg-utils";
+import { isPointInSvgElement, makePointerEvents } from "../util/svg-utils";
 import { Dialog } from "./dialog";
 import { Item } from "./item";
 
@@ -15,12 +15,15 @@ export class EngineShape {
 
   onClick(handler: () => void): this {
     this.svgElement.style.cursor = "pointer";
+    makePointerEvents(this.svgElement, "auto");
+    this.svgElement.style.pointerEvents = "auto";
     this.hasClickListener = true;
     this.svgElement.addEventListener("click", () => handler());
     return this;
   }
   waitClick(): Promise<void> {
     this.svgElement.style.cursor = "pointer";
+    makePointerEvents(this.svgElement, "auto");
     return new Promise((resolve) => {
       this.svgElement.addEventListener(
         "click",
@@ -28,6 +31,7 @@ export class EngineShape {
           resolve();
           if (!this.hasClickListener) {
             this.svgElement.style.cursor = "auto";
+            makePointerEvents(this.svgElement, "none");
           }
         },
         { once: true },
@@ -35,23 +39,31 @@ export class EngineShape {
     });
   }
   onMouseOver(handler: () => void): this {
+    makePointerEvents(this.svgElement, "auto");
     this.svgElement.addEventListener("mouseover", () => handler());
     return this;
   }
   onMouseOut(handler: () => void): this {
-    const listener = (e: MouseEvent) => {
-      if (!isPointInSvgElement(this.svgElement, e.clientX, e.clientY)) {
+    makePointerEvents(this.svgElement, "auto");
+    const listener = (e: MouseEvent | TouchEvent) => {
+      if (
+        !isPointInSvgElement(this.svgElement, game.mousePos.x, game.mousePos.y)
+      ) {
         handler();
         window.removeEventListener("mousemove", listener);
+        window.removeEventListener("touchmove", listener);
       } else if (e.type == "mouseout") {
         window.addEventListener("mousemove", listener);
       }
     };
     window.addEventListener("mouseout", listener);
+    window.addEventListener("touchmove", listener);
+
     return this;
   }
 
   onOtherDragStart(handler: DnDHandler): this {
+    makePointerEvents(this.svgElement, "auto");
     game.dragStartListeners.push(handler);
     return this;
   }
@@ -60,11 +72,13 @@ export class EngineShape {
     return this;
   }
   onOtherDrop(handler: DnDHandler): this {
+    makePointerEvents(this.svgElement, "auto");
     game.dropListeners.push([this, handler]);
     return this;
   }
 
   waitOtherDrop(filter: (item: Item) => boolean): Promise<Item> {
+    makePointerEvents(this.svgElement, "auto");
     return new Promise((resolve) => {
       const handler = (item: Item) => {
         if (filter(item)) {
