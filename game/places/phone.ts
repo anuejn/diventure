@@ -7,3 +7,14 @@ place.get("back").onClick(() => {
     //game.getSound("").play();
     game.navigate("backdoor_supermarket");
 })
+
+const dialog = place.dialog(place.get("dialog_box"));
+(async () => {
+    await place.get("home_button").waitClick();
+
+    dialog.sayLeft("Something!");
+    await sleep(1000);
+    dialog.sayRight("*The hint how to get to the Locksmith*");
+    await sleep(1000);
+
+})()
