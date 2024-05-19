@@ -1,21 +1,24 @@
 place.get("cart").show(place.state.showCart || false)
 
-const dialog = place.get("dialog_box").dialog();
+const dialog = place.dialog(place.get("dialog_box"));
 (async () => {
     await place.get("dude").waitClick();
-    dialog.sayRight("Hello!");
+    dialog.sayRight("Hello");
     await sleep(1000);
     dialog.sayRight("What can I bring you?");
 
-    const hintTimeout = setTimeout(() => dialog.sayRight("You have to give me your shopping list for me to know what to get you"), 10000)
+    const hintTimeout = setTimeout(() => dialog.sayRight("You have to give me your shopping list for me to know what to get you!"), 10000)
     const shoppinglist = await place.get("dude").waitOtherDrop(item => item.itemName == "shoppinglist");
     shoppinglist.hide()
+    dialog.sayLeft("Here is my shopping list");
     clearTimeout(hintTimeout);
+
+    await sleep(1000);
 
     dialog.sayRight("That would make €€€")
     const hint2Timeout = setTimeout(() => dialog.sayRight("Hey, now you also have to give me money!"), 10000);
     const cash = await place.get("dude").waitOtherDrop(item => item.itemName == "cash")
-    cash.hide()
+    cash.destroy()
     clearTimeout(hint2Timeout);
 
     place.get("cart").show()
@@ -28,7 +31,11 @@ const dialog = place.get("dialog_box").dialog();
     game.spawnItemOnce("butter", place.get("slot_5"))
 
     shoppinglist.destroy()
-    cash.destroy()
+
+    dialog.sayLeft("Here you go");
+
+
+    await sleep(1000);
 
     dialog.sayRight("Here you go");
     await sleep(1000);

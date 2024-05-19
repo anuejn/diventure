@@ -14,6 +14,10 @@ export class Place extends GameElement {
       kind: "place",
       id: placeName,
     });
+    game.places[placeName] = place;
+    place.onLeave(() => {
+      delete game.places[placeName];
+    });
     await loadTs(`places/${placeName}.ts`, { place: place });
     return place;
   }

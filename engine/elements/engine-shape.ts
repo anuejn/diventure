@@ -76,6 +76,24 @@ export class EngineShape {
     });
   }
 
+  /// called when the shape gets out of sight
+  onOutOfView(callback: () => void): this {
+    if (this.path.kind == "place") {
+      const place = game.places[this.path.id];
+      if (place) {
+        place.onLeave(callback);
+      } else {
+        callback();
+      }
+    } else {
+      throw Error(
+        `onLeave is not implemented for shapes that are part of an ${this.path.kind}`,
+      );
+    }
+
+    return this;
+  }
+
   hide(): this {
     this.svgElement.style.opacity = "0";
     this.svgElement.style.visibility = "hidden";
@@ -113,11 +131,7 @@ export class EngineShape {
     return toReturn;
   }
 
-  dialog(): Dialog {
-    const key = `${this.path.kind}.${this.path.id}.${this.path.label}`;
-    if (!(key in game.dialogs)) {
-      game.dialogs[key] = new Dialog(this);
-    }
-    return game.dialogs[key];
+  dialog(shape: EngineShape): Dialog {
+    return new Dialog(shape);
   }
 }

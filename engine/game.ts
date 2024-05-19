@@ -8,7 +8,6 @@ import { Control } from "./elements/control";
 import { Sound } from "./elements/sound";
 
 import { getSvgScale, getSvgViewBox } from "./util/svg-utils";
-import { Dialog } from "./elements/dialog";
 
 export type DnDHandler = (item: Item) => void;
 
@@ -25,10 +24,10 @@ export class Game {
   controls: Record<string, Control> = {};
   currentPlace?: Place;
   loadingPlace?: string;
+  places: Record<string, Place> = {};
   mousePos: XY;
   audioContext: AudioContext;
   sounds: Record<string, Sound>;
-  dialogs: Record<string, Dialog> = {};
   anchoredElements: [SVGElement | HTMLElement, AnchorPlacement][] = [];
   itemsMutex = new Mutex();
 
