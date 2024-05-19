@@ -46,9 +46,9 @@ oven.onOtherDrop(async item => {
     }
 
     // check if everythimg is there
-    const itemsInOven = oven.anchoredItems().map(item => item.itemName);
+    const itemsInOven = (await oven.anchoredItems()).map(item => item.itemName);
     if (JSON.stringify(items.sort()) == JSON.stringify(itemsInOven.sort())) {
-        for (const item of oven.anchoredItems()) {
+        for (const item of await oven.anchoredItems()) {
             item.destroy()
         }
         game.spawnItemOnce("cake", place.get("oven"))

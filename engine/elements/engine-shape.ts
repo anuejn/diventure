@@ -6,7 +6,7 @@ import { Item } from "./item";
 export class EngineShape {
   svgElement: SVGElement;
   path: Path;
-  hasClickListener = false;
+  private hasClickListener = false;
 
   constructor(svgElement: SVGElement, path: Path) {
     this.svgElement = svgElement;
@@ -135,11 +135,30 @@ export class EngineShape {
     Object.assign(this.svgElement.style, css);
   }
 
-  anchoredItems(): Item[] {
+  async anchoredItems(): Promise<Item[]> {
     const toReturn = [];
     for (const [id, anchor] of Object.entries(game.state.anchoredItems)) {
       if (JSON.stringify(anchor.location) == JSON.stringify(this.path)) {
-        toReturn.push(game.items[id]);
+        toReturn.push(await game.getItemById(id));
+      }
+    }
+    return toReturn;
+  }
+
+  async anchoredItemsRecursive(): Promise<Item[]> {
+    const toReturn = await this.anchoredItems();
+    const elements = this.svgElement.getElementsByTagName(
+      "*",
+    ) as HTMLCollectionOf<SVGElement>;
+    for (const element of elements) {
+      const label = element.getAttribute("inkscape:label");
+      for (const [id, anchor] of Object.entries(game.state.anchoredItems)) {
+        if (
+          JSON.stringify(anchor.location) ==
+          JSON.stringify({ ...this.path, label })
+        ) {
+          toReturn.push(await game.getItemById(id));
+        }
       }
     }
     return toReturn;

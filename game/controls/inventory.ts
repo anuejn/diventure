@@ -36,10 +36,10 @@ control.get("backpack")
         item.addStyles({width: `${slotRect.width}px`, height: `${slotRect.height}px`});
     })
     .onOtherDragEnd(() => control.get("bg_backpack").setPulse(false))
-    .onOtherDrop(item => {
+    .onOtherDrop(async item => {
         for (let i = 1; i <= 6; i++) {
             const slot = control.get(`slot${i}`);
-            if (slot.anchoredItems().length == 0) {
+            if ((await slot.anchoredItems()).length == 0) {
                 item.anchor(slot, {size: 'fill'});
                 break;
             } 

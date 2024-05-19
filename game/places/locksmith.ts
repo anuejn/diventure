@@ -60,7 +60,7 @@ const dialog = place.get("dialog_box").dialog();
     await dialog.sayRight("Hello")
 
     let dialogGoesOn = true;
-    const answerOptions: Record<string, () => Promise<void>> = {
+    const answerOptions: AnswerOptions = {
         "I am just checking out the keychains": async () => {
             await sleep(1000)
             dialog.sayRight("Okay then. Just tell me, when you need something.")

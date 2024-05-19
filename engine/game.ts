@@ -20,7 +20,6 @@ export class Game {
   dragStartListeners: DnDHandler[] = [];
   dragEndListeners: DnDHandler[] = [];
   dropListeners: [EngineShape, DnDHandler][] = [];
-  items: Record<string, Item> = {};
   controls: Record<string, Control> = {};
   currentPlace?: Place;
   loadingPlace?: string;
@@ -29,7 +28,9 @@ export class Game {
   audioContext: AudioContext;
   sounds: Record<string, Sound>;
   anchoredElements: [SVGElement | HTMLElement, AnchorPlacement][] = [];
-  itemsMutex = new Mutex();
+
+  items: Record<string, Item> = {}; // use getItemById instead
+  private itemsMutex = new Mutex();
 
   constructor() {
     this.state = makePersistedObject("game_state", {
@@ -113,6 +114,17 @@ export class Game {
     pageContainer.style.opacity = "1";
   }
 
+  async getItemById(id: string): Promise<Item> {
+    await this.itemsMutex.runExclusive(async () => {
+      if (!(id in this.items)) {
+        console.log("loading item", id);
+        const itemName = id.split(":", 2)[0];
+        this.items[id] = await Item.loadItem(itemName, id);
+      }
+    });
+    return this.items[id];
+  }
+
   async spawnItem(
     item: string,
     slot: EngineShape,
@@ -123,14 +135,8 @@ export class Game {
     if (id_extra) {
       id = `${item}:${id_extra}`;
     }
-    await this.itemsMutex.runExclusive(async () => {
-      if (!(id in this.items)) {
-        console.log("loading item", item);
-        this.items[id] = await Item.loadItem(item, id);
-      }
-      this.state.onceSpawnedItems.push(id);
-    });
-    return this.items[id].anchor(slot, anchorOptions);
+    const itemObject = await this.getItemById(id);
+    return itemObject.anchor(slot, anchorOptions);
   }
 
   async spawnItemOnce(
@@ -161,19 +167,13 @@ export class Game {
     if (!viewport) throw Error("viewport container is gone");
 
     const anchoredElements = [...this.anchoredElements];
-    await this.itemsMutex.runExclusive(async () => {
-      for (const item of Object.keys(this.state.anchoredItems)) {
-        if (!(item in this.items)) {
-          console.log("loading item", item);
-          const itemName = item.split(":", 2)[0];
-          this.items[item] = await Item.loadItem(itemName, item);
-        }
-        anchoredElements.push([
-          this.items[item].svgElement,
-          this.state.anchoredItems[item],
-        ]);
-      }
-    });
+    for (const item of Object.keys(this.state.anchoredItems)) {
+      const itemObject = await this.getItemById(item);
+      anchoredElements.push([
+        itemObject.svgElement,
+        this.state.anchoredItems[item],
+      ]);
+    }
 
     for (const [element, placement] of anchoredElements) {
       const parent = getAnchorParent(placement);

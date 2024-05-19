@@ -71,10 +71,7 @@ export class Dialog {
     await this.say("", "blank");
   }
 
-  async answerOptions(
-    options: Record<string, () => Promise<void>>,
-    side = "left",
-  ) {
+  async answerOptions(options: AnswerOptions, side = "left") {
     return new Promise((resolve) => {
       for (const [text, callback] of Object.entries(options)) {
         const bubble = document.createElement("div");
