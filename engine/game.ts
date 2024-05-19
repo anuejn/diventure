@@ -1,12 +1,14 @@
+import { Mutex } from "async-mutex";
 import { elementsOfKind } from "./util/loader";
 import { makePersistedObject, PersistedObject } from "./util/persisted-object";
-import { Item } from "./elements/item";
+import { getAnchorParent, getAnchorShape, Item } from "./elements/item";
 import { Place } from "./elements/place";
 import { EngineShape } from "./elements/engine-shape";
 import { Control } from "./elements/control";
 import { Sound } from "./elements/sound";
 
 import { getSvgScale, getSvgViewBox } from "./util/svg-utils";
+import { Dialog } from "./elements/dialog";
 
 export type DnDHandler = (item: Item) => void;
 
@@ -26,6 +28,9 @@ export class Game {
   mousePos: XY;
   audioContext: AudioContext;
   sounds: Record<string, Sound>;
+  dialogs: Record<string, Dialog> = {};
+  anchoredElements: [SVGElement | HTMLElement, AnchorPlacement][] = [];
+  itemsMutex = new Mutex();
 
   constructor() {
     this.state = makePersistedObject("game_state", {
@@ -119,11 +124,13 @@ export class Game {
     if (id_extra) {
       id = `${item}:${id_extra}`;
     }
-    if (!(id in this.items)) {
-      console.log("loading item", item, name);
-      this.items[id] = await Item.loadItem(item, id);
-    }
-    this.state.onceSpawnedItems.push(id);
+    await this.itemsMutex.runExclusive(async () => {
+      if (!(id in this.items)) {
+        console.log("loading item", item);
+        this.items[id] = await Item.loadItem(item, id);
+      }
+      this.state.onceSpawnedItems.push(id);
+    });
     return this.items[id].anchor(slot, anchorOptions);
   }
 
@@ -154,24 +161,27 @@ export class Game {
     const viewport = document.getElementById("viewport");
     if (!viewport) throw Error("viewport container is gone");
 
-    for (const [element, placement] of Object.entries(
-      this.state.anchoredItems,
-    )) {
-      // TDOO: for now we can only anchor items
-
-      if (!(element in this.items)) {
-        console.log("loading item", element);
-        const itemName = element.split(":", 2)[0];
-        this.items[element] = await Item.loadItem(itemName, element);
+    const anchoredElements = [...this.anchoredElements];
+    await this.itemsMutex.runExclusive(async () => {
+      for (const item of Object.keys(this.state.anchoredItems)) {
+        if (!(item in this.items)) {
+          console.log("loading item", item);
+          const itemName = item.split(":", 2)[0];
+          this.items[item] = await Item.loadItem(itemName, item);
+        }
+        anchoredElements.push([
+          this.items[item].svgElement,
+          this.state.anchoredItems[item],
+        ]);
       }
-      const item = this.items[element];
+    });
 
-      const parent = item.getAnchorParent();
-      const anchorShape = item.getAnchorShape();
+    for (const [element, placement] of anchoredElements) {
+      const parent = getAnchorParent(placement);
+      const anchorShape = getAnchorShape(placement);
       if (!parent || !anchorShape) {
-        if (viewport.contains(item.svgElement)) {
-          console.log(`removing item ${element} from dom`);
-          viewport.removeChild(item.svgElement);
+        if (viewport.contains(element)) {
+          viewport.removeChild(element);
         }
         continue;
       }
@@ -181,8 +191,11 @@ export class Game {
       let width = 0,
         height = 0;
       if (placement.options.size == "real") {
+        if (!(element instanceof SVGElement)) {
+          throw Error("only SVG elements can be anchored with size = 'real'");
+        }
         const scale = getSvgScale(parent.svgElement);
-        const viewBox = getSvgViewBox(item.svgElement);
+        const viewBox = getSvgViewBox(element);
         width = viewBox.width * scale;
         height = viewBox.height * scale;
       } else if (placement.options.size == "fill") {
@@ -190,20 +203,20 @@ export class Game {
         height = atRect.height;
       }
 
-      item.svgElement.style.width = `${width}px`;
-      item.svgElement.style.height = `${height}px`;
+      element.style.width = `${width}px`;
+      element.style.height = `${height}px`;
+      element.style.transform = "translate(-50%, -50%)";
 
-      item.svgElement.style.position = "absolute";
-      item.svgElement.style.left = `${atRect.left + atRect.width / 2}px`;
-      item.svgElement.style.top = `${atRect.top + atRect.height / 2}px`;
+      element.style.position = "absolute";
+      element.style.left = `${atRect.left + atRect.width / 2}px`;
+      element.style.top = `${atRect.top + atRect.height / 2}px`;
 
-      item.svgElement.style.visibility = window.getComputedStyle(
+      element.style.visibility = window.getComputedStyle(
         anchorShape.svgElement,
       ).visibility;
 
-      if (!viewport.contains(item.svgElement)) {
-        console.log(`connecting item ${element} to dom`);
-        viewport.appendChild(item.svgElement);
+      if (!viewport.contains(element)) {
+        viewport.appendChild(element);
       }
     }
   }

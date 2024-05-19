@@ -12,4 +12,6 @@ declare global {
   var place: Place;
   var item: Item;
   var control: Control;
+
+  var sleep: (milliseconds: number) => Promise<void>;
 }

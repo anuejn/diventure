@@ -22,17 +22,15 @@ place.get('radio').onClick(() => {
     radio_on = !radio_on;
 })
 
-function posterOnOff(posterX, picture){
+function posterOnOff(posterX: string, picture: string){
     let poster_on = false;
+    place.get(picture).hide()
     place.get(posterX).onClick(() => {
         poster_on = !poster_on;
         place.get(picture).show(poster_on)
     })
 }
 
-place.get("banana1").hide()
-place.get("racoon1").hide()
-place.get("thomas").hide()
 posterOnOff("poster1", "banana1")
 posterOnOff("poster3", "racoon1")
 posterOnOff("poster2", "thomas")

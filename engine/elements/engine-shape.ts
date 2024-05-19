@@ -1,10 +1,12 @@
 import { DnDHandler } from "../game";
 import { isPointInSvgElement } from "../util/svg-utils";
+import { Dialog } from "./dialog";
 import { Item } from "./item";
 
 export class EngineShape {
   svgElement: SVGElement;
   path: Path;
+  hasClickListener = false;
 
   constructor(svgElement: SVGElement, path: Path) {
     this.svgElement = svgElement;
@@ -13,8 +15,24 @@ export class EngineShape {
 
   onClick(handler: () => void): this {
     this.svgElement.style.cursor = "pointer";
+    this.hasClickListener = true;
     this.svgElement.addEventListener("click", () => handler());
     return this;
+  }
+  waitClick(): Promise<void> {
+    this.svgElement.style.cursor = "pointer";
+    return new Promise((resolve) => {
+      this.svgElement.addEventListener(
+        "click",
+        () => {
+          resolve();
+          if (!this.hasClickListener) {
+            this.svgElement.style.cursor = "auto";
+          }
+        },
+        { once: true },
+      );
+    });
   }
   onMouseOver(handler: () => void): this {
     this.svgElement.addEventListener("mouseover", () => handler());
@@ -44,6 +62,18 @@ export class EngineShape {
   onOtherDrop(handler: DnDHandler): this {
     game.dropListeners.push([this, handler]);
     return this;
+  }
+
+  waitOtherDrop(filter: (item: Item) => boolean): Promise<Item> {
+    return new Promise((resolve) => {
+      const handler = (item: Item) => {
+        if (filter(item)) {
+          game.dropListeners.splice(index, 1);
+          resolve(item);
+        }
+      };
+      const index = game.dropListeners.push([this, handler]) - 1;
+    });
   }
 
   hide(): this {
@@ -81,5 +111,13 @@ export class EngineShape {
       }
     }
     return toReturn;
+  }
+
+  dialog(): Dialog {
+    const key = `${this.path.kind}.${this.path.id}.${this.path.label}`;
+    if (!(key in game.dialogs)) {
+      game.dialogs[key] = new Dialog(this);
+    }
+    return game.dialogs[key];
   }
 }

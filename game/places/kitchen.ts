@@ -22,10 +22,9 @@ place.get('airbutton').onClick(() => {
 })
 
 // Tap Watter:
-place.state.tap_on = false;
 function updateTap() {
-    game.getSound("tapwater").setLoop().play(place.state.tap_on);
-    place.get('bg_water').show(place.state.tap_on);
+    game.getSound("tapwater").setLoop().play(place.state.tap_on || false);
+    place.get('bg_water').show(place.state.tap_on || false);
 }
 updateTap()
 place.get('tap').onClick(() => {
@@ -54,20 +53,21 @@ oven.onOtherDrop(async item => {
         }
         game.spawnItemOnce("cake", place.get("oven"))
     }
-    
 })
 
 
 // Buttons of the Oven
-let button_turned = false;
 function buttonsOnOff(button: string, bg_button: string){
     let button_turned = false;
+    place.get(bg_button).hide()
     place.get(button).onClick(() => {
         game.getSound("oven_switch").play();
-        place.get(bg_button).show(button_turned)
         button_turned = !button_turned;
-        if(button_turned){game.getSound("gas_oven").play();}
-        else{game.getSound("gas_oven").pause();}
+        place.get(bg_button).show(button_turned)
+        game.getSound("gas_oven", bg_button).play(button_turned)
+    })
+    place.onLeave(() => {
+        game.getSound("gas_oven", bg_button).pause()
     })
 }
 

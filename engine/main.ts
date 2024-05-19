@@ -11,3 +11,6 @@ globalThis.item = makeNotPresentObject(
 globalThis.control = makeNotPresentObject(
   "you cannot access 'control' in the current context. It is only valid in .ts files belonging to controls",
 );
+
+globalThis.sleep = (milliseconds) =>
+  new Promise((resolve) => setTimeout(() => resolve(), milliseconds));

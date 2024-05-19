@@ -14,7 +14,6 @@ export class Item extends GameElement {
     item.addStyles({
       transitionProperty: "width, height",
       transitionDuration: "0.1s",
-      transform: "translate(-50%, -50%)",
     });
 
     await loadTs(`items/${itemName}.ts`, { item });
@@ -47,26 +46,13 @@ export class Item extends GameElement {
     if (!this.isAnchored())
       throw Error(`the item ${this.path.id} is not anchored`);
     const placement = game.state.anchoredItems[this.path.id];
-    if (placement.location.kind == "control") {
-      return game.controls[placement.location.id];
-    } else if (placement.location.kind == "place") {
-      if (game.getCurrentPlace().path.id != placement.location.id)
-        return undefined;
-      return game.getCurrentPlace();
-    } else {
-      throw Error(
-        `anchoring to elements of kind '${placement.location.kind}' is currently not supported'`,
-      );
-    }
+    return getAnchorParent(placement);
   }
   getAnchorShape(): EngineShape | undefined {
     if (!this.isAnchored())
       throw Error(`the item ${this.path.id} is not anchored`);
     const placement = game.state.anchoredItems[this.path.id];
-    const parent = this.getAnchorParent();
-    if (!placement.location.label)
-      throw Error("cannot anchor at undefined label");
-    return parent?.get(placement.location.label);
+    return getAnchorShape(placement);
   }
 
   draggable(handleLabel: string): this {
@@ -151,4 +137,25 @@ export class Item extends GameElement {
       viewport.removeChild(this.svgElement);
     }
   }
+}
+
+export function getAnchorParent(placement: AnchorPlacement) {
+  if (placement.location.kind == "control") {
+    return game.controls[placement.location.id];
+  } else if (placement.location.kind == "place") {
+    if (game.getCurrentPlace().path.id != placement.location.id)
+      return undefined;
+    return game.getCurrentPlace();
+  } else {
+    throw Error(
+      `anchoring to elements of kind '${placement.location.kind}' is currently not supported'`,
+    );
+  }
+}
+
+export function getAnchorShape(placement: AnchorPlacement) {
+  const parent = getAnchorParent(placement);
+  if (!placement.location.label)
+    throw Error("cannot anchor at undefined label");
+  return parent?.get(placement.location.label);
 }

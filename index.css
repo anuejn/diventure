@@ -9,6 +9,7 @@
 html, body, #viewport, #page, #page > svg {
     width: 100lvw;
     height: 100lvh;
+    font-family: sans-serif;
 }
 
 #page > svg {
@@ -34,4 +35,19 @@ html, body, #viewport, #page, #page > svg {
 .pulse {
     transform-origin: 5% 50%;
     animation: pulseKeyframes 0.7s infinite;
+}
+
+.speech-bubble {
+    border: 1px #6c69cf solid;
+    color: #6c69cf;
+    padding: 10px;
+    border-radius: 30px;
+    margin: 10px;
+    background-color: white;
+}
+.speech-bubble.right {
+    margin-left: 100px;
+}
+.speech-bubble.left {
+    margin-right: 100px;
 }

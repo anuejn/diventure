@@ -26,6 +26,7 @@
     "vite": "^5.2.8"
   },
   "dependencies": {
-    "@viz-js/viz": "^3.4.0"
+    "@viz-js/viz": "^3.4.0",
+    "async-mutex": "^0.5.0"
   }
 }
