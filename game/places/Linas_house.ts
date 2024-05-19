@@ -49,3 +49,23 @@ place.get('bg_lina').onOtherDrop(item => {
         place.get('bg_kim').show()
     }
 })
+
+
+const dialog = place.dialog(place.get("dialog_box_lina"));
+(async () => {
+    await place.get("bg_lina").waitClick();
+    dialog.sayRight("Hii Lina!");
+    await sleep(2000);
+    dialog.sayLeft("Oh hello, I didn't expect you around! How are you doing?");
+    await sleep(4000);
+    dialog.sayRight("I am all good! I was just nearby, coming to see if you had some new gossip!");
+    await sleep(4000);
+    dialog.sayLeft("Haha, no sorry, not this time! That blablabla happend I already told you a while ago! So no, no entertaining news from me today!");
+    await sleep(4000);
+    dialog.sayRight("I also have nothing exciting to report, but it was nice to see you. See you soon then I guess!");
+    await sleep(4000);
+    dialog.sayLeft("See you, buy!");
+    await sleep(2000);
+    dialog.sayRight("Tchau!");
+})()
+
