@@ -40,8 +40,10 @@ place.get('exit').onClick(() => {
 
 const itemsInInventory = await game.controls['inventory'].get('backpack_with_inventory').anchoredItemsRecursive();
 
+
 (async () => {
     const dialog = place.get("dialog_box").dialog("left");
+    place.get("bg_telephone").hide()
 
     await place.get('dude').waitClick();
     await dialog.sayOther("Hello")
@@ -50,7 +52,7 @@ const itemsInInventory = await game.controls['inventory'].get('backpack_with_inv
     const answerOptions: AnswerOptions = {
         "I am just checking out the keychains": async () => {
             await sleep(1000)
-            dialog.sayOther("Okay then. Just tell me, when you need something.")
+            dialog.sayOther("Okay, then just let me know, if you need anything!")
             await place.get('dude').waitClick();
             dialog.blank()
             await dialog.sayOther("How can I help you?")
@@ -79,16 +81,20 @@ const itemsInInventory = await game.controls['inventory'].get('backpack_with_inv
             await dialog.sayOther("Wait a minute...");
             await dialog.sayOther("I'll call him");
 
-
-            const phonolog = place.get("telephone_box").dialog("left");
+            place.get("bg_telephone").show()
             await place.get("telephone").waitClick();
+            const phonolog = place.get("phonolog_box").dialog("left");
+
             await phonolog.sayOther("Hello");
             await phonolog.sayMe("Oh hello Alex, there is a person picking up an order for Karl, do you know anything about that?");
             await phonolog.sayOther("Hmm no, nothing that I know!");
             await phonolog.sayMe("Ok, thanks! Tchau!");
             await phonolog.sayOther("Tchau!");
+            place.get("bg_telephone").hide()
             await sleep(2000);
             phonolog.destroy();
+
+            await dialog.sayOther("He says he doesn't know of any order from Karl!");
         }
     }
 
