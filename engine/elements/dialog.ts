@@ -27,7 +27,7 @@ export class Dialog {
       this.container,
       { location: this.engineShape.path, options: { size: "fill" } },
     ]);
-    game.relayoutAnchors();
+    void game.relayoutAnchors();
 
     this.answerOptionsContainer = document.createElement("div");
     this.answerOptionsContainer.setAttribute(
@@ -37,7 +37,7 @@ export class Dialog {
     const viewport = document.getElementById("viewport");
     viewport?.appendChild(this.answerOptionsContainer);
     engineShape.onOutOfView(() => {
-      this.destroy(0);
+      void this.destroy(0);
     });
   }
 

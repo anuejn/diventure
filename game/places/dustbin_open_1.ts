@@ -16,8 +16,8 @@ place.getMany(/slot\d/).map(slot => {
 */
 
 place.get("lid").onClick(() => {
-    game.getSound("container").play();
+    void game.getSound("container").play();
     game.navigate("trashbins");
 })
 
-game.spawnItemOnce("banana", place.get("slot_20"))
+await game.spawnItemOnce("banana", place.get("slot_20"))

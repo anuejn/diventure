@@ -1,6 +1,6 @@
 place.get('door').onClick(() => {
     game.navigate('room')
-    game.getSound("door_handle").play();
+    void game.getSound("door_handle").play();
 })
 place.get('fridge').onClick(() => {
     game.navigate('fridge')
@@ -12,18 +12,18 @@ place.get('lower_closet').onClick(() => {
     game.navigate('lower_closet')
 })
 place.get('dishes').onClick(() => {
-    game.getSound("plates").play()
+    void game.getSound("plates").play()
 })
 
 let extractor_on = true;
 place.get('airbutton').onClick(() => {
-    game.getSound("extractor").play(extractor_on);
+    void game.getSound("extractor").play(extractor_on);
     extractor_on = !extractor_on;
 })
 
 // Tap Watter:
 function updateTap() {
-    game.getSound("tapwater").setLoop().play(place.state.tap_on || false);
+    void game.getSound("tapwater").setLoop().play(place.state.tap_on || false);
     place.get('bg_water').show(place.state.tap_on || false);
 }
 updateTap()
@@ -32,7 +32,7 @@ place.get('tap').onClick(() => {
     updateTap()
 })
 place.onLeave(() => {
-    game.getSound("tapwater").pause();
+    void game.getSound("tapwater").pause();
 })
 
 const items = ["flour", "sugar", "chocolate", "eggs", "butter"];
@@ -51,7 +51,7 @@ oven.onOtherDrop(async item => {
         for (const item of await oven.anchoredItems()) {
             item.destroy()
         }
-        game.spawnItemOnce("cake", place.get("oven"))
+        await game.spawnItemOnce("cake", place.get("oven"))
     }
 })
 
@@ -61,13 +61,13 @@ function buttonsOnOff(button: string, bg_button: string){
     let button_turned = false;
     place.get(bg_button).hide()
     place.get(button).onClick(() => {
-        game.getSound("oven_switch").play();
+        void game.getSound("oven_switch").play();
         button_turned = !button_turned;
         place.get(bg_button).show(button_turned)
-        game.getSound("gas_oven", bg_button).play(button_turned)
+        void game.getSound("gas_oven", bg_button).play(button_turned)
     })
     place.onLeave(() => {
-        game.getSound("gas_oven", bg_button).pause()
+        void game.getSound("gas_oven", bg_button).pause()
     })
 }
 

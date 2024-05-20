@@ -1,11 +1,11 @@
 place.get('door').onClick(() => {
     game.navigate('kitchen')
-    game.getSound("door_handle").play();
+    void game.getSound("door_handle").play();
 })
 
 place.get('book').onClick(() => {
     game.navigate('book')
-    game.getSound("book").play();
+    void game.getSound("book").play();
 })
 
 place.get('bike').onClick(() => {
@@ -13,12 +13,12 @@ place.get('bike').onClick(() => {
 })
 
 place.get('chair').onClick(() => {
-    game.getSound("chair").play();
+    void game.getSound("chair").play();
 })
 
 let radio_on = true;
 place.get('radio').onClick(() => {
-    game.getSound("radio_fm").play(radio_on);
+    void game.getSound("radio_fm").play(radio_on);
     radio_on = !radio_on;
 })
 
@@ -27,7 +27,7 @@ place.get('light').hide()
 place.get('bg_lamp').onClick(() => {
     light_on = !light_on;
     place.get('light').show(light_on)
-    game.getSound("light_switch").play();
+    void game.getSound("light_switch").play();
 })
 
 function posterOnOff(posterX: string, picture: string){

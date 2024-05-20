@@ -15,7 +15,7 @@ game.state.subscribe((state) => {
   }
 });
 game.state.subscribeChild("currentPlace", (currentPlace) => {
-  instance().then(async (viz) => {
+  void instance().then(async (viz) => {
     let connections = "";
     for (const place of await elementsOfKind("places")) {
       connections += `"${place}" [id="${place}"${place == currentPlace ? ', color="red"' : ""}]\n`;

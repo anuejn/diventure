@@ -1,6 +1,6 @@
 place.get('door').onClick(() => {
     game.navigate('map')
-    game.getSound("door_handle").play();
+    void game.getSound("door_handle").play();
 })
 
 let light_on = false;
@@ -8,7 +8,7 @@ place.get('light').hide()
 place.get('bg_lamp').onClick(() => {
     light_on = !light_on;
     place.get('light').show(light_on)
-    game.getSound("light_switch").play();
+    void game.getSound("light_switch").play();
 })
 
 const itemsInInventory = await game.controls['inventory'].get('backpack_with_inventory').anchoredItemsRecursive();
@@ -51,7 +51,7 @@ if (!party) {
                 await dialog.sayMe("Ill do that. I already wrote a shopping list in my book.")
             }
         });
-    })()
+    })();
 } else {
     (async () => {
         // start dialog with lina when the party is happening: give her the cake
@@ -175,7 +175,7 @@ if (!party) {
                         "You look like someone who likes gardening!": async () => {
                             await dialog.sayOther("I do!")
                             await dialog.sayOther("How did you know?")
-                            dialog.answerOptions({
+                            await dialog.answerOptions({
                                 "I also love gardening": async () => {
                                     await dialog.sayOther("Thats so cool!")
                                     await dialog.sayOther("What is your favourite plant?")
