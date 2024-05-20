@@ -27,7 +27,7 @@ const dialog = place.get("dialog_box").dialog("left");
         dialog.answerOptionsLoop({
             "I brought my shopping list": async () => {
                 await dialog.sayMe("Can you get me the stuff on it?")
-                await dialog.sayOther("If you give it to me...")
+                await dialog.sayOther("If you give me the list...")
 
                 const hintTimeout = setTimeout(() => dialog.sayOther("You actually have to give the list to me"), 10000)
                 const shoppinglist = await place.get("dude").waitOtherDrop(item => item.itemName == "shoppinglist");

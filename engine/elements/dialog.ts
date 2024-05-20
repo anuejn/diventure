@@ -51,7 +51,7 @@ export class Dialog {
     setTimeout(() => {
       bubble.style.opacity = "1";
     }, 100);
-    await sleep(300 + text.split(" ").length * 200);
+    await sleep(750 + text.split(" ").length * 150);
   }
 
   async sayMe(text: string) {
