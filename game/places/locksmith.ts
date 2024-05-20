@@ -44,9 +44,6 @@ const itemsInInventory = await game.controls['inventory'].get('backpack_with_inv
     const dialog = place.get("dialog_box").dialog();
 
     await place.get('dude').waitClick();
-    await dialog.sayRight("Hello");
-
-    await place.get('dude').waitClick();
     await dialog.sayRight("Hello")
     await dialog.sayRight("How can I help you?")
 
