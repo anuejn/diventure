@@ -56,4 +56,3 @@ control.getMany(/slot\d/).map(slot => {
 
 // Starting Inventar
 await game.spawnItemOnce("cash", control.get("slot6"), {size: 'fill'});
-await game.spawnItemOnce("meme", control.get("slot5"), {size: 'fill'});
