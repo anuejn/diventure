@@ -7,9 +7,11 @@ export class Dialog {
   innerContainer: HTMLDivElement;
   answerOptionsContainer: HTMLDivElement;
   destroyed = false;
+  meSide: "left" | "right";
 
-  constructor(engineShape: EngineShape) {
+  constructor(engineShape: EngineShape, meSide: "left" | "right") {
     this.engineShape = engineShape;
+    this.meSide = meSide;
     this.container = document.createElement("div");
 
     const middleContainer = document.createElement("div");
@@ -52,19 +54,19 @@ export class Dialog {
     await sleep(300 + text.split(" ").length * 200);
   }
 
-  async sayRight(text: string) {
-    await this.say(text, "right");
+  async sayMe(text: string) {
+    await this.say(text, this.meSide);
   }
 
-  async sayLeft(text: string) {
-    await this.say(text, "left");
+  async sayOther(text: string) {
+    await this.say(text, this.meSide == "left" ? "right" : "left");
   }
 
   async blank() {
     await this.say("", "blank");
   }
 
-  async answerOptions(options: AnswerOptions, side = "left") {
+  async answerOptions(options: AnswerOptions) {
     return new Promise((resolve) => {
       for (const [text, callback] of Object.entries(options)) {
         const bubble = document.createElement("div");
@@ -75,7 +77,7 @@ export class Dialog {
           "click",
           async () => {
             this.answerOptionsContainer.replaceChildren();
-            await this.say(text, side);
+            await this.sayMe(text);
             resolve(callback());
           },
           { once: true },
@@ -85,7 +87,7 @@ export class Dialog {
     });
   }
 
-  async answerOptionsLoop(options: AnswerOptions, side = "left") {
+  async answerOptionsLoop(options: AnswerOptions) {
     const processedOptions = Object.fromEntries(
       Object.entries(options).map(([text, callback]) => [
         text,
@@ -97,7 +99,7 @@ export class Dialog {
     );
 
     while (!this.destroyed && Object.keys(processedOptions).length > 0) {
-      await this.answerOptions(processedOptions, side);
+      await this.answerOptions(processedOptions);
     }
   }
 

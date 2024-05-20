@@ -8,14 +8,12 @@ place.get("back").onClick(() => {
     game.navigate("backdoor_supermarket");
 })
 
-const dialog = place.get("dialog_box").dialog();
+const dialog = place.get("dialog_box").dialog("right");
 (async () => {
     await place.get("home_button").waitClick();
 
-    dialog.sayLeft("Something!");
-    await sleep(1000);
-    dialog.sayRight("*The hint how to get to the Locksmith*");
-    await sleep(1000);
+    await dialog.sayMe("Something!");
+    await dialog.sayOther("*The hint how to get to the Locksmith*");
     game.spawnItemOnce("hint_locksmith", place.get("slot"))
 
 })()

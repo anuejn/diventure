@@ -8,6 +8,7 @@ export class GameElement extends EngineShape {
   kind: unknown;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   state: any;
+  private engineShapeCache: Record<string, EngineShape> = {};
 
   // name must be unique
   protected constructor(svgElement: SVGElement, path: Path) {
@@ -21,10 +22,16 @@ export class GameElement extends EngineShape {
   }
 
   get(label: string): EngineShape {
-    return new EngineShape(getSvgElementByLabel(this.svgElement, label), {
-      ...this.path,
-      label: label,
-    });
+    if (!(label in this.engineShapeCache)) {
+      this.engineShapeCache[label] = new EngineShape(
+        getSvgElementByLabel(this.svgElement, label),
+        {
+          ...this.path,
+          label: label,
+        },
+      );
+    }
+    return this.engineShapeCache[label];
   }
 
   getMany(pattern: RegExp): EngineShape[] {

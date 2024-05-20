@@ -6,7 +6,7 @@ import { Item } from "./item";
 export class EngineShape {
   svgElement: SVGElement;
   path: Path;
-  private hasClickListener = false;
+  private clickListener: (() => void) | undefined;
 
   constructor(svgElement: SVGElement, path: Path) {
     this.svgElement = svgElement;
@@ -17,25 +17,29 @@ export class EngineShape {
     this.svgElement.style.cursor = "pointer";
     makePointerEvents(this.svgElement, "auto");
     this.svgElement.style.pointerEvents = "auto";
-    this.hasClickListener = true;
-    this.svgElement.addEventListener("click", () => handler());
+    if (this.clickListener != undefined)
+      throw Error("this EngineShape already has a click listener");
+    this.clickListener = () => handler();
+    this.svgElement.addEventListener("click", this.clickListener);
+    return this;
+  }
+  offClick(): this {
+    if (this.clickListener) {
+      this.svgElement.removeEventListener("click", this.clickListener);
+      this.clickListener = undefined;
+      makePointerEvents(this.svgElement, "none");
+      this.svgElement.style.cursor = "unset";
+    }
     return this;
   }
   waitClick(): Promise<void> {
     this.svgElement.style.cursor = "pointer";
     makePointerEvents(this.svgElement, "auto");
     return new Promise((resolve) => {
-      this.svgElement.addEventListener(
-        "click",
-        () => {
-          resolve();
-          if (!this.hasClickListener) {
-            this.svgElement.style.cursor = "auto";
-            makePointerEvents(this.svgElement, "none");
-          }
-        },
-        { once: true },
-      );
+      this.onClick(() => {
+        resolve();
+        this.offClick();
+      });
     });
   }
   onMouseOver(handler: () => void): this {
@@ -164,7 +168,7 @@ export class EngineShape {
     return toReturn;
   }
 
-  dialog(): Dialog {
-    return new Dialog(this);
+  dialog(meSide: "left" | "right"): Dialog {
+    return new Dialog(this, meSide);
   }
 }
