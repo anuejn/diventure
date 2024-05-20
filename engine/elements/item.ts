@@ -145,6 +145,7 @@ export function getAnchorParent(placement: AnchorPlacement) {
   if (placement.location.kind == "control") {
     return game.controls[placement.location.id];
   } else if (placement.location.kind == "place") {
+    if (game.loadingPlace) return undefined;
     if (game.getCurrentPlace().path.id != placement.location.id)
       return undefined;
     return game.getCurrentPlace();
