@@ -93,7 +93,6 @@ export class Dialog {
     const index = game.anchoredElements.findIndex(
       ([element]) => element == this.container,
     );
-    console.log("index");
     if (index != -1) game.anchoredElements.splice(index, 1);
     this.container.remove();
     this.destroyed = true;
