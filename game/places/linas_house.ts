@@ -16,13 +16,12 @@ const party = itemsInInventory.findIndex(item => item.itemName == "invitation") 
 
 
 if (party) {
-    const dialog = place.get("dialog_box_lina").dialog();
     (async () => {
+        const dialog = place.get("dialog_box_lina").dialog();
         if ((await place.get("tablespot2").anchoredItems()).length == 0) {
 
             await place.get("bg_lina").waitClick();
             await dialog.sayLeft("Hey, cool that you made it to my birthday party!")
-            let continueDialog = true;
             const answerOptions: AnswerOptions = {
                 "Thank you, I was very happy, when I got your invitation": async () => {
                     await dialog.sayLeft("You are welcome")
@@ -40,16 +39,18 @@ if (party) {
                     cake.show();
                     await sleep(1000);
                     await dialog.sayLeft("Have fun at the party!");
-                    continueDialog = false;
+                    await sleep(2000);
+                    await dialog.destroy();
                 }
             } else {
                 answerOptions["Oh shit but I forgot to bring cake"] = async () => {
-                    await dialog.sayRight("Let me get the cake")
                     await dialog.sayRight("I will be right back")
-                    continueDialog = false;
+                    await dialog.sayRight("With a cake!")
+                    await sleep(2000);
+                    await dialog.destroy();
                 };
             }
-            while (continueDialog) {
+            while (!dialog.destroyed) {
                 await dialog.answerOptions(answerOptions, "right")
             }
         }

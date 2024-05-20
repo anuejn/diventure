@@ -1,10 +1,12 @@
 import { EngineShape } from "./engine-shape";
+import "./dialog.css";
 
 export class Dialog {
   engineShape: EngineShape;
   container: HTMLDivElement;
   innerContainer: HTMLDivElement;
   answerOptionsContainer: HTMLDivElement;
+  destroyed = false;
 
   constructor(engineShape: EngineShape) {
     this.engineShape = engineShape;
@@ -19,20 +21,11 @@ export class Dialog {
     this.innerContainer.setAttribute("class", "dialog-container-inner");
     middleContainer.appendChild(this.innerContainer);
 
-    const anchorElement = [
+    game.anchoredElements.push([
       this.container,
       { location: this.engineShape.path, options: { size: "fill" } },
-    ] as [HTMLDivElement, AnchorPlacement];
-
-    game.anchoredElements.push(anchorElement);
+    ]);
     game.relayoutAnchors();
-
-    engineShape.onOutOfView(() => {
-      const index = game.anchoredElements.findIndex((v) => v == anchorElement);
-      console.log("index");
-      if (index != -1) game.anchoredElements.splice(index, 1);
-      this.container.remove();
-    });
 
     this.answerOptionsContainer = document.createElement("div");
     this.answerOptionsContainer.setAttribute(
@@ -42,7 +35,7 @@ export class Dialog {
     const viewport = document.getElementById("viewport");
     viewport?.appendChild(this.answerOptionsContainer);
     engineShape.onOutOfView(() => {
-      this.answerOptionsContainer.remove();
+      this.destroy(0);
     });
   }
 
@@ -90,5 +83,19 @@ export class Dialog {
         this.answerOptionsContainer.appendChild(bubble);
       }
     });
+  }
+
+  async destroy(time = 1000) {
+    this.answerOptionsContainer.style.opacity = "0";
+    this.innerContainer.style.opacity = "0";
+    await sleep(time);
+    this.answerOptionsContainer.remove();
+    const index = game.anchoredElements.findIndex(
+      ([element]) => element == this.container,
+    );
+    console.log("index");
+    if (index != -1) game.anchoredElements.splice(index, 1);
+    this.container.remove();
+    this.destroyed = true;
   }
 }

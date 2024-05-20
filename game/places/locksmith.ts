@@ -60,7 +60,6 @@ const dialog = place.get("dialog_box").dialog();
     await place.get('dude').waitClick();
     await dialog.sayRight("Hello")
 
-    let dialogGoesOn = true;
     const answerOptions: AnswerOptions = {
         "I am just checking out the keychains": async () => {
             await sleep(1000)
@@ -78,12 +77,13 @@ const dialog = place.get("dialog_box").dialog();
             delete answerOptions["What do you sell here?"];
         },
         "Uh, oh, I actually have to leave": async () => {
-            dialogGoesOn = false;
-            await sleep(1000)
+            await sleep(1000);
             await dialog.sayRight("Okay then. See you!")
+            await sleep(3000);
+            await dialog.destroy();
         }
     };
-    while (dialogGoesOn) {
+    while (!dialog.destroyed) {
         await dialog.sayRight("How can I help you?")
         await dialog.answerOptions(answerOptions);
     }
