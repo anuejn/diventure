@@ -22,6 +22,14 @@ place.get('radio').onClick(() => {
     radio_on = !radio_on;
 })
 
+let light_on = false;
+place.get('light').hide()
+place.get('bg_lamp').onClick(() => {
+    light_on = !light_on;
+    place.get('light').show(light_on)
+    game.getSound("light_switch").play();
+})
+
 function posterOnOff(posterX: string, picture: string){
     let poster_on = false;
     place.get(picture).hide()

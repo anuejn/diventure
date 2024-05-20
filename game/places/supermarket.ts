@@ -13,8 +13,8 @@ const dialog = place.get("dialog_box").dialog();
     await dialog.sayLeft("Here is my shopping list");
 
 
-    await dialog.sayRight("That would make €€€")
-    const hint2Timeout = setTimeout(() => dialog.sayRight("Hey, now you also have to give me money!"), 10000);
+    await dialog.sayRight("Thanks, that would make €€€!")
+    const hint2Timeout = setTimeout(() => dialog.sayRight("Well, now you will also have to give me the money!"), 10000);
     const cash = await place.get("dude").waitOtherDrop(item => item.itemName == "cash")
     clearTimeout(hint2Timeout);
     cash.destroy()

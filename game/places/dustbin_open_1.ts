@@ -20,4 +20,4 @@ place.get("lid").onClick(() => {
     game.navigate("trashbins");
 })
 
-game.spawnItemOnce("banana", place.get("slot_14"))
+game.spawnItemOnce("banana", place.get("slot_20"))
