@@ -1,4 +1,8 @@
-import { makePinkTransparent, makePointerEvents } from "./svg-utils";
+import {
+  makePinkTransparent,
+  makePointerEvents,
+  preloadImages,
+} from "./svg-utils";
 
 const basePath = "../../game/";
 const svgs = import.meta.glob("../../game/**/*.svg", {
@@ -22,6 +26,7 @@ export async function loadSvg(path: string): Promise<SVGElement | undefined> {
   const svgElement = svgDoc.children[0] as SVGElement;
   makePinkTransparent(svgElement);
   makePointerEvents(svgElement, "none");
+  await preloadImages(svgElement);
 
   return svgElement;
 }
