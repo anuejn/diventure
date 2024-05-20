@@ -99,6 +99,7 @@ export class Dialog {
     );
 
     while (!this.destroyed && Object.keys(processedOptions).length > 0) {
+      console.log(processedOptions);
       await this.answerOptions(processedOptions);
     }
   }

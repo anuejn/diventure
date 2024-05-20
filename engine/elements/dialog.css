@@ -1,24 +1,27 @@
 .speech-bubble {
     border: 1px #6c69cf solid;
     color: #6c69cf;
-    padding: 13px;
-    padding-bottom: 11px;
-    border-radius: 20px;
+    padding: 10px;
+    border-radius: 15px;
+    padding-bottom: 7px;
     margin: 5px 0;
     background-color: white;
     transition: opacity 0.5s;
     flex-shrink: 0;
     pointer-events: auto;
+    display: inline-block;
 }
 .speech-bubble.right {
-    width: fit-content;
     align-self: end;
     margin-left: 30px;
+    border-radius: 15px 15px 0 15px;
+
 }
 .speech-bubble.left {
-    width: fit-content;
     align-self: start;
     margin-right: 30px;
+    border-radius: 15px 15px 15px 0;
+
 }
 .speech-bubble.blank {
     border: none;

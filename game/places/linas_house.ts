@@ -234,7 +234,7 @@ if (!party) {
                             await dialog.sayOther("I have it all the time currently.")
                             await dialog.sayOther("I had a lot of fruit leftovers from my last dumpster tour and thought it could be the perfect snack to bring along.")
 
-                            dialog.answerOptionsLoop({
+                            await dialog.answerOptionsLoop({
                                 "Dumpster Diving?": async () => {
                                     await dialog.sayOther("It's not <i>literally</i> diving.")
                                     await dialog.sayOther("Basically 'stealing' the food supermarkets throw away.")
@@ -247,22 +247,22 @@ if (!party) {
                                 "Can you show me how to get such nice fruits?": async () => {
                                     await dialog.sayOther("You just have to be attentative when you are around Supermarkets");
                                     await dialog.sayOther("This sticker will sharpen your senses!")
-                                    await game.spawnItemOnce("meme", place.get("meme_spawn"))
+                                    await game.spawnItem("meme", place.get("meme_spawn"), {size: 'fill'})
                                     await dialog.sayOther("Just take it with you")
                                     await dialog.sayMe("Oh thanks!")
                                     await dialog.sayMe("I will check out my normal supermarket");
                                     await sleep(2000);
                                     await dialog.destroy();
                                 }
-                            })
+                            });
                         },
                         "Didn't we see each other on the bike yesterday?": async () => {
                             await dialog.sayOther("Oh yeah I remember");
                             await dialog.sayOther("What a small world!");
                         },
                         "Do you know where the toilet is?": async () => {
-                            await dialog.sayOther("Yes, back there.")
-                            await dialog.sayOther("It was nice speaking with you!");
+                            await dialog.sayOther("Yes")
+                            await dialog.sayOther("Back there")
                             await sleep(1000);
                             await dialog.destroy();
                         }
