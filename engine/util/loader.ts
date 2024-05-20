@@ -42,8 +42,13 @@ export async function loadTs(
 ): Promise<unknown> {
   const string = await loadTsString(path);
   const code = `async ({ ${Object.keys(environment).join(",")} }) => {\n${string}\n}`;
-  const fn = eval(code);
-  return await fn(environment);
+  try {
+    const fn = eval(code);
+    return await fn(environment);
+  } catch(e) {
+    console.error(`error while executing ${path}:`);
+    console.error(e);
+  }
 }
 
 export async function elementsOfKind(
