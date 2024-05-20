@@ -49,7 +49,7 @@ export class Dialog {
     setTimeout(() => {
       bubble.style.opacity = "1";
     }, 100);
-    await sleep(1000);
+    await sleep(300 + text.split(" ").length * 200);
   }
 
   async sayRight(text: string) {
