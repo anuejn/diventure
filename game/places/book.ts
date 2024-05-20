@@ -8,12 +8,11 @@ await game.spawnItemOnce("invitation", place.get("slot_2"));
 
 
 //to put papers back in order to read them
-
-const items = ["invitation", "shoppinglist"];
-
+const allowedItems = ["invitation", "shoppinglist", "cash", "meme"];
 place.getMany(/slot_\d/).map(slot => {
         slot.onOtherDrop(item => {
-            if (items.includes(item.itemName)) {
+            console.log(item)
+            if (allowedItems.includes(item.itemName)) {
                 console.log("anchored")
                 item.anchor(slot)
             }

@@ -136,6 +136,7 @@ export class Game {
     if (id_extra) {
       id = `${item}:${id_extra}`;
     }
+    game.state.onceSpawnedItems.push(id);
     const itemObject = await this.getItemById(id);
     return itemObject.anchor(slot, anchorOptions);
   }

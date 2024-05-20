@@ -118,9 +118,14 @@ async function preloadImage(image: SVGImageElement) {
       newImage.setAttribute(attr.nodeName, attr.nodeValue || "");
     });
   newImage.setAttribute("href", image.href.baseVal);
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  await newImage.decode();
-
+  // image.decode() is not implemented by some browsers. In these we just fetch() the image
+  // to warm the cache. This is less then optimal but better than nothnig.
+  try {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    await newImage.decode();
+  } catch (e) {
+    await fetch(image.href.baseVal);
+  }
   image.replaceWith(newImage);
 }
