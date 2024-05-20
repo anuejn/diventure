@@ -45,7 +45,7 @@ export async function loadTs(
   try {
     const fn = eval(code);
     return await fn(environment);
-  } catch(e) {
+  } catch (e) {
     console.error(`error while executing ${path}:`);
     console.error(e);
   }
