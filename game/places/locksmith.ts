@@ -3,42 +3,6 @@ place.get('exit').onClick(() => {
     game.navigate('map')
 })
 
-const itemsInInventory = await game.controls['inventory'].get('backpack_with_inventory').anchoredItemsRecursive();
-
-const dialog = place.get("dialog_box").dialog();
-(async () => {
-    await place.get('dude').waitClick();
-    await dialog.sayRight("Hello")
-
-
-    let dialogGoesOn = true;
-    /*
-    const answerOptions: AnswerOptions = {
-        "I am actually just checking out these cute keychains!": async () => {
-            game.getSound("key_chain").play();
-            await sleep(1000)
-            dialog.sayRight("Okay then just let me know, if you need anything.")
-            await place.get('dude').waitClick();
-            dialog.blank()
-            delete answerOptions["I am actually just checking out these cute keychains!"];
-        },
-        "What do you sell here?": async () => {
-            await dialog.sayRight("Don't you see that?")
-            await dialog.sayRight("I am a locksmith... ")
-            await dialog.sayRight("I make keys!")
-            await sleep(3000);
-            dialog.blank()
-            delete answerOptions["What do you sell here?"];
-        },
-        "Uh, oh sorry, I have to leave": async () => {
-            dialogGoesOn = false;
-            await sleep(1000)
-            await dialog.sayRight("Okay then. Good bye!")
-        }
-
-    }*/
-
-
 
 /*
     if (itemsInInventory.findIndex(item => item.itemName == "hint_locksmith") != -1) {
@@ -74,16 +38,17 @@ const dialog = place.get("dialog_box").dialog();
         dialog.sayRight("Bye");
     }*/
 
+const itemsInInventory = await game.controls['inventory'].get('backpack_with_inventory').anchoredItemsRecursive();
 
-    const phonolog = place.get("telephone_box").dialog();
-    (async () => {
-        await place.get("telephone").waitClick();
-        await phonolog.sayRight("Hello");
-        await phonolog.sayLeft("Oh hello Alex, there is a person picking up an order for Karl, do you know anything about that?");
-        await phonolog.sayRight("Hmm no, nothing that I know!");
-        await phonolog.sayLeft("Ok, thanks! Tchau!");
-        await phonolog.sayRight("Tchau!");
-    })
+(async () => {
+    const dialog = place.get("dialog_box").dialog();
+
+    await place.get('dude').waitClick();
+    await dialog.sayRight("Hello");
+
+    await place.get('dude').waitClick();
+    await dialog.sayRight("Hello")
+    await dialog.sayRight("How can I help you?")
 
     const answerOptions: AnswerOptions = {
         "I am just checking out the keychains": async () => {
@@ -91,15 +56,15 @@ const dialog = place.get("dialog_box").dialog();
             dialog.sayRight("Okay then. Just tell me, when you need something.")
             await place.get('dude').waitClick();
             dialog.blank()
-            delete answerOptions["I am just checking out the keychains"];
+            await dialog.sayRight("How can I help you?")
         },
         "What do you sell here?": async () => {
             await dialog.sayRight("dont you see that?")
             await dialog.sayRight("I am a locksmith.")
             await dialog.sayRight("I make keys!")
-            await sleep(3000);
+            await place.get('dude').waitClick();
             dialog.blank()
-            delete answerOptions["What do you sell here?"];
+            await dialog.sayRight("How can I help you?")
         },
         "Uh, oh, I actually have to leave": async () => {
             await sleep(1000);
@@ -114,13 +79,21 @@ const dialog = place.get("dialog_box").dialog();
             await dialog.sayLeft("Karl?");
             await sleep(1000);
             dialog.sayLeft("Yes!");
+            await dialog.sayLeft("Wait a minute...");
+            await dialog.sayLeft("I'll call him");
 
 
-
+            const phonolog = place.get("telephone_box").dialog();
+            await place.get("telephone").waitClick();
+            await phonolog.sayRight("Hello");
+            await phonolog.sayLeft("Oh hello Alex, there is a person picking up an order for Karl, do you know anything about that?");
+            await phonolog.sayRight("Hmm no, nothing that I know!");
+            await phonolog.sayLeft("Ok, thanks! Tchau!");
+            await phonolog.sayRight("Tchau!");
+            await sleep(2000);
+            phonolog.destroy();
         }
     }
-    while (!dialog.destroyed) {
-        await dialog.sayRight("How can I help you?")
-        await dialog.answerOptions(answerOptions);
-    }
+
+    dialog.answerOptionsLoop(answerOptions);
 })()

@@ -85,6 +85,22 @@ export class Dialog {
     });
   }
 
+  async answerOptionsLoop(options: AnswerOptions, side = "left") {
+    const processedOptions = Object.fromEntries(
+      Object.entries(options).map(([text, callback]) => [
+        text,
+        async () => {
+          await callback();
+          delete processedOptions[text];
+        },
+      ]),
+    );
+
+    while (!this.destroyed && Object.keys(processedOptions).length > 0) {
+      await this.answerOptions(processedOptions, side);
+    }
+  }
+
   async destroy(time = 1000) {
     this.answerOptionsContainer.style.opacity = "0";
     this.innerContainer.style.opacity = "0";

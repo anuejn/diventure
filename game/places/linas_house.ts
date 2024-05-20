@@ -25,7 +25,6 @@ if (party) {
             const answerOptions: AnswerOptions = {
                 "Thank you, I was very happy, when I got your invitation": async () => {
                     await dialog.sayLeft("You are welcome")
-                    delete answerOptions["Thank you, I was very happy, when I got your invitation"];
                 }
             };
             if (itemsInInventory.findIndex(item => item.itemName == "cake") != -1) {
@@ -50,9 +49,7 @@ if (party) {
                     await dialog.destroy();
                 };
             }
-            while (!dialog.destroyed) {
-                await dialog.answerOptions(answerOptions, "right")
-            }
+            await dialog.answerOptionsLoop(answerOptions)
         }
 
         // The real party can start here
@@ -70,34 +67,27 @@ if (party) {
         await place.get("bg_lina").waitClick();
         await dialog.sayLeft("Oh hello, I didn't expect you around!");
         await dialog.sayLeft("How are you doing?")
-        const answerOptions: AnswerOptions = {
+        await dialog.answerOptionsLoop({
             "I was just nearby, coming to see if you had some new gossip!": async () => {
                 await dialog.sayLeft("Haha, no sorry, not this time")
                 await dialog.sayLeft("That Tina now dates Tom, I already told you a while ago")
                 await dialog.sayLeft("So no, no entertaining news from me today")
-                delete answerOptions["I was just nearby, coming to see if you had some new gossip!"];
             },
             "Actually, I have to go. See you!": async () => {
                 await dialog.sayLeft("Tchau!")
                 await dialog.sayLeft("See you soon then I guess")
                 await sleep(2000);
                 await dialog.destroy();
-                delete answerOptions["Actually, I have to go. See you!"];
 
             }, 
             "Don't you have Birthday soon?": async () => {
                 await dialog.sayLeft("Yeah, I send you an invitation. Just bring it to the party.")
                 await dialog.sayRight("Sure, looking forward to it")
-                delete answerOptions["Don't you have Birthday soon?"]
             },
             "Should I bring anything for your Birthday?": async () => {
                 await dialog.sayLeft("It would be so nice, if you could make a cake")
                 await dialog.sayRight("Ill do that. I already wrote a shopping list in my book.")
-                delete answerOptions["Should I bring anything for your Birthday?"]
             }
-        };
-        while (!dialog.destroyed) {
-            await dialog.answerOptions(answerOptions, "right")
-        }
+        });
     })()
 }
