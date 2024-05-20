@@ -25,8 +25,8 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="3.043813"
-     inkscape:cx="102.99582"
-     inkscape:cy="88.375995"
+     inkscape:cx="94.618165"
+     inkscape:cy="69.649482"
      inkscape:window-width="1368"
      inkscape:window-height="842"
      inkscape:window-x="-6"
@@ -59,4 +59,8 @@
          style="font-size:6px;fill:#3a24c8;fill-opacity:1;stroke-width:6"
          x="91.511368"
          y="157.76567"
-         id="tspan6">&quot;Karl sent me!&quot; </tspan></text></g></svg>
+         id="tspan6">&quot;Karl sent me!&quot; </tspan></text><path
+       style="fill:#ff00ff;fill-opacity:0.42;stroke-width:6.00001"
+       d="m 89.512092,168.28143 0.08693,-15.6465 1.303875,-7.12784 3.216224,-2.4339 8.170949,-1.91235 21.12277,-0.60848 8.86633,0.86925 3.39009,3.99855 1.3908,7.12785 -0.52155,6.34552 -5.9109,3.30315 -14.86417,1.91235 -11.56102,-0.3477 -9.474825,0.43462 z"
+       id="path1"
+       inkscape:label="shape" /></g></svg>
