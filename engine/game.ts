@@ -95,8 +95,9 @@ export class Game {
 
     console.log(`loading place: ${place}`);
     this.loadingPlace = place;
-
     this.state.currentPlace = place;
+    await this.relayoutAnchors(true);
+
     const pageContainer = document.getElementById("page");
     if (!pageContainer) throw Error("page container is gone");
 
@@ -135,6 +136,7 @@ export class Game {
     if (id_extra) {
       id = `${item}:${id_extra}`;
     }
+    game.state.onceSpawnedItems.push(id);
     const itemObject = await this.getItemById(id);
     return itemObject.anchor(slot, anchorOptions);
   }
@@ -160,8 +162,8 @@ export class Game {
     return this.currentPlace;
   }
 
-  async relayoutAnchors() {
-    if (this.loadingPlace) return;
+  async relayoutAnchors(force = false) {
+    if (this.loadingPlace && !force) return;
 
     const viewport = document.getElementById("viewport");
     if (!viewport) throw Error("viewport container is gone");

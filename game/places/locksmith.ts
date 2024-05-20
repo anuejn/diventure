@@ -12,6 +12,7 @@ const dialog = place.get("dialog_box").dialog();
 
 
     let dialogGoesOn = true;
+    /*
     const answerOptions: AnswerOptions = {
         "I am actually just checking out these cute keychains!": async () => {
             game.getSound("key_chain").play();
@@ -35,18 +36,9 @@ const dialog = place.get("dialog_box").dialog();
             await dialog.sayRight("Okay then. Good bye!")
         }
 
-    }
-
-    if (itemsInInventory.findIndex(item => item.itemName == "hint_locksmith") != -1) {
-        answerOptions["Hello! I'm here to pick up a key! Karl was asking me to get it for him!"] = async () => {
-            await dialog.sayLeft("Karl?");
-            await sleep(1000);
-            dialog.sayLeft("Yes!");
+    }*/
 
 
-
-        }
-    }
 
 /*
     if (itemsInInventory.findIndex(item => item.itemName == "hint_locksmith") != -1) {
@@ -93,7 +85,41 @@ const dialog = place.get("dialog_box").dialog();
         await phonolog.sayRight("Tchau!");
     })
 
-    while (dialogGoesOn) {
+    const answerOptions: AnswerOptions = {
+        "I am just checking out the keychains": async () => {
+            await sleep(1000)
+            dialog.sayRight("Okay then. Just tell me, when you need something.")
+            await place.get('dude').waitClick();
+            dialog.blank()
+            delete answerOptions["I am just checking out the keychains"];
+        },
+        "What do you sell here?": async () => {
+            await dialog.sayRight("dont you see that?")
+            await dialog.sayRight("I am a locksmith.")
+            await dialog.sayRight("I make keys!")
+            await sleep(3000);
+            dialog.blank()
+            delete answerOptions["What do you sell here?"];
+        },
+        "Uh, oh, I actually have to leave": async () => {
+            await sleep(1000);
+            await dialog.sayRight("Okay then. See you!")
+            await sleep(3000);
+            await dialog.destroy();
+        }
+    };
+
+    if (itemsInInventory.findIndex(item => item.itemName == "hint_locksmith") != -1) {
+        answerOptions["Hello! I'm here to pick up a key! Karl was asking me to get it for him!"] = async () => {
+            await dialog.sayLeft("Karl?");
+            await sleep(1000);
+            dialog.sayLeft("Yes!");
+
+
+
+        }
+    }
+    while (!dialog.destroyed) {
         await dialog.sayRight("How can I help you?")
         await dialog.answerOptions(answerOptions);
     }

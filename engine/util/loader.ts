@@ -1,4 +1,8 @@
-import { makePinkTransparent, makePointerEvents } from "./svg-utils";
+import {
+  makePinkTransparent,
+  makePointerEvents,
+  preloadImages,
+} from "./svg-utils";
 
 const basePath = "../../game/";
 const svgs = import.meta.glob("../../game/**/*.svg", {
@@ -22,6 +26,7 @@ export async function loadSvg(path: string): Promise<SVGElement | undefined> {
   const svgElement = svgDoc.children[0] as SVGElement;
   makePinkTransparent(svgElement);
   makePointerEvents(svgElement, "none");
+  await preloadImages(svgElement);
 
   return svgElement;
 }
@@ -42,8 +47,13 @@ export async function loadTs(
 ): Promise<unknown> {
   const string = await loadTsString(path);
   const code = `async ({ ${Object.keys(environment).join(",")} }) => {\n${string}\n}`;
-  const fn = eval(code);
-  return await fn(environment);
+  try {
+    const fn = eval(code);
+    return await fn(environment);
+  } catch (e) {
+    console.error(`error while executing ${path}:`);
+    console.error(e);
+  }
 }
 
 export async function elementsOfKind(

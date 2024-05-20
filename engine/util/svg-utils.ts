@@ -97,3 +97,35 @@ export function makePinkTransparent(svgElement: SVGElement) {
     }
   }
 }
+
+export async function preloadImages(svgElement: SVGElement): Promise<void> {
+  const images = svgElement.getElementsByTagName(
+    "image",
+  ) as HTMLCollectionOf<SVGImageElement>;
+  const promises = [...images].map((img) => preloadImage(img));
+  await Promise.all(promises);
+}
+
+// this is a horrible workaround agains just calling img.decode throwing a "DOMException: Invalid image request."
+async function preloadImage(image: SVGImageElement) {
+  const newImage = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "image",
+  );
+  [...image.attributes]
+    .filter((attr) => attr.nodeName != "href" && attr.nodeName != "xlink:href")
+    .forEach((attr) => {
+      newImage.setAttribute(attr.nodeName, attr.nodeValue || "");
+    });
+  newImage.setAttribute("href", image.href.baseVal);
+  // image.decode() is not implemented by some browsers. In these we just fetch() the image
+  // to warm the cache. This is less then optimal but better than nothnig.
+  try {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    await newImage.decode();
+  } catch (e) {
+    await fetch(image.href.baseVal);
+  }
+  image.replaceWith(newImage);
+}
