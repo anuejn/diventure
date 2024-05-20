@@ -68,6 +68,7 @@ export class Dialog {
 
   async answerOptions(options: AnswerOptions) {
     return new Promise((resolve) => {
+      this.answerOptionsContainer.replaceChildren();
       for (const [text, callback] of Object.entries(options)) {
         const bubble = document.createElement("div");
         bubble.setAttribute("class", "speech-bubble");
