@@ -54,6 +54,7 @@ const dialog = place.dialog(place.get("dialog_box"));
 })()
 
 */
+
 const dialog = place.get("dialog_box").dialog();
 (async () => {
     await place.get('dude').waitClick();
@@ -87,3 +88,5 @@ const dialog = place.get("dialog_box").dialog();
         await dialog.answerOptions(answerOptions);
     }
 })()
+
+// hint_locksmith drop on dude -> new conversation!

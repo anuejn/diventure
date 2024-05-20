@@ -16,5 +16,6 @@ const dialog = place.get("dialog_box").dialog();
     await sleep(1000);
     dialog.sayRight("*The hint how to get to the Locksmith*");
     await sleep(1000);
+    //game.spawnItemOnce("hint_locksmith", place.get("slot")) doesn't work
 
 })()

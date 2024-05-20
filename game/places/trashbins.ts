@@ -4,12 +4,12 @@ place.get("floor").onClick(() => {
 })
 
 place.get("bin1").onClick(() => {
-    game.navigate("dustbin_open");
+    game.navigate("dustbin_open_1");
     game.getSound("container").play();
 })
 
 place.get("bin2").onClick(() => {
-    game.navigate("dustbin_open");
+    game.navigate("dustbin_open_2");
     game.getSound("container").play();
 })
 
