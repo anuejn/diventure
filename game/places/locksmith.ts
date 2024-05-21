@@ -80,9 +80,11 @@ const itemsInInventory = await game.controls['inventory'].get('backpack_with_inv
             await dialog.sayMe("Yes!");
             await dialog.sayOther("Wait a minute...");
             await dialog.sayOther("I'll call him");
+            await sleep(2000);
 
+
+            
             place.get("bg_telephone").show()
-            await place.get("telephone").waitClick();
             const phonolog = place.get("phonolog_box").dialog("left");
 
             await phonolog.sayOther("Hello");
@@ -90,9 +92,10 @@ const itemsInInventory = await game.controls['inventory'].get('backpack_with_inv
             await phonolog.sayOther("Hmm no, nothing that I know!");
             await phonolog.sayMe("Ok, thanks! Tchau!");
             await phonolog.sayOther("Tchau!");
-            place.get("bg_telephone").hide()
             await sleep(2000);
             await phonolog.destroy();
+            place.get("bg_telephone").hide()
+
 
             await dialog.sayOther("He says he doesn't know of any order from Karl!");
         }
