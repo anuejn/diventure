@@ -1,6 +1,6 @@
 place.get('door').onClick(() => {
     game.navigate('map')
-    game.getSound("door_handle").play();
+    void game.getSound("door_handle").play();
 })
 
 let light_on = false;
@@ -8,7 +8,7 @@ place.get('light').hide()
 place.get('bg_lamp').onClick(() => {
     light_on = !light_on;
     place.get('light').show(light_on)
-    game.getSound("light_switch").play();
+    void game.getSound("light_switch").play();
 })
 
 place.get('books').onClick(() => {
@@ -54,7 +54,7 @@ if (!party) {
                 await dialog.sayMe("Great idea, actually funny, 'cause I already wrote the ingrediants on a shopping list in my notebook.")
             }
         });
-    })()
+    })();
 } else {
     (async () => {
         // start dialog with lina when the party is happening: give her the cake
@@ -179,7 +179,7 @@ if (!party) {
                         "You look like somebody who likes gardening!": async () => {
                             await dialog.sayOther("I do? Good guess!")
                             await dialog.sayOther("How did you know?")
-                            dialog.answerOptions({
+                            await dialog.answerOptions({
                                 "I also love gardening": async () => {
                                     await dialog.sayOther("Oh great!")
                                     await dialog.sayOther("What is your favourite plant?")
@@ -239,8 +239,8 @@ if (!party) {
 
                             await dialog.sayOther("I currently have it on a daily basis.")
                             await dialog.sayOther("I had a lot of fruit leftovers from my last dumpster tour and thought it could be the perfect snack to bring along.")
-                            
-                            dialog.answerOptionsLoop({
+
+                            await dialog.answerOptionsLoop({
                                 "Dumpster Diving?": async () => {
                                     await dialog.sayOther("It's not <i>literally</i> diving.")
                                     await dialog.sayOther("It's basically 'stealing' the food supermarkets throw away.") // weiß ned ob stealing als wort da vorkommen soll!?
@@ -260,7 +260,7 @@ if (!party) {
                                     await sleep(2000);
                                     await dialog.destroy();
                                 }
-                            })
+                            });
                         },
                         "Didn't we see each other on the bike yesterday?": async () => {
                             await dialog.sayOther("Ah that was you! Yes I remember!");

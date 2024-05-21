@@ -1,5 +1,5 @@
 place.get('exit').onClick(() => {
-    game.getSound("door_exit").play();
+    void game.getSound("door_exit").play();
     game.navigate('map')
 })
 
@@ -52,9 +52,9 @@ const itemsInInventory = await game.controls['inventory'].get('backpack_with_inv
     const answerOptions: AnswerOptions = {
         "I am just checking out the keychains": async () => {
             await sleep(1000)
-            dialog.sayOther("Okay, then just let me know, if you need anything!")
+            await dialog.sayOther("Okay, then just let me know, if you need anything!")
             await place.get('dude').waitClick();
-            dialog.blank()
+            await dialog.blank()
             await dialog.sayOther("How can I help you?")
         },
         "What do you sell here?": async () => {
@@ -62,7 +62,7 @@ const itemsInInventory = await game.controls['inventory'].get('backpack_with_inv
             await dialog.sayOther("I am a locksmith.")
             await dialog.sayOther("I make keys!")
             await place.get('dude').waitClick();
-            dialog.blank()
+            await dialog.blank()
             await dialog.sayOther("How can I help you?")
         },
         "Uh, oh, I actually have to leave": async () => {
@@ -77,7 +77,7 @@ const itemsInInventory = await game.controls['inventory'].get('backpack_with_inv
         answerOptions["Hello! I'm here to pick up a key! Karl was asking me to get it for him!"] = async () => {
             await dialog.sayOther("Karl?");
             await sleep(1000);
-            dialog.sayMe("Yes!");
+            await dialog.sayMe("Yes!");
             await dialog.sayOther("Wait a minute...");
             await dialog.sayOther("I'll call him");
 
@@ -92,11 +92,11 @@ const itemsInInventory = await game.controls['inventory'].get('backpack_with_inv
             await phonolog.sayOther("Tchau!");
             place.get("bg_telephone").hide()
             await sleep(2000);
-            phonolog.destroy();
+            await phonolog.destroy();
 
             await dialog.sayOther("He says he doesn't know of any order from Karl!");
         }
     }
 
-    dialog.answerOptionsLoop(answerOptions);
+    await dialog.answerOptionsLoop(answerOptions);
 })()

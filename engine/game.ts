@@ -40,7 +40,7 @@ export class Game {
       onceSpawnedItems: [],
     });
 
-    this.state.subscribeChild("currentPlace", async (place, oldPlace) => {
+    this.state.subscribeChild("currentPlace", (place, oldPlace) => {
       if (place == oldPlace) return;
       this.navigate(place);
     });
@@ -62,7 +62,7 @@ export class Game {
     window.addEventListener("touchmove", onMove);
 
     // load controls
-    elementsOfKind("controls").then((controls) =>
+    void elementsOfKind("controls").then((controls) =>
       controls.forEach(async (controlName) => {
         this.controls[controlName] = await Control.loadControl(controlName);
       }),
@@ -74,7 +74,7 @@ export class Game {
     // we need to "unblock" the audio context at the first user interaction
     const events = ["touchstart", "touchend", "mousedown", "keydown"];
     const unlock = () => {
-      this.audioContext.resume().then(clean);
+      void this.audioContext.resume().then(clean);
     };
     events.forEach((e) => document.body.addEventListener(e, unlock, false));
     function clean() {
@@ -87,32 +87,34 @@ export class Game {
     window.location.reload();
   }
 
-  async navigate(place: string): Promise<void> {
-    if (this.loadingPlace == place) return;
-    if (this.currentPlace) {
-      this.currentPlace.leaveCallbacks.forEach((c) => c());
-    }
+  navigate(place: string) {
+    (async () => {
+      if (this.loadingPlace == place) return;
+      if (this.currentPlace) {
+        this.currentPlace.leaveCallbacks.forEach((c) => c());
+      }
 
-    console.log(`loading place: ${place}`);
-    this.loadingPlace = place;
-    this.state.currentPlace = place;
-    await this.relayoutAnchors(true);
+      console.log(`loading place: ${place}`);
+      this.loadingPlace = place;
+      this.state.currentPlace = place;
+      await this.relayoutAnchors(true);
 
-    const pageContainer = document.getElementById("page");
-    if (!pageContainer) throw Error("page container is gone");
+      const pageContainer = document.getElementById("page");
+      if (!pageContainer) throw Error("page container is gone");
 
-    pageContainer.style.transition = "";
-    pageContainer.style.opacity = "0";
+      pageContainer.style.transition = "";
+      pageContainer.style.opacity = "0";
 
-    const placeObject = await Place.loadPlace(place);
-    this.currentPlace = placeObject;
-    pageContainer.replaceChildren(placeObject.svgElement);
-    this.loadingPlace = undefined;
-    await this.relayoutAnchors();
+      const placeObject = await Place.loadPlace(place);
+      this.currentPlace = placeObject;
+      pageContainer.replaceChildren(placeObject.svgElement);
+      this.loadingPlace = undefined;
+      await this.relayoutAnchors();
 
-    // TODO: only do this after we are really done loading the next page
-    pageContainer.style.transition = "opacity 0.5s";
-    pageContainer.style.opacity = "1";
+      // TODO: only do this after we are really done loading the next page
+      pageContainer.style.transition = "opacity 0.5s";
+      pageContainer.style.opacity = "1";
+    })();
   }
 
   async getItemById(id: string): Promise<Item> {

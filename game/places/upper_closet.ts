@@ -5,7 +5,7 @@ place.getMany(/door\d/).forEach(door=>{
 })
 
 place.get('dishes').onClick(() => {
-    game.getSound("plates").play();
+    void game.getSound("plates").play();
 })
 
 place.getMany(/slot_\d\d/).map(slot => {

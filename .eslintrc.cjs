@@ -12,11 +12,10 @@ module.exports = {
             "env": {
                 "node": true
             },
-            "files": [
-                ".eslintrc.{js,cjs}"
-            ],
+            "files": ["**/*.{js,ts}"],
             "parserOptions": {
-                "sourceType": "script"
+                "sourceType": "script",
+                "project": "./tsconfig.json",
             }
         }
     ],
@@ -29,5 +28,7 @@ module.exports = {
         "@typescript-eslint"
     ],
     "rules": {
+        "no-constant-condition": "off",
+        "@typescript-eslint/no-floating-promises": ["warn", {ignoreIIFE: true}],
     }
 }

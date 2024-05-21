@@ -9,7 +9,7 @@ export class Control extends GameElement {
       kind: "control",
       id: controlName,
     });
-    loadTs(`controls/${controlName}.ts`, { control });
+    await loadTs(`controls/${controlName}.ts`, { control });
     return control;
   }
 

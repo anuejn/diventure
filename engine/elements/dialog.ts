@@ -27,7 +27,7 @@ export class Dialog {
       this.container,
       { location: this.engineShape.path, options: { size: "fill" } },
     ]);
-    game.relayoutAnchors();
+    void game.relayoutAnchors();
 
     this.answerOptionsContainer = document.createElement("div");
     this.answerOptionsContainer.setAttribute(
@@ -37,7 +37,7 @@ export class Dialog {
     const viewport = document.getElementById("viewport");
     viewport?.appendChild(this.answerOptionsContainer);
     engineShape.onOutOfView(() => {
-      this.destroy(0);
+      void this.destroy(0);
     });
   }
 
@@ -68,6 +68,7 @@ export class Dialog {
 
   async answerOptions(options: AnswerOptions) {
     return new Promise((resolve) => {
+      this.answerOptionsContainer.replaceChildren();
       for (const [text, callback] of Object.entries(options)) {
         const bubble = document.createElement("div");
         bubble.setAttribute("class", "speech-bubble");
@@ -99,6 +100,7 @@ export class Dialog {
     );
 
     while (!this.destroyed && Object.keys(processedOptions).length > 0) {
+      console.log(processedOptions);
       await this.answerOptions(processedOptions);
     }
   }

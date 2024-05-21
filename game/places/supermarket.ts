@@ -8,7 +8,7 @@ const dialog = place.get("dialog_box").dialog("left");
 
     const itemsInInventory = await game.controls['inventory'].get('backpack_with_inventory').anchoredItemsRecursive();
     if (itemsInInventory.findIndex(item => item.itemName == "shoppinglist") == -1) {
-        dialog.answerOptionsLoop({
+        await dialog.answerOptionsLoop({
             "Oh shit, I forgot my shopping list at home": async () => {
                 await dialog.sayMe("Probably in my Book on the Table")
                 await dialog.sayOther("Then you better get it.")
@@ -24,7 +24,7 @@ const dialog = place.get("dialog_box").dialog("left");
             },
         })
     } else {
-        dialog.answerOptionsLoop({
+        await dialog.answerOptionsLoop({
             "I brought my shopping list": async () => {
                 await dialog.sayMe("Can you get me the stuff on it?")
                 await dialog.sayOther("If you give me the list...")
@@ -74,6 +74,6 @@ const dialog = place.get("dialog_box").dialog("left");
 })()
 
 place.get('exit').onClick(() => {
-    game.getSound("door_exit").play();
+    void game.getSound("door_exit").play();
     game.navigate('map')
 })

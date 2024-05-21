@@ -16,13 +16,13 @@ control.get('backpack')
         show = !show;
         control.get('inventory').show(show)
         control.get("bg_backpack").setPulse(false)
-        game.relayoutAnchors()
+        void game.relayoutAnchors()
     })
 control.get('backpack_with_inventory')
     .onMouseOut(() => {
         show = false;
         control.get('inventory').hide()
-        game.relayoutAnchors();
+        void game.relayoutAnchors();
     })
 
 
@@ -47,7 +47,7 @@ control.get("backpack")
         if (!item.isAnchored()) {
             console.log("the backpack is full")
         }
-        game.getSound("drop").play(); // vamos ver!
+        void game.getSound("drop").play(); // vamos ver!
     })
 
 control.getMany(/slot\d/).map(slot => {
