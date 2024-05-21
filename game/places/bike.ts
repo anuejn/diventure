@@ -5,3 +5,7 @@ setTimeout(() => {
     game.navigate(game.state.mapNextLocation);
     game.state.mapNextLocation = undefined;
 }, 5000)
+
+place.get("bell").onClick(() => {
+    void game.getSound("bike_bell").play()
+})
