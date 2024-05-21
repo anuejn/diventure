@@ -16,6 +16,7 @@ place.get('chair').onClick(() => {
     game.getSound("chair").play();
 })
 
+
 let radio_on = true;
 place.get('radio').onClick(() => {
     game.getSound("radio_fm").play(radio_on);

@@ -11,6 +11,10 @@ place.get('bg_lamp').onClick(() => {
     game.getSound("light_switch").play();
 })
 
+place.get('books').onClick(() => {
+    window.open("https://youtu.be/aXByu2iraEA?si=41pXC-2rTudy681J", "_blank");
+})
+
 const itemsInInventory = await game.controls['inventory'].get('backpack_with_inventory').anchoredItemsRecursive();
 const party = itemsInInventory.findIndex(item => item.itemName == "invitation") != -1;
 
