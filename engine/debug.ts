@@ -20,7 +20,7 @@ game.state.subscribeChild("currentPlace", (currentPlace) => {
     for (const place of await elementsOfKind("places")) {
       connections += `"${place}" [id="${place}"${place == currentPlace ? ', color="red"' : ""}]\n`;
       const content = await loadTsString(`places/${place}.ts`);
-      const matches = (content || "").matchAll(/navigate\((.*)\)/g);
+      const matches = (content || "").matchAll(/navigate\(["'`](.*)["'`]\)/g);
       for (const match of matches) {
         const param = match[1].replace(/["']/g, "");
         connections += `"${place}" -> "${param}"\n`;
