@@ -4,26 +4,26 @@ place.get('side').onClick(() => {
 })
 
 
-const have_key = false;
-const have_smith_hint = false;
 let try_counter = 0;
-
-if(have_key == false && have_smith_hint == false){
-    place.get('door').onClick(() => {
-        if(try_counter == 3){
-            void game.getSound("phone_ring").play();
+const onClickDoor = async () => {
+    await game.getSound("door_metal").play();
+    game.state.triedDumpsterDiving = true;
+    if (try_counter > 2) {
+        if (!game.state.hasLocksmithHint) {
+            await game.getSound("phone_ring").play();
+            await sleep(1500);
             game.navigate('phone')
         }
-        else{
-            void game.getSound("door_metal").play();
-            try_counter += 1;
-            if(try_counter > 3){try_counter = 0}
-        }
-    })
-}
-else{
-    place.get('door').onClick(() => {
-        void game.getSound("door_metal").play();
-        game.navigate('trashbins')
-    })
-}
+    } else {
+        try_counter += 1;
+    }
+};
+
+place.get('door').onClick(onClickDoor)
+place.get('lock').onClick(onClickDoor)
+
+place.get("lock").onOtherDrop(item => {
+    if (item.itemName == "key") {
+        game.navigate("trashbins")
+    }
+})

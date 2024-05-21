@@ -41,7 +41,10 @@ export class Sound {
   async play(shouldPlay?: boolean) {
     if (shouldPlay == false) {
       this.source?.stop();
-    } else if (!this.playing) {
+    } else {
+      if (this.playing) {
+        this.source?.stop();
+      }
       this.source = game.audioContext.createBufferSource();
       this.source.connect(this.gain);
 

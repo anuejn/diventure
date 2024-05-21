@@ -1,1 +1,0 @@
-item.draggable("shape")

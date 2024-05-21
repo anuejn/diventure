@@ -20,7 +20,6 @@ place.get('books').onClick(() => {
 const itemsInInventory = await game.controls['inventory'].get('backpack_with_inventory').anchoredItemsRecursive();
 const party = itemsInInventory.findIndex(item => item.itemName == "invitation") != -1;
 
-
 if (!party) {
     // dialog with lina when the party is not happening:
     place.get('bg_max').hide()
@@ -35,29 +34,96 @@ if (!party) {
         await place.get("lina").waitClick();
         await dialog.sayOther("Oh hello, I didn't expect you around!");
         await dialog.sayOther("How are you doing?")
-        await dialog.answerOptionsLoop({
-            "I was just nearby, coming to see if you had some new gossip!": async () => {
-                await dialog.sayOther("Haha, no sorry, not this time!")
-                await dialog.sayOther("That Tina is dating Tom now I already told you a while ago.")
-                await dialog.sayOther("So no, no entertaining news from me today!")
-            },
-            "Actually, I have to go. See you!": async () => {
-                await dialog.sayOther("Tchau!")
-                await dialog.sayOther("See you soon then I guess!")
-                await sleep(2000);
-                await dialog.destroy();
-            },
-            "Isn't it your Birthday soon?": async () => {
-                await dialog.sayOther("Yeah, I sent you an invitation to bring with you.")
-                await dialog.sayMe("True, I'm already very looking forward to it!")
-            },
-            "Should I bring anything for your Birthday?": async () => {
-                await dialog.sayOther("It would be so nice, if you could bake a cake!")
-                await dialog.sayMe("Great idea, actually funny, 'cause I already wrote the ingrediants on a shopping list in my notebook.")
-            }
-        });
+
+        if (!game.state.partyOver) { // this is before the birthday party
+            await dialog.answerOptionsLoop({
+                "I was just nearby, coming to see if you had some new gossip!": async () => {
+                    await dialog.sayOther("Haha, no sorry, not this time!")
+                    await dialog.sayOther("That Tina is dating Tom now I already told you a while ago.")
+                    await dialog.sayOther("So no, no entertaining news from me today!")
+                },
+                "Actually, I have to go. See you!": async () => {
+                    await dialog.sayOther("Tchau!")
+                    await dialog.sayOther("See you soon then I guess!")
+                    await sleep(2000);
+                    await dialog.destroy();
+                },
+                "Isn't it your Birthday soon?": async () => {
+                    await dialog.sayOther("Yeah, I sent you an invitation to bring with you.")
+                    await dialog.sayMe("True, I'm already very looking forward to it!")
+                },
+                "Should I bring anything for your Birthday?": async () => {
+                    await dialog.sayOther("It would be so nice, if you could bake a cake!")
+                    await dialog.sayMe("Great idea, actually funny, 'cause I already wrote the ingrediants on a shopping list in my notebook.")
+                }
+            });
+        } else { // this is after the birthday party
+            await dialog.answerOptionsLoop({
+                "I was just nearby, coming to see if you had some new gossip!": async () => {
+                    await dialog.sayOther("Haha, yes!")
+                    await dialog.sayOther("I went dumpster diving  the other day and found some delicious cookies")
+                    await dialog.sayOther("I remembered you telling me you really liked them")
+                    await dialog.sayOther("I have some here for you if you like!")
+                    const answerOptions : AnswerOptions = {
+                        "*mompf mompf*": async () => {
+                            await dialog.sayMe("The cookies are really delicious!")
+                        },
+                        "Where did you get the cookies from?": async () => {
+                            await dialog.sayOther("The market around the corner");
+                            await dialog.sayOther("Their container often holds  real treasures");
+                            await dialog.sayMe("Oh I will check that out!");
+                        },
+                    };
+                    if (game.state.triedDumpsterDiving) {
+                        answerOptions["Actually I also tried to go dumpster diving recently"] = async () => {
+                            await dialog.sayMe("But it didn't go well");
+                            await dialog.sayMe("The Door was locked and I didnt have the right key");
+                            await dialog.sayOther("Oh, thats sad")
+                            if (!game.state.experiencedLocksmithFail) {
+                                await dialog.sayOther("I actually have a key")
+                                await dialog.sayOther("Let me look for it...")
+                                await sleep(2000)
+                                await dialog.sayOther("...")
+                                await sleep(2000)
+                                await dialog.sayOther("Shit, I cannot find it")
+                            }
+                        }
+                    }
+                    if (game.state.experiencedLocksmithFail) {
+                        answerOptions["I tried getting a key for dumpster diving from a Locksmith"] = async () => {
+                            await dialog.sayMe("But it failed horribly")
+                            await dialog.sayMe("I was supposed to say some kind of password")
+                            await dialog.sayMe("But the locksmith didn't undestand")
+                            await dialog.sayOther("Oh, that sounds like an uncomfortable situation")
+                            await dialog.sayMe("It was!")
+                            await dialog.sayOther("You can just have my key")
+                            await dialog.sayOther("I have a spare one")
+                            await game.spawnItem("key", place.get("key_spawn"), {size: "fill"})
+                            await dialog.sayMe("Ooh thank you so much")
+                            await dialog.sayMe("I will try it!")
+                            await sleep(2000)
+                            await dialog.destroy()
+                        }
+                    }
+                    await dialog.answerOptionsLoop(answerOptions);
+                },
+                "Actually, I have to go. See you!": async () => {
+                    await dialog.sayOther("Tchau!")
+                    await dialog.sayOther("See you soon then I guess!")
+                    await sleep(2000);
+                    await dialog.destroy();
+                },
+                /*
+                 indeed actually I went dumpster diving  the other day and found some delicious cookies (???)
+I remembered you telling me you really liked them, I have some here for you if you like!
+ME:  they're delicious *mompf* - where did you say you got them from?
+LINA: The market around the corner,... Their container often holds  real treasures.
+ME: Could you maybe bring me with you next time?
+LINA: Ah yes, I was actually just about to have a look! Follow me!*/
+            });
+        }
     })();
-} else {
+} else if (party) {
     (async () => {
         // start dialog with lina when the party is happening: give her the cake
         const dialog = place.get("dialog_box_lina").dialog("right");
@@ -283,3 +349,13 @@ if (!party) {
         }
     })();
 }
+
+// if we collected the meme, our task at the party is done and we destroy the invitation and the cake
+place.onLeave(async () => {
+    const itemsInInventory = await game.controls['inventory'].get('backpack_with_inventory').anchoredItemsRecursive();
+    if (itemsInInventory.findIndex(item => item.itemName == "meme") != -1) {
+        (await game.getItemById("cake")).destroy();
+        (await game.getItemById("invitation")).destroy();
+        game.state.partyOver = true;
+    }
+});
