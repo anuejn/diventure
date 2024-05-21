@@ -1,3 +1,5 @@
+await game.getSound("door_bell2").play();
+
 place.get('exit').onClick(() => {
     void game.getSound("door_exit").play();
     game.navigate('map')

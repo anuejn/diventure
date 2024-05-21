@@ -1,3 +1,5 @@
+await game.getSound("front_door").play();
+
 place.get('door').onClick(() => {
     game.navigate('kitchen')
     void game.getSound("door_handle").play();

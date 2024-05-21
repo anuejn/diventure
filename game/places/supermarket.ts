@@ -1,3 +1,5 @@
+await game.getSound("door_bell1").play();
+
 place.get("cart").show(place.state.showCart || false)
 
 const dialog = place.get("dialog_box").dialog("left");
