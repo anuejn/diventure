@@ -78,26 +78,76 @@ const itemsInInventory = await game.controls['inventory'].get('backpack_with_inv
             await dialog.sayOther("Karl?");
             await sleep(1000);
             await dialog.sayMe("Yes!");
+            await sleep(1000);
+            await dialog.sayOther("I don't know about any order for Karl...");
+            await dialog.sayOther("Ah, but maybe he's a friend of Alex?");
+            await dialog.sayOther("He probably knows!");
             await dialog.sayOther("Wait a minute...");
-            await dialog.sayOther("I'll call him");
+            await dialog.sayOther("I'll call him!");
             await sleep(2000);
+            void dialog.blank();
+            void dialog.blank();
+            void dialog.blank();
+            void dialog.blank();
+            void dialog.blank();
+            await sleep(1000);
 
-
-            
+            void game.getSound("phonenr_typing").play();
             place.get("bg_telephone").show()
             const phonolog = place.get("phonolog_box").dialog("left");
 
-            await phonolog.sayOther("Hello");
-            await phonolog.sayMe("Oh hello Alex, there is a person picking up an order for Karl, do you know anything about that?");
-            await phonolog.sayOther("Hmm no, nothing that I know!");
-            await phonolog.sayMe("Ok, thanks! Tchau!");
+            await sleep(9000);
+            await phonolog.sayOther("Hello?");
+            await phonolog.sayMe("Oh hello Alex!");
+            await phonolog.sayMe("There is a person picking up an order for Karl, do you know anything about that?");
+            await phonolog.sayOther("Hmm, let me think!");
+            await phonolog.sayOther("I don't think so, no, nothing that I know of!");
+            await phonolog.sayMe("Strange, ok, thanks!");
+            await phonolog.sayMe("Tchau!");
             await phonolog.sayOther("Tchau!");
             await sleep(2000);
+            void game.getSound("hangup").play();
             await phonolog.destroy();
             place.get("bg_telephone").hide()
 
-
+            await sleep(2000);
             await dialog.sayOther("He says he doesn't know of any order from Karl!");
+
+            await dialog.answerOptions({
+                "Ufff": async () => {
+                    await sleep(1000)
+                    await dialog.sayOther("...")
+                    await dialog.sayMe("...")
+                    await dialog.sayMe("Ok, thank you anyways!")
+                    await dialog.sayMe("Good bye!")
+                    await dialog.sayOther("Good bye!")
+                    await sleep(3000)
+                    await dialog.destroy()
+                },
+                "Ahhm, ok?": async () => {
+                    await sleep(1000)
+                    await dialog.sayOther("...")
+                    await dialog.sayMe("...")
+                    await dialog.sayMe("Well I guess I actually went to the wrong locksmith after all!")
+                    await sleep(2000)
+                    await dialog.sayOther("Maybe!")
+                    await dialog.sayMe("Good bye!")
+                    await dialog.sayOther("Bye, and good luck with your order!")
+                    await sleep(3000)
+                    await dialog.destroy()
+                },
+                "Uh, oh, I actually have to leave": async () => {
+                    await sleep(1000)
+                    await dialog.sayOther("...")
+                    await dialog.sayMe("...")
+                    await sleep(1000);
+                    await dialog.sayOther("Okay then. See you!")
+                    await sleep(3000);
+                    await dialog.destroy();
+                }
+            })
+
+
         }
     }
 

@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="4802.9888mm"
-   height="2003.8606mm"
-   viewBox="0 0 4802.9885 2003.8606"
+   width="4284.0742mm"
+   height="2036.4275mm"
+   viewBox="0 0 4284.074 2036.4275"
    version="1.1"
    id="svg1"
    xml:space="preserve"
@@ -25,8 +25,8 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="0.027397141"
-     inkscape:cx="8322.0363"
-     inkscape:cy="4927.5215"
+     inkscape:cx="6497.0283"
+     inkscape:cy="5256.0229"
      inkscape:window-width="1368"
      inkscape:window-height="842"
      inkscape:window-x="-6"
@@ -35,8 +35,8 @@
      inkscape:current-layer="layer1"><inkscape:page
        x="0"
        y="0"
-       width="4802.9883"
-       height="2003.8606"
+       width="4284.0742"
+       height="2036.4275"
        id="page1"
        margin="0"
        bleed="0" /></sodipodi:namedview><defs
@@ -44,7 +44,7 @@
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(808.51341,-270.53712)"><image
+     transform="translate(322.8842,-183.62111)"><image
        width="254.01794"
        height="885.6759"
        preserveAspectRatio="none"
@@ -102,12 +102,12 @@
        d="m 3843.7106,2113.3463 h 95.9651 l -6.954,-65.3675 -20.8619,-6.954 -35.2475,-810.6466 -23.6027,-15.7351 -15.735,23.6026 -633.3376,51.1391 -232.0928,55.0728 -27.5365,90.4769 3.9338,357.9735 55.0728,35.4039 283.2319,11.8013 314.7018,-31.4701 35.4042,-86.5431 200.6224,-39.3377 23.6027,346.1721 z"
        id="path3"
        inkscape:label="exit" /><rect
-       style="fill:#ff00ff;fill-opacity:0.42;stroke-width:9.46375;stroke-linecap:round;stroke-dasharray:37.8549, 37.8549;stroke-dashoffset:48.2649"
+       style="fill:#ff00ff;fill-opacity:0.42;stroke-width:8.93207;stroke-linecap:round;stroke-dasharray:35.7282, 35.7282;stroke-dashoffset:45.5533"
        id="rect2"
        width="1072.1162"
-       height="884.32526"
-       x="-274.59753"
-       y="289.85178"
+       height="787.75189"
+       x="-245.62553"
+       y="183.62111"
        rx="0"
        inkscape:label="dialog_box" /><rect
        style="fill:#ff00ff;fill-opacity:0.42;stroke-width:7.00421;stroke-linecap:round;stroke-dasharray:28.0168, 28.0168;stroke-dashoffset:35.7213"
@@ -115,6 +115,6 @@
        width="840.34021"
        height="618.00336"
        x="1399.9244"
-       y="295.67877"
+       y="286.02142"
        rx="0"
        inkscape:label="phonolog_box" /></g></svg>
