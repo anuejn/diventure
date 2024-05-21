@@ -5,8 +5,7 @@ place.get('side').onClick(() => {
 
 
 let try_counter = 0;
-
-place.get('door').onClick(async () => {
+const onClickDoor = async () => {
     await game.getSound("door_metal").play();
     game.state.triedDumpsterDiving = true;
     if (try_counter > 2) {
@@ -18,7 +17,10 @@ place.get('door').onClick(async () => {
     } else {
         try_counter += 1;
     }
-})
+};
+
+place.get('door').onClick(onClickDoor)
+place.get('lock').onClick(onClickDoor)
 
 place.get("lock").onOtherDrop(item => {
     if (item.itemName == "key") {
