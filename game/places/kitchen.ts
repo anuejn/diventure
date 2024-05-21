@@ -15,10 +15,10 @@ place.get('dishes').onClick(() => {
     void game.getSound("plates").play()
 })
 
-let extractor_on = true;
+void game.getSound("extractor").setLoop(true).play(place.state.extactorOn || false);
 place.get('airbutton').onClick(() => {
-    void game.getSound("extractor").play(extractor_on);
-    extractor_on = !extractor_on;
+    place.state.extactorOn = !place.state.extactorOn;
+    void game.getSound("extractor").setLoop(true).play(place.state.extactorOn || false);
 })
 
 // Tap Watter:
@@ -31,8 +31,10 @@ place.get('tap').onClick(() => {
     place.state.tap_on = !place.state.tap_on;
     updateTap()
 })
+
 place.onLeave(() => {
     void game.getSound("tapwater").pause();
+    void game.getSound("extractor").pause();
 })
 
 const items = ["flour", "sugar", "chocolate", "eggs", "butter"];
@@ -64,7 +66,7 @@ function buttonsOnOff(button: string, bg_button: string){
         void game.getSound("oven_switch").play();
         button_turned = !button_turned;
         place.get(bg_button).show(button_turned)
-        void game.getSound("gas_oven", bg_button).play(button_turned)
+        void game.getSound("gas_oven", bg_button).setLoop().play(button_turned)
     })
     place.onLeave(() => {
         void game.getSound("gas_oven", bg_button).pause()
