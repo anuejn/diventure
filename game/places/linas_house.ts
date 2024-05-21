@@ -18,9 +18,10 @@ place.get('books').onClick(() => {
 })
 
 const itemsInInventory = await game.controls['inventory'].get('backpack_with_inventory').anchoredItemsRecursive();
-const party = itemsInInventory.findIndex(item => item.itemName == "invitation") != -1;
+const party1 = itemsInInventory.findIndex(item => item.itemName == "invitation") != -1;
+const party2 = itemsInInventory.findIndex(item => item.itemName == "invitation2") != -1;
 
-if (!party) {
+if (!party1 && !party2) {
     // dialog with lina when the party is not happening:
     place.get('bg_max').hide()
     place.get('bg_nadja').hide()
@@ -64,7 +65,7 @@ if (!party) {
                     await dialog.sayOther("I went dumpster diving  the other day and found some delicious cookies")
                     await dialog.sayOther("I remembered you telling me you really liked them")
                     await dialog.sayOther("I have some here for you if you like!")
-                    const answerOptions : AnswerOptions = {
+                    const answerOptions: AnswerOptions = {
                         "*mompf mompf*": async () => {
                             await dialog.sayMe("The cookies are really delicious!")
                         },
@@ -74,7 +75,7 @@ if (!party) {
                             await dialog.sayMe("Oh I will check that out!");
                         },
                     };
-                    if (game.state.triedDumpsterDiving) {
+                    if (game.state.triedDumpsterDiving && !game.state.wasDumpsterDiving) {
                         answerOptions["Actually I also tried to go dumpster diving recently"] = async () => {
                             await dialog.sayMe("But it didn't go well");
                             await dialog.sayMe("The Door was locked and I didnt have the right key");
@@ -89,7 +90,7 @@ if (!party) {
                             }
                         }
                     }
-                    if (game.state.experiencedLocksmithFail) {
+                    if (game.state.experiencedLocksmithFail && !game.state.wasDumpsterDiving) {
                         answerOptions["I tried getting a key for dumpster diving from a Locksmith"] = async () => {
                             await dialog.sayMe("But it failed horribly")
                             await dialog.sayMe("I was supposed to say some kind of password")
@@ -98,7 +99,7 @@ if (!party) {
                             await dialog.sayMe("It was!")
                             await dialog.sayOther("You can just have my key")
                             await dialog.sayOther("I have a spare one")
-                            await game.spawnItem("key", place.get("key_spawn"), {size: "fill"})
+                            await game.spawnItem("key", place.get("key_spawn"), { size: "fill" })
                             await dialog.sayMe("Ooh thank you so much")
                             await dialog.sayMe("I will try it!")
                             await sleep(2000)
@@ -113,17 +114,10 @@ if (!party) {
                     await sleep(2000);
                     await dialog.destroy();
                 },
-                /*
-                 indeed actually I went dumpster diving  the other day and found some delicious cookies (???)
-I remembered you telling me you really liked them, I have some here for you if you like!
-ME:  they're delicious *mompf* - where did you say you got them from?
-LINA: The market around the corner,... Their container often holds  real treasures.
-ME: Could you maybe bring me with you next time?
-LINA: Ah yes, I was actually just about to have a look! Follow me!*/
             });
         }
     })();
-} else if (party) {
+} else if (party1) {
     (async () => {
         // start dialog with lina when the party is happening: give her the cake
         const dialog = place.get("dialog_box_lina").dialog("right");
@@ -348,14 +342,60 @@ LINA: Ah yes, I was actually just about to have a look! Follow me!*/
             ])
         }
     })();
-}
 
-// if we collected the meme, our task at the party is done and we destroy the invitation and the cake
-place.onLeave(async () => {
-    const itemsInInventory = await game.controls['inventory'].get('backpack_with_inventory').anchoredItemsRecursive();
-    if (itemsInInventory.findIndex(item => item.itemName == "meme") != -1) {
-        (await game.getItemById("cake")).destroy();
-        (await game.getItemById("invitation")).destroy();
-        game.state.partyOver = true;
-    }
-});
+    // if we collected the meme, our task at the party is done and we destroy the invitation and the cake
+    place.onLeave(async () => {
+        const itemsInInventory = await game.controls['inventory'].get('backpack_with_inventory').anchoredItemsRecursive();
+        if (itemsInInventory.findIndex(item => item.itemName == "meme") != -1) {
+            (await game.getItemById("cake")).destroy();
+            (await game.getItemById("invitation")).destroy();
+            game.state.partyOver = true;
+        }
+    });
+
+} else if (party2) {
+    (async () => {
+        // start dialog with lina when the party is happening: give her the cake
+        const dialog = place.get("dialog_box_lina").dialog("right");
+        if ((await place.get("tablespot2").anchoredItems()).length == 0) {
+
+            await place.get("lina").waitClick();
+            await dialog.sayOther("Hey, really cool you made it to my second party as well!")
+            const answerOptions: AnswerOptions = {
+                "Sure, thanks for inviting me!": async () => {
+                    await dialog.sayMe("I really liked the first one")
+                    await dialog.sayOther("Of course!")
+                    await dialog.sayMe("And in the meantime I got into dumpster diving")
+                }
+            };
+            if (itemsInInventory.findIndex(item => item.itemName == "banana_bread") != -1) {
+                answerOptions["I brought banana bread!"] = async () => {
+                    await dialog.sayMe("with stuff that I dumpstered myself")
+                    await dialog.sayOther("Thank you! You can give it to me to put it on the buffet!");
+                    const cake = await place.get('lina').waitOtherDrop(item => item.itemName == "banana_bread");
+                    await dialog.sayOther("I am so proud of you!");
+                    cake.hide();
+                    cake.anchor(place.get("tablespot2"))
+                    await sleep(1000);
+                    cake.show();
+                    await sleep(1000);
+                    await dialog.sayMe("Thank you")
+                    await dialog.sayOther("You are now officially a dumpster diver!");
+                    await dialog.sayOther("With a propper <i>diving license</i>")
+                    await sleep(2000)
+                    await dialog.blank()
+                    await dialog.sayOther("And you have reached the end of this game")
+                    await dialog.sayOther("Thank you for playing it!")
+                }
+            } else {
+                answerOptions["Oh shit but I forgot to bring the bana bread I wanted to make!"] = async () => {
+                    await dialog.sayMe("I will be right back!")
+                    await dialog.sayMe("With banana bread haha!")
+                    await sleep(2000);
+                    await dialog.destroy();
+                };
+            }
+            await dialog.answerOptionsLoop(answerOptions)
+        }
+    })();
+}

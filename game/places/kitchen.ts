@@ -77,3 +77,14 @@ buttonsOnOff("ovenbutton1", "bg_button1")
 buttonsOnOff("ovenbutton2", "bg_button2")
 buttonsOnOff("ovenbutton3", "bg_button3")
 buttonsOnOff("ovenbutton4", "bg_button4")
+
+
+
+if (game.state.wasDumpsterDiving && !place.state.spawnedInvitation2) {
+    (async () => {
+        await sleep(1000)
+        await game.getSound("step_back").play()
+        await game.spawnItemOnce("invitation2", place.get("invitation2_spawn"), {size: "fill"})
+        place.state.spawnedInvitation2 = true;
+    })()
+}

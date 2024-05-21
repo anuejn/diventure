@@ -13,3 +13,4 @@ place.get("bin2").onClick(() => {
     void game.getSound("container").play();
 })
 
+game.state.wasDumpsterDiving = true;
