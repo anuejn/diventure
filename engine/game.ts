@@ -28,6 +28,7 @@ export class Game {
   audioContext: AudioContext;
   sounds: Record<string, Sound>;
   anchoredElements: [SVGElement | HTMLElement, AnchorPlacement][] = [];
+  topZIndex: number = 1;
 
   items: Record<string, Item> = {}; // use getItemById instead
   private itemsMutex = new Mutex();
@@ -60,6 +61,7 @@ export class Game {
     };
     window.addEventListener("mousemove", onMove);
     window.addEventListener("touchmove", onMove);
+    document.addEventListener("contextmenu", (event) => event.preventDefault());
 
     // load controls
     void elementsOfKind("controls").then((controls) =>
@@ -157,6 +159,15 @@ export class Game {
       return null;
     }
     return this.spawnItem(item, slot, anchorOptions, id_extra);
+  }
+
+  async spawnItemUnique(
+    item: string,
+    slot: EngineShape,
+    anchorOptions: Partial<AnchorOptions> = {},
+  ): Promise<Item | null> {
+    const randomId = (Math.random() + 1).toString(36).substring(7);
+    return this.spawnItem(item, slot, anchorOptions, randomId);
   }
 
   getCurrentPlace(): Place {

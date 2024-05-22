@@ -15,6 +15,7 @@ export class Item extends GameElement {
     item.addStyles({
       transitionProperty: "width, height",
       transitionDuration: "0.1s",
+      zIndex: `${game.topZIndex++}`,
     });
 
     await loadTs(`items/${itemName}.ts`, { item });
@@ -87,6 +88,7 @@ export class Item extends GameElement {
       document.addEventListener("touchmove", onMove, { passive: false });
 
       game.dragStartListeners.forEach((handler) => handler(this));
+      this.svgElement.style.zIndex = `${game.topZIndex++}`;
 
       const onUp = async () => {
         document.removeEventListener("mousemove", onMove);

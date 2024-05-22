@@ -48,6 +48,7 @@
 }
 
 .answer-options-container {
+    z-index: 1000000;
     position: fixed;
     bottom: 0;
     left: 0;

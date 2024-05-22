@@ -122,7 +122,6 @@ if (!party1 && !party2) {
         // start dialog with lina when the party is happening: give her the cake
         const dialog = place.get("dialog_box_lina").dialog("right");
         if ((await place.get("tablespot2").anchoredItems()).length == 0) {
-
             await place.get("lina").waitClick();
             await dialog.sayOther("Hey, really cool you made it to my party!")
             const answerOptions: AnswerOptions = {
@@ -154,6 +153,7 @@ if (!party1 && !party2) {
             }
             await dialog.answerOptionsLoop(answerOptions)
         }
+        if ((await place.get("tablespot2").anchoredItems()).length == 0) return;
 
         // The real party starts here
         while (true) {
