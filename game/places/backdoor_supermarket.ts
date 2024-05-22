@@ -24,6 +24,7 @@ place.get('lock').onClick(onClickDoor)
 
 place.get("lock").onOtherDrop(item => {
     if (item.itemName == "key") {
+        game.getSound("unlock").play();
         game.navigate("trashbins")
     }
 })

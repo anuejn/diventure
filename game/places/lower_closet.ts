@@ -1,6 +1,7 @@
 place.getMany(/door\d/).forEach(door=>{
     door.onClick(() => {
         game.navigate('kitchen')
+        game.getSound("closet_close").play();
     })
 })
 

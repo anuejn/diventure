@@ -6,9 +6,11 @@ place.get('fridge').onClick(() => {
     game.navigate('fridge')
 })
 place.get('upper_closet').onClick(() => {
+    game.getSound("closet_open").play();
     game.navigate('upper_closet')
 })
 place.get('lower_closet').onClick(() => {
+    game.getSound("closet_open").play();
     game.navigate('lower_closet')
 })
 place.get('dishes').onClick(() => {
