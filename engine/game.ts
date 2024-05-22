@@ -61,6 +61,7 @@ export class Game {
     };
     window.addEventListener("mousemove", onMove);
     window.addEventListener("touchmove", onMove);
+    document.addEventListener("contextmenu", (event) => event.preventDefault());
 
     // load controls
     void elementsOfKind("controls").then((controls) =>
