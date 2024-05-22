@@ -17,6 +17,14 @@ place.get('dishes').onClick(() => {
     void game.getSound("plates").play()
 })
 
+let light_on = false;
+place.get('oven_light').hide()
+place.get('ovenbutton').onClick(() => {
+    light_on = !light_on;
+    place.get('oven_light').show(light_on)
+    void game.getSound("light_switch").play();
+})
+
 void game.getSound("extractor").setLoop(true).play(place.state.extactorOn || false);
 place.get('airbutton').onClick(() => {
     place.state.extactorOn = !place.state.extactorOn;
@@ -51,7 +59,7 @@ oven.onOtherDrop(async item => {
 
     // check if everythimg is there
     const itemsInOven = (await oven.anchoredItems()).map(item => item.itemName);
-    if (JSON.stringify(items.sort()) == JSON.stringify(itemsInOven.sort())) {
+    if (JSON.stringify(items.sort()) == JSON.stringify(itemsInOven.sort()) && light_on==true) {
         for (const item of await oven.anchoredItems()) {
             item.destroy()
         }
