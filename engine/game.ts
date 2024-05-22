@@ -159,6 +159,15 @@ export class Game {
     return this.spawnItem(item, slot, anchorOptions, id_extra);
   }
 
+  async spawnItemUnique(
+    item: string,
+    slot: EngineShape,
+    anchorOptions: Partial<AnchorOptions> = {},
+  ): Promise<Item | null> { 
+    const randomId = (Math.random() + 1).toString(36).substring(7);
+    return this.spawnItem(item, slot, anchorOptions, randomId);
+  }
+
   getCurrentPlace(): Place {
     if (!this.currentPlace) throw Error("current place is undefined");
     return this.currentPlace;
