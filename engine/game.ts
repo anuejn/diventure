@@ -28,6 +28,7 @@ export class Game {
   audioContext: AudioContext;
   sounds: Record<string, Sound>;
   anchoredElements: [SVGElement | HTMLElement, AnchorPlacement][] = [];
+  topZIndex: number = 1;
 
   items: Record<string, Item> = {}; // use getItemById instead
   private itemsMutex = new Mutex();
@@ -163,7 +164,7 @@ export class Game {
     item: string,
     slot: EngineShape,
     anchorOptions: Partial<AnchorOptions> = {},
-  ): Promise<Item | null> { 
+  ): Promise<Item | null> {
     const randomId = (Math.random() + 1).toString(36).substring(7);
     return this.spawnItem(item, slot, anchorOptions, randomId);
   }
