@@ -28,7 +28,9 @@ if (!party1 && !party2) {
     place.get('bg_kim').hide()
 
     place.get('bg_gifts').hide()
+    place.get('bg_drinks').hide()
     place.get('bg_party').hide()
+    place.get('bg_party2').hide()
 
     const dialog = place.get("dialog_box_lina_no_party").dialog("right");
     (async () => {
@@ -118,6 +120,8 @@ if (!party1 && !party2) {
         }
     })();
 } else if (party1) {
+    place.get('bg_drinks').hide();
+    place.get('bg_party2').hide();
     (async () => {
         // start dialog with lina when the party is happening: give her the cake
         const dialog = place.get("dialog_box_lina").dialog("right");
@@ -354,6 +358,8 @@ if (!party1 && !party2) {
     });
 
 } else if (party2) {
+    place.get('bg_gifts').hide();
+    place.get('bg_party').hide();
     (async () => {
         // start dialog with lina when the party is happening: give her the cake
         const dialog = place.get("dialog_box_lina").dialog("right");

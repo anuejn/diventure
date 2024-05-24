@@ -17,12 +17,8 @@ place.get('locksmith').onClick(() => {
     bike_navigate('locksmith')
 })
 
-
-const itemsInInventory = await game.controls['inventory'].get('backpack_with_inventory').anchoredItemsRecursive();
-place.get('supermarket').onClick(async () => {
-    if (itemsInInventory.findIndex(item => item.itemName == "meme") == -1) {
-        bike_navigate('supermarket')
-    } else {
-        bike_navigate('backdoor_supermarket')
-    }
+place.get('supermarket').onClick(() => {
+    bike_navigate('frontdoor_supermarket')
 })
+
+
