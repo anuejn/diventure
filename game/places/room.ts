@@ -18,8 +18,13 @@ place.get('chair').onClick(() => {
     void game.getSound("chair").play();
 })
 
+place.get('night').hide();
 place.get('bed').onClick(() => {
+    place.get('night').show();
     void game.getSound("bed").play();
+    setTimeout(() => {
+        place.get('night').hide();
+    }, 9000)
 })
 
 let radio_on = true;

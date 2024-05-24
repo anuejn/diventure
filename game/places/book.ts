@@ -8,7 +8,7 @@ await game.spawnItemOnce("invitation", place.get("slot_2"));
 
 
 //to put papers back in order to read them
-const allowedItems = ["invitation", "shoppinglist", "cash", "meme"];
+const allowedItems = ["invitation", "invitation2", "shoppinglist", "cash", "meme"];
 place.getMany(/slot_\d/).map(slot => {
         slot.onOtherDrop(item => {
             console.log(item)
