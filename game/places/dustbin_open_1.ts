@@ -33,7 +33,6 @@ if (!place.state.spawnedTrash) {
     await game.spawnItemUnique("trashbag1", place.get("slot_08"))
     await game.spawnItemUnique("kanister", place.get("slot_09"))
     await game.spawnItemUnique("littlepaper", place.get("slot_10"))
-    await game.spawnItemUnique("milktrash", place.get("slot_11"))
     await game.spawnItemUnique("mirror", place.get("slot_12"))
     await game.spawnItemUnique("paperbag", place.get("slot_13"))
     await game.spawnItemUnique("papertrash", place.get("slot_14"))

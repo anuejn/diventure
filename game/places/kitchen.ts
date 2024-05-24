@@ -18,12 +18,32 @@ place.get('dishes').onClick(() => {
 })
 
 let light_on = false;
+let oven_open = false;
+place.get('oven_open').hide()
 place.get('oven_light').hide()
+place.get('oven_light_inside').hide()
+
 place.get('ovenbutton').onClick(() => {
     light_on = !light_on;
     place.get('oven_light').show(light_on)
     void game.getSound("light_switch").play();
+    if(oven_open){
+        place.get('oven_light_inside').show(light_on)
+    }
 })
+
+place.get('oven').onClick(() => {
+    oven_open = true;
+    place.get('oven_open').show(oven_open)
+    if(light_on){place.get('oven_light_inside').show(light_on)}
+})
+
+place.get('oven_close').onClick(() => {
+    oven_open = false;
+    place.get('oven_open').hide()
+    place.get('oven_light_inside').hide()
+})
+
 
 void game.getSound("extractor").setLoop(true).play(place.state.extactorOn || false);
 place.get('airbutton').onClick(() => {
