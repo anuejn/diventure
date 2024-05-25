@@ -69,7 +69,7 @@ place.onLeave(() => {
 
 const items = ["flour", "sugar", "chocolate", "eggs", "butter"];
 
-const oven = place.get('oven')
+const oven = place.get('oven_light_inside')
 oven.onOtherDrop(async item => {
     console.log(item.itemName)
     if (items.includes(item.itemName)) {
@@ -88,25 +88,32 @@ oven.onOtherDrop(async item => {
 })
 
 
+
 // Buttons of the Oven
-function buttonsOnOff(button: string, bg_button: string){
+function buttonsOnOff(button: string, bg_button: string, gas: string){
     let button_turned = false;
     place.get(bg_button).hide()
+    place.get(gas).hide()
+
+
     place.get(button).onClick(() => {
         void game.getSound("oven_switch").play();
         button_turned = !button_turned;
         place.get(bg_button).show(button_turned)
         void game.getSound("gas_oven", bg_button).setLoop().play(button_turned)
+        place.get(gas).show(button_turned)
     })
     place.onLeave(() => {
         void game.getSound("gas_oven", bg_button).pause()
+        place.get(gas).hide()
     })
 }
 
-buttonsOnOff("ovenbutton1", "bg_button1")
-buttonsOnOff("ovenbutton2", "bg_button2")
-buttonsOnOff("ovenbutton3", "bg_button3")
-buttonsOnOff("ovenbutton4", "bg_button4")
+buttonsOnOff("ovenbutton1", "bg_button1", "gas_left")
+buttonsOnOff("ovenbutton2", "bg_button2", "gas_left_back")
+buttonsOnOff("ovenbutton3", "bg_button3", "gas_right")
+buttonsOnOff("ovenbutton4", "bg_button4", "gas_right_back")
+
 
 
 
