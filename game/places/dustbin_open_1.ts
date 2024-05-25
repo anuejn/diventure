@@ -7,11 +7,8 @@ place.get("lid").onClick(() => {
     game.navigate("trashbins");
 })
 
-
-var food_list = ["apple", "banana", "bellpeper", "brezel", "butter", "candy", "chocolate", "eggs", "flour", "honey", "juice", "oat_milk", "oil_olive", "oil_sunflower", "sugar", "yogurt"]
-var trash_list = ["appletrash", "bottletrash", "boxtrash", "can", "can2", "futzerl2", "futzerl2", "kanister", "littlepaper", "mirror", "paperbag", "papertrash", "paste", "plasticbag", "toiletpaper", "trashbag1", "trashbag2", "trashbag3", "trashbag4", "trashbag5"]
-
-
+//var food_list = ["apple", "banana", "bellpeper", "brezel", "butter", "candy", "chocolate", "eggs", "flour", "honey", "juice", "oat_milk", "oil_olive", "oil_sunflower", "sugar", "yogurt"]
+//var trash_list = ["appletrash", "bottletrash", "boxtrash", "can", "can2", "futzerl2", "futzerl2", "kanister", "littlepaper", "mirror", "paperbag", "papertrash", "paste", "plasticbag", "toiletpaper", "trashbag1", "trashbag2", "trashbag3", "trashbag4", "trashbag5"]
 
 //there are 27 slots:
 if (!place.state.spawnedTrash) {
@@ -44,4 +41,3 @@ if (!place.state.spawnedTrash) {
     await game.spawnItemUnique("trashbag5", place.get("slot_26"))
     await game.spawnItemUnique("candy", place.get("slot_27"))
 }
-

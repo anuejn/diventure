@@ -14,13 +14,19 @@ const dialog = place.get("dialog_box").dialog("left");
             "Oh shit, I forgot my shopping list at home": async () => {
                 await dialog.sayMe("Probably in my Book on the Table")
                 await dialog.sayOther("Then you better get it.")
+                await dialog.sayOther("...")
+                await dialog.sayMe("...")
                 await dialog.sayOther("See you!")
+                await dialog.sayMe("Bye!")
                 await sleep(2000)
                 await dialog.destroy()
             },
             "Actually, I have to go": async () => {
                 await dialog.sayOther("Oh, so fast?")
                 await dialog.sayOther("You did not even buy anything!")
+                await sleep(2000)
+                await dialog.sayMe("...")
+                await dialog.sayOther("...")
                 await sleep(2000)
                 await dialog.destroy()
             },
@@ -29,23 +35,24 @@ const dialog = place.get("dialog_box").dialog("left");
         await dialog.answerOptionsLoop({
             "I brought my shopping list": async () => {
                 await dialog.sayMe("Can you get me the stuff on it?")
-                await dialog.sayOther("If you give me the list...")
+                await dialog.sayOther("Sure, if you give me your list!")
 
-                const hintTimeout = setTimeout(() => dialog.sayOther("You actually have to give the list to me"), 10000)
+                const hintTimeout = setTimeout(() => dialog.sayOther("You will actually have to give the list to me!"), 12000)
                 const shoppinglist = await place.get("dude").waitOtherDrop(item => item.itemName == "shoppinglist");
                 clearTimeout(hintTimeout);
                 shoppinglist.hide()
-                await dialog.sayMe("Here is it!");
+                await dialog.sayMe("Ah, here is it!");
 
-                await dialog.sayOther("Looks like you want to bake a cake!");
+                await dialog.sayOther("Oh, looks like you want to bake a cake!");
                 await sleep(1000)
 
-                await dialog.sayOther("That would make €€€")
-                const hint2Timeout = setTimeout(() => dialog.sayOther("well, now you also have to give me money!"), 10000);
+                await dialog.sayOther("... that would make €€€, please!")
+                const hint2Timeout = setTimeout(() => dialog.sayOther("... well, now you will also have to give me the money!"), 12000);
                 const cash = await place.get("dude").waitOtherDrop(item => item.itemName == "cash")
                 clearTimeout(hint2Timeout);
                 cash.destroy()
 
+                await sleep(1000)
                 place.get("cart").show()
                 place.state.showCart = true;
 
@@ -57,19 +64,24 @@ const dialog = place.get("dialog_box").dialog("left");
 
                 shoppinglist.destroy()
 
-                await dialog.sayMe("Here you go");
-                await dialog.sayOther("Have a nice day!");
-                await dialog.sayOther("And don't forget anything.");
+                await dialog.sayMe("So, here you go");
+                await dialog.sayOther("Thank you, I wish you a nice day!");
+                await sleep(2000);
+                await dialog.sayOther("Don't forget anything!");
                 await sleep(2000);
                 await dialog.destroy()
             },
             "Where are all the products?": async () => {
-                await dialog.sayMe("What a wiered supermarket is this?")
-                await dialog.sayMe("I don't even see shelves!")
+                await dialog.sayMe("What a weired supermarket is this?")
+                await dialog.sayMe("I don't even see any shelves!")
                 await dialog.sayOther("Well...")
-                await dialog.sayOther("Building a supermarket in a video game is a lot of work")
-                await dialog.sayOther("So in this shop, you just give me your shopping list and get the products")
+                await dialog.sayOther("... building a supermarket in a video game is a lot of work!")
+                await dialog.sayOther("... so in this shop, you just give me your shopping list and get the products!")
+                await sleep(2000);
                 await dialog.sayOther("Good enough, eh?")
+                await dialog.sayOther("We're doing it in the old fashioned way, isn't retro a thing again nowerdays?")
+                await dialog.sayMe("...")
+                await dialog.sayOther("...")
             },
         })
     }
