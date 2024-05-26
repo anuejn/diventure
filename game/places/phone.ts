@@ -34,7 +34,7 @@ const dialog = place.get("dialog_box").dialog("right");
                             await dialog.sayOther(`But I heard that <a href="https://www.zerowasteaustria.at/containern-in-oesterreich.html">noone was sentenced for dumpsterdiving in austria yet</a>`)
                         },
                         "And where did you get your key from": async () => {
-                            await dialog.sayOther("I got it from a locksmith in the 23. District")
+                            await dialog.sayOther("I got it from a locksmith in the 21. District")
                             await dialog.sayOther("You can probably also get one from there")
                             await dialog.sayOther(`Just say "I have to pick up keys for Karl"`)
                             await dialog.sayOther("And they will know")
