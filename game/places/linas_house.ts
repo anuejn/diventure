@@ -13,9 +13,12 @@ place.get('bg_lamp').onClick(() => {
     void game.getSound("light_switch").play();
 })
 
-place.get('books').onClick(() => {
-    window.open("https://youtu.be/aXByu2iraEA?si=41pXC-2rTudy681J", "_blank");
-})
+
+if (game.state.hadLastDialog) {
+    place.get('books').onClick(() => {
+        window.open("https://youtu.be/aXByu2iraEA?si=41pXC-2rTudy681J", "_blank");
+    })
+}
 
 const itemsInInventory = await game.controls['inventory'].get('backpack_with_inventory').anchoredItemsRecursive();
 const party1 = itemsInInventory.findIndex(item => item.itemName == "invitation") != -1;
@@ -459,9 +462,11 @@ if (!party1 && !party2) {
                     await dialog.sayMe("Thank you hihi")
                     await dialog.sayOther("You are now officially a dumpster diver!");
                     await dialog.sayOther("With a propper <i>diving license</i>")
+                    await dialog.sayMe("Badum tzzz")
                     await sleep(2000)
                     await dialog.blank()
                     await dialog.sayOther("And you have reached the end of this game")
+                    game.state.hadLastDialog = true;
                     await dialog.sayOther("Thank you for playing it!")
                 }
             } else {

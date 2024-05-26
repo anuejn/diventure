@@ -7,4 +7,5 @@ interface GameState {
     hasLocksmithHint?: boolean;
     experiencedLocksmithFail?: boolean;
     wasDumpsterDiving?: boolean;
+    hadLastDialog?: boolean;
 }
