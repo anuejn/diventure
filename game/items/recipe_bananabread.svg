@@ -8,7 +8,7 @@
    version="1.1"
    id="svg1"
    xml:space="preserve"
-   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
    sodipodi:docname="recipe_bananabread.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -25,12 +25,12 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="0.5380752"
-     inkscape:cx="139.38572"
+     inkscape:cx="138.45648"
      inkscape:cy="183.98915"
-     inkscape:window-width="1368"
-     inkscape:window-height="842"
-     inkscape:window-x="-6"
-     inkscape:window-y="-6"
+     inkscape:window-width="2056"
+     inkscape:window-height="1257"
+     inkscape:window-x="0"
+     inkscape:window-y="44"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1" /><defs
      id="defs1" /><g
@@ -104,4 +104,8 @@
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.5px;line-height:1;font-family:sans-serif;-inkscape-font-specification:sans-serif;fill:#000a87;fill-opacity:0.767157;stroke-width:0.665"
          x="81.010216"
          y="204.69106"
-         id="tspan13">at 180°C</tspan></text></g></svg>
+         id="tspan13">at 180°C</tspan></text><path
+       style="fill:#ff00ff;fill-opacity:0.42;stroke-width:10;stroke-linecap:round;stroke-dasharray:40, 40;stroke-dashoffset:51"
+       d="m 70.526526,103.22127 81.134104,0.98345 3.44205,88.01821 -6.8841,33.92881 -77.200332,0.98344 z"
+       id="path1"
+       inkscape:label="shape" /></g></svg>
