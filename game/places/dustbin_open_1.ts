@@ -1,3 +1,8 @@
+place.get("lid").onClick(() => {
+    void game.getSound("container").play();
+    game.navigate("trashbins");
+})
+
 place.getMany(/slot_\d\d/).map(slot => {
     slot.onOtherDrop(item => item.anchor(slot))
 })
