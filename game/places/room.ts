@@ -21,7 +21,7 @@ place.get('chair').onClick(() => {
 place.get('night').hide();
 place.get('bed').onClick(() => {
     place.get('night').show();
-    void game.getSound("bed").play();
+    void game.getSound("bed").setVolume(100).play();
     setTimeout(() => {
         place.get('night').hide();
     }, 9000)
