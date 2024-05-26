@@ -25,23 +25,73 @@ place.get('oven_light_inside').hide()
 
 place.get('ovenbutton').onClick(() => {
     light_on = !light_on;
-    place.get('oven_light').show(light_on)
+    void updateOvenOpenState();
     void game.getSound("light_switch").play();
-    if(oven_open){
-        place.get('oven_light_inside').show(light_on)
-    }
 })
 
-place.get('oven').onClick(() => {
-    oven_open = true;
+const oven = place.get('oven')
+
+
+const recepies: Record<string, string[]> = {
+    "cake": ["flour", "sugar", "chocolate", "eggs", "butter"],
+    "bananabread": ["flour", "sugar", "banana", "oil_sunflower"],
+}
+oven.onOtherDrop(async item => {
+    if (!oven_open) return;
+
+    item.anchor(oven)
+})
+
+async function updateOvenOpenState() {
+    (await oven.anchoredItems()).forEach(item => {
+        item.show(oven_open)
+    })
     place.get('oven_open').show(oven_open)
-    if(light_on){place.get('oven_light_inside').show(light_on)}
-})
+    place.get('oven_light_inside').show(oven_open)
 
+    place.get('oven_light').show(light_on && !oven_open)
+    place.get('oven_light_inside').show(light_on && oven_open)
+
+    if (!open) {
+        oven.onClick(() => {
+            oven_open = true;
+            void updateOvenOpenState()
+        })
+    }
+
+    // here we actually bake
+    if (!oven_open && light_on) {
+        const itemsInOven = (await oven.anchoredItems()).map(item => item.itemName).sort();
+        const bake_result = Object.keys(recepies).find(k => JSON.stringify(recepies[k].sort()) == JSON.stringify(itemsInOven))
+        if (bake_result) {
+            for (const item of await oven.anchoredItems()) {
+                item.destroy()
+            }
+            (await game.spawnItem(bake_result, place.get("oven")))?.hide()
+            await sleep(1000);
+            await game.getSound("bike_bell").play()
+        } else {
+            const dialog = place.get("dialog_oven").dialog("right");
+            (async () => {
+                if (itemsInOven.length == 0) {
+                    await dialog.sayOther("Seems like you want me to bake something for you")
+                    await dialog.sayOther("But for that I need ingredients")
+                } else {
+                    await dialog.sayOther("I really don't know what to make with the combination of stuff you put into me")
+                }
+                await dialog.destroy();
+            })()
+        }
+    }
+}
+await updateOvenOpenState()
+oven.onClick(() => {
+    oven_open = true;
+    void updateOvenOpenState()
+})
 place.get('oven_close').onClick(() => {
     oven_open = false;
-    place.get('oven_open').hide()
-    place.get('oven_light_inside').hide()
+    void updateOvenOpenState()
 })
 
 
@@ -67,30 +117,10 @@ place.onLeave(() => {
     void game.getSound("extractor").pause();
 })
 
-const items = ["flour", "sugar", "chocolate", "eggs", "butter"];
-
-const oven = place.get('oven_light_inside')
-oven.onOtherDrop(async item => {
-    console.log(item.itemName)
-    if (items.includes(item.itemName)) {
-        console.log("anchored")
-        item.anchor(oven)
-    }
-
-    // check if everythimg is there
-    const itemsInOven = (await oven.anchoredItems()).map(item => item.itemName);
-    if (JSON.stringify(items.sort()) == JSON.stringify(itemsInOven.sort()) && light_on==true) {
-        for (const item of await oven.anchoredItems()) {
-            item.destroy()
-        }
-        await game.spawnItemOnce("cake", place.get("oven"))
-    }
-})
-
 
 
 // Buttons of the Oven
-function buttonsOnOff(button: string, bg_button: string, gas: string){
+function buttonsOnOff(button: string, bg_button: string, gas: string) {
     let button_turned = false;
     place.get(bg_button).hide()
     place.get(gas).hide()
@@ -121,7 +151,7 @@ if (game.state.wasDumpsterDiving && !place.state.spawnedInvitation2) {
     (async () => {
         await sleep(1000)
         await game.getSound("step_back").play()
-        await game.spawnItemOnce("invitation2", place.get("invitation2_spawn"), {size: "fill"})
+        await game.spawnItemOnce("invitation2", place.get("invitation2_spawn"), { size: "fill" })
         place.state.spawnedInvitation2 = true;
     })()
 }
