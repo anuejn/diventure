@@ -34,7 +34,7 @@ const oven = place.get('oven')
 
 const recepies: Record<string, string[]> = {
     "cake": ["flour", "sugar", "chocolate", "eggs", "butter"],
-    "bananabread": ["flour", "sugar", "banana", "oil_sunflower"],
+    "banana_bread": ["flour", "sugar", "banana", "oil_sunflower"],
 }
 oven.onOtherDrop(async item => {
     if (!oven_open) return;

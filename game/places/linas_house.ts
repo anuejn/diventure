@@ -468,6 +468,9 @@ if (!party1 && !party2) {
                 answerOptions["Oh shit but I forgot to bring the bana bread I wanted to make!"] = async () => {
                     await dialog.sayMe("I will be right back!")
                     await dialog.sayMe("With banana bread haha!")
+                    await dialog.sayMe("Its a very simple recepie")
+                    await dialog.sayMe("Only flour, sugar, bananas, and some sunflower oil")
+                    await dialog.sayOther("Okay, see you then!")
                     await sleep(2000);
                     await dialog.destroy();
                 };
