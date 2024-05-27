@@ -432,7 +432,7 @@ if (!party1 && !party2) {
     (async () => {
         // start dialog with lina when the party is happening: give her the cake
         const dialog = place.get("dialog_box_lina").dialog("right");
-        if ((await place.get("tablespot2").anchoredItems()).length == 0) {
+        if ((await place.get("tablespot3").anchoredItems()).length == 0) {
 
             await place.get("lina").waitClick();
             await dialog.sayOther("Hey, really cool you made it to my birthday party another time!")
@@ -455,26 +455,28 @@ if (!party1 && !party2) {
                     const cake = await place.get('lina').waitOtherDrop(item => item.itemName == "banana_bread");
                     await dialog.sayOther("I am so proud of you!");
                     cake.hide();
-                    cake.anchor(place.get("tablespot2"))
+                    cake.anchor(place.get("tablespot3"))
                     await sleep(1000);
                     cake.show();
                     await sleep(1000);
                     await dialog.sayMe("Thank you hihi")
                     await dialog.sayOther("You are now officially a dumpster diver!");
                     await dialog.sayOther("With a propper <i>diving license</i>")
+                    await sleep(2000)
+                    await game.spawnItemOnce("certificate", place.get("info_spot"), {size: "fill"})
                     await dialog.sayMe("Badum tzzz")
                     await sleep(2000)
                     await dialog.blank()
-                    await dialog.sayOther("And you have reached the end of this game")
+                    await dialog.sayOther("And you have reached the end of this game!")
                     game.state.hadLastDialog = true;
                     await dialog.sayOther("Thank you for playing it!")
                     await new Promise(() => {})  // never to terminate
                 }
             } else {
-                answerOptions["Oh shit but I forgot to bring the bana bread I wanted to make!"] = async () => {
+                answerOptions["Oh shit but I forgot to bring the banana bread I wanted to bake!"] = async () => {
                     await dialog.sayMe("I will be right back!")
                     await dialog.sayMe("With banana bread haha!")
-                    await dialog.sayMe("Its a very simple recepie")
+                    await dialog.sayMe("It's a very simple recepie")
                     await dialog.sayMe("Only flour, sugar, bananas, and some sunflower oil")
                     await dialog.sayOther("Okay, see you then!")
                     await sleep(2000);

@@ -72,12 +72,17 @@ async function updateOvenOpenState() {
             await game.getSound("bike_bell").play()
         } else {
             const dialog = place.get("dialog_oven").dialog("right");
-
+            if(!place.state.know_oven){
+                place.state.know_oven = true;
+                await dialog.sayOther("Hello")
+                await dialog.sayOther("I'm your oven!")
+            }
             if (itemsInOven.length == 0) {
-                await dialog.sayOther("Seems like you want me to bake something for you")
-                await dialog.sayOther("But for that I need ingredients")
+                await dialog.sayOther("Seems like you want me to bake something for you!")
+                await dialog.sayOther("...")
+                await dialog.sayOther("But for that I need ingredients!")
             } else {
-                await dialog.sayOther("I really don't know what to bake with the combination of ingredients you put into me")
+                await dialog.sayOther("I really don't know what to bake with the combination of ingredients you put into me!")
             }
             await dialog.destroy();
         }
