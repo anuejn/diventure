@@ -468,6 +468,7 @@ if (!party1 && !party2) {
                     await dialog.sayOther("And you have reached the end of this game")
                     game.state.hadLastDialog = true;
                     await dialog.sayOther("Thank you for playing it!")
+                    await new Promise(() => {})  // never to terminate
                 }
             } else {
                 answerOptions["Oh shit but I forgot to bring the bana bread I wanted to make!"] = async () => {
