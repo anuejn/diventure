@@ -52,7 +52,9 @@ async function updateOvenOpenState() {
     place.get('oven_light').show(light_on && !oven_open)
     place.get('oven_light_inside').show(light_on && oven_open)
 
-    if (!open) {
+
+    oven.offClick();
+    if (!oven_open) {
         oven.onClick(() => {
             oven_open = true;
             void updateOvenOpenState()
@@ -92,10 +94,6 @@ async function updateOvenOpenState() {
     }
 }
 await updateOvenOpenState()
-oven.onClick(() => {
-    oven_open = true;
-    void updateOvenOpenState()
-})
 place.get('oven_close').onClick(() => {
     oven_open = false;
     void updateOvenOpenState()
