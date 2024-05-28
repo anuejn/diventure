@@ -13,12 +13,13 @@ place.get('bg_lamp').onClick(() => {
     void game.getSound("light_switch").play();
 })
 
-
 if (game.state.hadLastDialog) {
     place.get('books').onClick(() => {
         window.open("https://youtu.be/aXByu2iraEA?si=41pXC-2rTudy681J", "_blank");
     })
 }
+
+game.spawnItemOnce("croco", place.get("couch_spot"));
 
 const itemsInInventory = await game.controls['inventory'].get('backpack_with_inventory').anchoredItemsRecursive();
 const party1 = itemsInInventory.findIndex(item => item.itemName == "invitation") != -1;
@@ -34,6 +35,7 @@ if (!party1 && !party2) {
     place.get('bg_drinks').hide()
     place.get('bg_party').hide()
     place.get('bg_party2').hide()
+    place.get('bg_discoball').hide()
 
     const dialog = place.get("dialog_box_lina_no_party").dialog("right");
     (async () => {
@@ -156,6 +158,7 @@ if (!party1 && !party2) {
 } else if (party1) {
     place.get('bg_drinks').hide();
     place.get('bg_party2').hide();
+    place.get('bg_discoball').hide();
     (async () => {
         // start dialog with lina when the party is happening: give her the cake
         const dialog = place.get("dialog_box_lina").dialog("right");
