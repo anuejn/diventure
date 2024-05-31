@@ -10,3 +10,9 @@ if (itemsInInventory.findIndex(item => item.itemName == "meme") != -1) {
         game.navigate('backdoor_supermarket')
     })
 }
+
+if(game.state.wasDumpsterDiving){
+    place.get('sticker').onClick(() => {
+        game.navigate('streetlamp')
+    })
+}

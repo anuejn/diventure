@@ -17,6 +17,17 @@ place.get('dishes').onClick(() => {
     void game.getSound("plates").play()
 })
 
+if(game.state.wasDumpsterDiving){
+    function memespawn(meme: string, spot: string) {
+        place.get(spot).onClick(() => {
+            game.spawnItemOnce(meme, place.get(spot), {size: "fill"});
+        })
+    }
+    memespawn("meme_1","meme_1")
+    memespawn("meme_2","meme_2")
+    memespawn("meme_3","meme_3")
+}
+
 let light_on = false;
 let oven_open = false;
 place.get('oven_open').hide()

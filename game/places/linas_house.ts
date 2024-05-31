@@ -1,6 +1,9 @@
 await game.getSound("front_door").play();
 
 place.get('door').onClick(() => {
+    void game.getSound("chatting").pause();
+    void game.getSound("music_party_1").pause();
+    void game.getSound("music_party_2").pause();
     game.navigate('map')
     void game.getSound("door_handle").play();
 })
@@ -159,6 +162,9 @@ if (!party1 && !party2) {
     place.get('bg_drinks').hide();
     place.get('bg_party2').hide();
     place.get('bg_discoball').hide();
+    void game.getSound("chatting").setVolume(0.5).setLoop().play();
+    void game.getSound("music_party_1").setVolume(0.2).setLoop().play();
+    
     (async () => {
         // start dialog with lina when the party is happening: give her the cake
         const dialog = place.get("dialog_box_lina").dialog("right");
@@ -382,10 +388,12 @@ if (!party1 && !party2) {
                                 "Can you show me how to get such nice fruits?": async () => {
                                     await dialog.sayOther("Sure...")
                                     await dialog.sayOther("Well, actually you just have to be attentative when you are around supermarkets!");
-                                    await dialog.sayOther("... and this sticker will sharpen your senses!")
-                                    await game.spawnItemOnce("meme", place.get("meme_spawn"))
-                                    await dialog.sayOther("Just take it with you!")
-                                    await dialog.sayMe("Ah, ok !?")
+                                    await dialog.sayOther("And here I have a pair of gloves for you!")
+                                    await dialog.sayOther("They will come very handy...")
+                                    await dialog.sayOther("... when you have to rummage through trash!")
+                                    await game.spawnItemOnce("glove", place.get("gloves_spawn"), {size: "fill"})
+                                    await dialog.sayOther("Take them with you!")
+                                    await dialog.sayMe("Ah, makes sense!")
                                     await dialog.sayMe("Thanks!")
                                     await dialog.sayMe("I will start checking out the supermarket I always go to!");
                                     await dialog.sayOther("That's for sure a great start!")
@@ -432,6 +440,9 @@ if (!party1 && !party2) {
 } else if (party2) {
     place.get('bg_gifts').hide();
     place.get('bg_party').hide();
+    void game.getSound("chatting").setVolume(0.5).setLoop().play();
+    void game.getSound("music_party_2").setVolume(0.2).setLoop().play();
+
     (async () => {
         // start dialog with lina when the party is happening: give her the cake
         const dialog = place.get("dialog_box_lina").dialog("right");
