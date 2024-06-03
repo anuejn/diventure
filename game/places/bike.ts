@@ -9,3 +9,8 @@ setTimeout(() => {
 place.get("bell").onClick(() => {
     void game.getSound("bike_bell").play()
 })
+
+await game.getSound("bike_ride").setVolume(2).setLoop().play();
+place.onLeave(() => {
+    void game.getSound("bike_ride").pause()
+})

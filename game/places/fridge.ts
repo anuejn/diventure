@@ -9,6 +9,23 @@ place.onLeave(() => {
     void game.getSound("fridge").pause()
 })
 
-place.getMany(/slot_\d\d/).map(slot => {
-    slot.onOtherDrop(item => item.anchor(slot))
+game.spawnItem("yogurt", place.get("slot_04"));
+game.spawnItem("oat_milk", place.get("slot_14"));
+
+const fridge_items = ["butter", "eggs", "fruitsalad", "juice", "oat_milk", "yogurt"];
+const dialog = place.get("dialog_box").dialog("left");
+
+place.getMany(/slot_\d/).map(slot => {
+    slot.onOtherDrop(item => {
+        console.log(item)
+        if (!fridge_items.includes(item.itemName)) {
+            dialog.sayOther("Are you sure you want to put " + item.itemName.toString() + " into the fridge?");
+            console.log("anchored")
+            item.anchor(slot)
+        }
+        else{
+            console.log("anchored")
+            item.anchor(slot)
+        }
+    })
 })

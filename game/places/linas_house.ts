@@ -22,8 +22,6 @@ if (game.state.hadLastDialog) {
     })
 }
 
-game.spawnItemOnce("croco", place.get("couch_spot"));
-
 const itemsInInventory = await game.controls['inventory'].get('backpack_with_inventory').anchoredItemsRecursive();
 const party1 = itemsInInventory.findIndex(item => item.itemName == "invitation") != -1;
 const party2 = itemsInInventory.findIndex(item => item.itemName == "invitation2") != -1;
@@ -35,6 +33,7 @@ if (!party1 && !party2) {
     place.get('bg_kim').hide()
 
     place.get('bg_gifts').hide()
+    place.get('bg_fruit_salad').hide()
     place.get('bg_drinks').hide()
     place.get('bg_party').hide()
     place.get('bg_party2').hide()
@@ -78,6 +77,7 @@ if (!party1 && !party2) {
                 }
             });
         } else { // this is after the birthday party
+            game.spawnItemOnce("croco", place.get("couch_spot"));
             await dialog.answerOptionsLoop({
                 "I was just nearby, coming to see if you had some new gossip!": async () => {
                     await dialog.sayOther("Haha, yes!")
@@ -168,7 +168,7 @@ if (!party1 && !party2) {
     (async () => {
         // start dialog with lina when the party is happening: give her the cake
         const dialog = place.get("dialog_box_lina").dialog("right");
-        if ((await place.get("tablespot2").anchoredItems()).length == 0) {
+        if ((await place.get("tablespot").anchoredItems()).length == 0) {
             await place.get("lina").waitClick();
             await dialog.sayOther("Hey, really cool you made it to my party!")
             const answerOptions: AnswerOptions = {
@@ -183,7 +183,7 @@ if (!party1 && !party2) {
                     const cake = await place.get('lina').waitOtherDrop(item => item.itemName == "cake");
                     await dialog.sayOther("Thanks again!");
                     cake.hide();
-                    cake.anchor(place.get("tablespot2"))
+                    cake.anchor(place.get("tablespot"))
                     await sleep(1000);
                     cake.show();
                     await sleep(1000);
@@ -202,7 +202,7 @@ if (!party1 && !party2) {
             }
             await dialog.answerOptionsLoop(answerOptions)
         }
-        if ((await place.get("tablespot2").anchoredItems()).length == 0) return;
+        if ((await place.get("tablespot").anchoredItems()).length == 0) return;
 
         // The real party starts here
         while (true) {
@@ -391,7 +391,7 @@ if (!party1 && !party2) {
                                     await dialog.sayOther("And here I have a pair of gloves for you!")
                                     await dialog.sayOther("They will come very handy...")
                                     await dialog.sayOther("... when you have to rummage through trash!")
-                                    await game.spawnItemOnce("glove", place.get("gloves_spawn"), {size: "fill"})
+                                    await game.spawnItemOnce("gloves", place.get("gloves_spawn"), {size: "fill"})
                                     await dialog.sayOther("Take them with you!")
                                     await dialog.sayMe("Ah, makes sense!")
                                     await dialog.sayMe("Thanks!")
@@ -440,13 +440,14 @@ if (!party1 && !party2) {
 } else if (party2) {
     place.get('bg_gifts').hide();
     place.get('bg_party').hide();
+    place.get('bg_fruit_salad').hide()
     void game.getSound("chatting").setVolume(0.5).setLoop().play();
     void game.getSound("music_party_2").setVolume(0.2).setLoop().play();
 
     (async () => {
-        // start dialog with lina when the party is happening: give her the cake
+        // start dialog with lina when the party is happening: give her the banana bread
         const dialog = place.get("dialog_box_lina").dialog("right");
-        if ((await place.get("tablespot3").anchoredItems()).length == 0) {
+        if ((await place.get("tablespot").anchoredItems()).length == 0) {
 
             await place.get("lina").waitClick();
             await dialog.sayOther("Hey, really cool you made it to my birthday party another time!")
@@ -469,7 +470,7 @@ if (!party1 && !party2) {
                     const cake = await place.get('lina').waitOtherDrop(item => item.itemName == "banana_bread");
                     await dialog.sayOther("I am so proud of you!");
                     cake.hide();
-                    cake.anchor(place.get("tablespot3"))
+                    cake.anchor(place.get("tablespot"))
                     await sleep(1000);
                     cake.show();
                     await sleep(1000);
