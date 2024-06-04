@@ -282,6 +282,7 @@ if (!party1 && !party2) {
                         },
                         "Sorry, I have to go now!": async () => {
                             await dialog.sayOther("Ok, see you around!")
+                            await dialog.destroy();
                         }
                     });
 
