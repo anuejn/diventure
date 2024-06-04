@@ -431,7 +431,7 @@ if (!party1 && !party2) {
     // if we collected the meme, our task at the party is done and we destroy the invitation and the cake
     place.onLeave(async () => {
         const itemsInInventory = await game.controls['inventory'].get('backpack_with_inventory').anchoredItemsRecursive();
-        if (itemsInInventory.findIndex(item => item.itemName == "meme") != -1) {
+        if (itemsInInventory.findIndex(item => item.itemName == "gloves") != -1) {
             (await game.getItemById("cake")).destroy();
             (await game.getItemById("invitation")).destroy();
             game.state.partyOver = true;
