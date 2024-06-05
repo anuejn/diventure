@@ -163,7 +163,7 @@ if (!party1 && !party2) {
     place.get('bg_party2').hide();
     place.get('bg_discoball').hide();
     void game.getSound("chatting").setVolume(0.5).setLoop().play();
-    void game.getSound("music_party_1").setVolume(0.2).setLoop().play();
+    //void game.getSound("music_party_1").setVolume(0.2).setLoop().play();
     
     (async () => {
         // start dialog with lina when the party is happening: give her the cake
@@ -428,7 +428,7 @@ if (!party1 && !party2) {
         }
     })();
 
-    // if we collected the meme, our task at the party is done and we destroy the invitation and the cake
+    // if we collected the gloves, our task at the party is done and we destroy the invitation and the cake
     place.onLeave(async () => {
         const itemsInInventory = await game.controls['inventory'].get('backpack_with_inventory').anchoredItemsRecursive();
         if (itemsInInventory.findIndex(item => item.itemName == "gloves") != -1) {
@@ -443,7 +443,7 @@ if (!party1 && !party2) {
     place.get('bg_party').hide();
     place.get('bg_fruit_salad').hide()
     void game.getSound("chatting").setVolume(0.5).setLoop().play();
-    void game.getSound("music_party_2").setVolume(0.2).setLoop().play();
+    //void game.getSound("music_party_2").setVolume(0.2).setLoop().play();
 
     (async () => {
         // start dialog with lina when the party is happening: give her the banana bread

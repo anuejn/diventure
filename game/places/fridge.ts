@@ -9,8 +9,8 @@ place.onLeave(() => {
     void game.getSound("fridge").pause()
 })
 
-await game.spawnItemOnce("yogurt", place.get("slot_04"));
-await game.spawnItemOnce("oat_milk", place.get("slot_14"));
+//await game.spawnItemOnce("yogurt", place.get("slot_04"));
+//await game.spawnItemOnce("oat_milk", place.get("slot_14"));
 
 const fridge_items = ["butter", "eggs", "fruitsalad", "juice", "oat_milk", "yogurt"];
 const dialog = place.get("dialog_box").dialog("left");

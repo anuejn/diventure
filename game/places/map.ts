@@ -21,4 +21,7 @@ place.get('supermarket').onClick(() => {
     bike_navigate('frontdoor_supermarket')
 })
 
+place.get('library').onClick(() => {
+    bike_navigate('library')
+})
 
