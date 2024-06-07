@@ -126,7 +126,7 @@ if (!party1 && !party2) {
                             await sleep(1000)
                             await dialog.sayMe("So he called a colleague to ask for an order...")
                             await dialog.sayMe("...")
-                            await dialog.sayMe("... very akward!")
+                            await dialog.sayMe("... very awkward!")
                             await dialog.sayOther("Ohh haha")
                             await dialog.sayOther("That sounds like a really uncomfortable situation!")
                             await dialog.sayMe("Yes, it was!")

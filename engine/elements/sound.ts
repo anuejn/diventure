@@ -1,7 +1,4 @@
-const sounds = import.meta.glob("../../game/sounds/*", {
-  query: "?url",
-  import: "default",
-});
+import { loadSound } from "../util/loader";
 
 export class Sound {
   source: AudioBufferSourceNode | undefined;
@@ -13,19 +10,9 @@ export class Sound {
 
   constructor(file: string, id: string) {
     this.id = id;
-
     this.gain = game.audioContext.createGain();
     this.gain.connect(game.audioContext.destination);
-
-    const sound = Object.keys(sounds).find(
-      (x) => x.replace(/\.[^/.]+$/, "") == `../../game/sounds/${file}`,
-    );
-    if (!sound) throw Error(`sound '${file}' not found`);
-
-    this.bufferPromise = sounds[sound]()
-      .then((url) => fetch(url as string))
-      .then((fetchResult) => fetchResult.arrayBuffer())
-      .then((arrayBuffer) => game.audioContext.decodeAudioData(arrayBuffer));
+    this.bufferPromise = loadSound(file);
   }
 
   setVolume(volume: number): Sound {
