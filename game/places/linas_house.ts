@@ -476,25 +476,46 @@ if (!party1 && !party2) {
                     cake.show();
                     await sleep(1000);
                     await dialog.sayMe("Thank you hihi")
-                    await dialog.sayOther("You are now officially a dumpster diver!");
-                    await dialog.sayOther("With a propper <i>diving license</i>")
+                    await dialog.sayOther("You probably have a lot to tell now if someone asks you about dumpster diving!");
+                    await sleep(2000);
+                    await dialog.sayOther("It's the perfect party small talk topic if someone asks you about the banana bread!");
+                    await sleep(1000);
+                    await dialog.sayMe("I guess so!")
+                    await dialog.sayMe("... at least a story about an akward funny locksmith situation!")
+                    await dialog.sayOther("Oh yes!");
+                    await dialog.sayOther("But you also got valuable insight into the system and knowledge on food waste!");
+                    await sleep(2000);
+                    await dialog.sayMe("Yes, probably!")
+                    await dialog.sayMe("I learned that there is still a lot for me to find out about!")
+                    await sleep(1000);
+                    await dialog.sayMe("And I really got interested!")
+                    await dialog.sayMe("I will probably get back to the library in one of these days and read more on the topic!")
+                    await sleep(2000);
+                    await dialog.sayOther("Yes, sounds great!");
+                    await dialog.sayOther("But before that, I have something for you!");
+                    await dialog.sayOther("...");
+                    await dialog.sayOther("Congrats!!!");
+                    await dialog.sayOther("You are officially a dumpster diver now!");
+                    await dialog.sayOther("With a propper <i>diving license</i>!")
                     await sleep(2000)
                     await game.spawnItemOnce("certificate", place.get("info_spot"), {size: "fill"})
                     await dialog.sayMe("Badum tzzz")
                     await sleep(2000)
                     await dialog.blank()
-                    await dialog.sayOther("And you have reached the end of this game!")
+                    await dialog.sayOther("You have reached the end of the quest!")
                     game.state.hadLastDialog = true;
-                    await dialog.sayOther("Thank you for playing it!")
+                    await dialog.sayOther("Thank you for playing!")
+                    await dialog.sayOther("... and always remember:")
+                    await dialog.sayOther("FOOD IS ONLY SAVED, ONCE IT HAS BEEN EATEN!")
                     await new Promise(() => {})  // never to terminate
                 }
             } else {
                 answerOptions["Oh shit but I forgot to bring the banana bread I wanted to bake!"] = async () => {
                     await dialog.sayMe("I will be right back!")
                     await dialog.sayMe("With banana bread haha!")
-                    await dialog.sayMe("It's a very simple recepie")
-                    await dialog.sayMe("Only flour, sugar, bananas, and some sunflower oil")
-                    await dialog.sayOther("Okay, see you then!")
+                    await dialog.sayMe("It's a very simple recepie...")
+                    await dialog.sayMe("... only flour, sugar, bananas, and some sunflower oil!")
+                    await dialog.sayOther("Okay, see you later then!")
                     await sleep(2000);
                     await dialog.destroy();
                 };
