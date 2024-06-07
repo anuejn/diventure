@@ -29,6 +29,7 @@ export class Game {
   sounds: Record<string, Sound>;
   anchoredElements: [SVGElement | HTMLElement, AnchorPlacement][] = [];
   topZIndex: number = 1;
+  started = false;
 
   items: Record<string, Item> = {}; // use getItemById instead
   private itemsMutex = new Mutex();
@@ -43,8 +44,16 @@ export class Game {
 
     this.state.subscribeChild("currentPlace", (place, oldPlace) => {
       if (place == oldPlace) return;
+      if (!this.started) return;
       this.navigate(place);
     });
+
+    if (elementsOfKind("places").includes("__splash__")) {
+      console.log("Game has splash. Loading it...");
+      this.navigate("__splash__");
+    } else {
+      this.start();
+    }
 
     this.state.subscribeChild("anchoredItems", () => this.relayoutAnchors());
     window.addEventListener("resize", () => this.relayoutAnchors());
@@ -63,13 +72,6 @@ export class Game {
     window.addEventListener("touchmove", onMove);
     document.addEventListener("contextmenu", (event) => event.preventDefault());
 
-    // load controls
-    void elementsOfKind("controls").then((controls) =>
-      controls.forEach(async (controlName) => {
-        this.controls[controlName] = await Control.loadControl(controlName);
-      }),
-    );
-
     this.sounds = {};
 
     this.audioContext = new AudioContext();
@@ -82,6 +84,20 @@ export class Game {
     function clean() {
       events.forEach((e) => document.body.removeEventListener(e, unlock));
     }
+  }
+
+  async loadControls() {
+    await Promise.all(
+      elementsOfKind("controls").map(async (controlName) => {
+        this.controls[controlName] = await Control.loadControl(controlName);
+      }),
+    );
+  }
+
+  start() {
+    void this.loadControls();
+    this.started = true;
+    this.navigate(this.state.currentPlace);
   }
 
   reset() {
@@ -98,7 +114,13 @@ export class Game {
 
       console.log(`loading place: ${place}`);
       this.loadingPlace = place;
-      this.state.currentPlace = place;
+      if (place != "__splash__") {
+        this.state.currentPlace = place;
+        if (!this.started) {
+          this.start();
+        }
+      }
+
       await this.relayoutAnchors(true);
 
       const pageContainer = document.getElementById("page");
@@ -140,7 +162,7 @@ export class Game {
     if (id_extra) {
       id = `${item}:${id_extra}`;
     }
-    game.state.onceSpawnedItems.push(id);
+    this.state.onceSpawnedItems.push(id);
     const itemObject = await this.getItemById(id);
     return itemObject.anchor(slot, anchorOptions);
   }
@@ -155,7 +177,7 @@ export class Game {
     if (id_extra) {
       id = `${item}:${id_extra}`;
     }
-    if (game.state.onceSpawnedItems.includes(id)) {
+    if (this.state.onceSpawnedItems.includes(id)) {
       return null;
     }
     return this.spawnItem(item, slot, anchorOptions, id_extra);

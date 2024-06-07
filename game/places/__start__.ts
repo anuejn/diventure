@@ -1,1 +1,1 @@
-game.navigate('intro');
+game.navigate('kitchen');

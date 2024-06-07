@@ -17,7 +17,7 @@ game.state.subscribe((state) => {
 game.state.subscribeChild("currentPlace", (currentPlace) => {
   void instance().then(async (viz) => {
     let connections = "";
-    for (const place of await elementsOfKind("places")) {
+    for (const place of elementsOfKind("places")) {
       connections += `"${place}" [id="${place}"${place == currentPlace ? ', color="red"' : ""}]\n`;
       const content = await loadTsString(`places/${place}.ts`);
       const matches = (content || "").matchAll(/navigate\(["'`](.*)["'`]\)/g);

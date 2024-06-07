@@ -102,9 +102,9 @@ export async function loadTs(
   }
 }
 
-export async function elementsOfKind(
+export function elementsOfKind(
   kind: "places" | "items" | "controls",
-): Promise<string[]> {
+): string[] {
   return [
     ...new Set(
       [...Object.keys(ts), ...Object.keys(svgs)]
