@@ -98,6 +98,16 @@ export function makePinkTransparent(svgElement: SVGElement) {
   }
 }
 
+const blobUrlCache: Record<string, string> = {};
+async function fetchToBlobUrl(url: string) {
+  if (!(url in blobUrlCache)) {
+    blobUrlCache[url] = await fetch(url)
+      .then((res) => res.blob())
+      .then((blob) => URL.createObjectURL(blob));
+  }
+  return blobUrlCache[url];
+}
+
 export async function preloadImages(svgElement: SVGElement): Promise<void> {
   const images = svgElement.getElementsByTagName(
     "image",
@@ -117,15 +127,14 @@ async function preloadImage(image: SVGImageElement) {
     .forEach((attr) => {
       newImage.setAttribute(attr.nodeName, attr.nodeValue || "");
     });
-  newImage.setAttribute("href", image.href.baseVal);
-  // image.decode() is not implemented by some browsers. In these we just fetch() the image
-  // to warm the cache. This is less then optimal but better than nothnig.
+  const blob = await fetchToBlobUrl(image.href.baseVal);
+  newImage.setAttribute("href", blob);
   try {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     await newImage.decode();
   } catch (e) {
-    await fetch(image.href.baseVal);
+    // image.decode() is not implemented by some browsers.
   }
   image.replaceWith(newImage);
 }

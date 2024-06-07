@@ -1,5 +1,5 @@
 import { Mutex } from "async-mutex";
-import { elementsOfKind } from "./util/loader";
+import { elementsOfKind, preloadResources } from "./util/loader";
 import { makePersistedObject, PersistedObject } from "./util/persisted-object";
 import { getAnchorParent, getAnchorShape, Item } from "./elements/item";
 import { Place } from "./elements/place";
@@ -251,5 +251,9 @@ export class Game {
       this.sounds[realId] = new Sound(file, realId);
     }
     return this.sounds[realId];
+  }
+
+  async preloadResources(progressCallback: (progress: number) => void) {
+    await preloadResources(progressCallback);
   }
 }
