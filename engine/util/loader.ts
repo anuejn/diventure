@@ -26,10 +26,15 @@ async function fetchText(url: string) {
   return textCache[url];
 }
 
-const arrayBufferCache: Record<string, ArrayBuffer> = {};
-async function fetcharrayBuffer(url: string) {
+const arrayBufferCache: Record<string, AudioBuffer> = {};
+async function fetchAudioBuffer(url: string) {
   if (!(url in arrayBufferCache)) {
-    arrayBufferCache[url] = await fetch(url).then((res) => res.arrayBuffer());
+    try {
+      arrayBufferCache[url] = await fetch(url).then((res) => res.arrayBuffer()).then((arrayBuffer) => game.audioContext.decodeAudioData(arrayBuffer));
+    } catch (e) {
+      console.warn(`failed to load audio file: ${url}:`)
+      console.warn(e)
+    }
   }
   return arrayBufferCache[url];
 }
@@ -44,7 +49,7 @@ export async function preloadResources(
   await Promise.all([
     ...Object.values(sounds).map(async (resource) => {
       const url = (await resource()) as string;
-      await fetcharrayBuffer(url);
+      await fetchAudioBuffer(url);
       loaded += 1;
       progressCallback(loaded / total);
     }),
@@ -129,7 +134,5 @@ export function loadSound(name: string): Promise<AudioBuffer> {
   );
   if (!sound) throw Error(`sound '${name}' not found`);
 
-  return sounds[sound]()
-    .then((url) => fetcharrayBuffer(url as string))
-    .then((arrayBuffer) => game.audioContext.decodeAudioData(arrayBuffer));
+  return sounds[sound]().then((url) => fetchAudioBuffer(url as string))
 }

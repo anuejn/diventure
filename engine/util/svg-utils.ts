@@ -100,6 +100,7 @@ export function makePinkTransparent(svgElement: SVGElement) {
 
 const blobUrlCache: Record<string, string> = {};
 async function fetchToBlobUrl(url: string) {
+  if (url.startsWith('blob:')) return url;
   if (!(url in blobUrlCache)) {
     blobUrlCache[url] = await fetch(url)
       .then((res) => res.blob())
