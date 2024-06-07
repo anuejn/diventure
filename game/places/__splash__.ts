@@ -1,6 +1,5 @@
 place.get('bg_dumpster').hide()
 place.get('bg_trashcan').hide()
-place.get('load').hide()
 
 if (game.state.hadLastDialog) { // OUTRO
     place.get('bg_dumpster').show()
@@ -9,6 +8,7 @@ if (game.state.hadLastDialog) { // OUTRO
     place.get('bg_symbol_play').hide()
 }
 
+place.get('load').hide()
 async function loadGame() {
     place.get('play').hide()
     place.get('continue').hide()
