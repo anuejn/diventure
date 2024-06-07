@@ -4,7 +4,7 @@ const dialog = place.get("dialog_box").dialog("right");
     await dialog.sayOther("Just wanted to say hi");
     await dialog.sayMe("Oh hey!")
     await dialog.answerOptionsLoop({
-        "Oh cool, whats up?": async () => {
+        "Whats up?": async () => {
             await dialog.sayOther("Not much")
             await dialog.sayOther("Having a pretty lazy day today")
             await dialog.sayOther("So I thought I'd just give it a try to call you")
