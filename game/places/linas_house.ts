@@ -2,8 +2,6 @@ await game.getSound("front_door").play();
 
 place.get('door').onClick(() => {
     void game.getSound("chatting").pause();
-    void game.getSound("music_party_1").pause();
-    void game.getSound("music_party_2").pause();
     game.navigate('map')
     void game.getSound("door_handle").play();
 })
@@ -163,7 +161,6 @@ if (!party1 && !party2) {
     place.get('bg_party2').hide();
     place.get('bg_discoball').hide();
     void game.getSound("chatting").setVolume(0.5).setLoop().play();
-    //void game.getSound("music_party_1").setVolume(0.2).setLoop().play();
     
     (async () => {
         // start dialog with lina when the party is happening: give her the cake
@@ -443,7 +440,6 @@ if (!party1 && !party2) {
     place.get('bg_party').hide();
     place.get('bg_fruit_salad').hide()
     void game.getSound("chatting").setVolume(0.5).setLoop().play();
-    //void game.getSound("music_party_2").setVolume(0.2).setLoop().play();
 
     (async () => {
         // start dialog with lina when the party is happening: give her the banana bread
