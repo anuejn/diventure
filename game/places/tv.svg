@@ -24,15 +24,15 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="0.095119155"
-     inkscape:cx="2785.9793"
-     inkscape:cy="2354.941"
+     inkscape:zoom="0.0672594"
+     inkscape:cx="3508.8032"
+     inkscape:cy="2691.0737"
      inkscape:window-width="1368"
      inkscape:window-height="842"
      inkscape:window-x="-6"
      inkscape:window-y="-6"
      inkscape:window-maximized="1"
-     inkscape:current-layer="a26">
+     inkscape:current-layer="layer1">
     <inkscape:page
        x="0"
        y="0"
@@ -84,25 +84,37 @@
        y="-52.246677"
        style="display:inline"
        inkscape:label="bg_plant" />
-    <a
-       id="a26"
-       xlink:href="https://www.youtube.com/@wastecooking"
-       inkscape:label="wastecooking">
-      <a
-         id="a27"
-         xlink:href="https://www.youtube.com/@wastecooking">
-        <text
-           xml:space="preserve"
-           style="font-size:30.4472px;line-height:1;font-family:'Yu Gothic';-inkscape-font-specification:'Yu Gothic';fill:#ff0000;fill-opacity:0.42;stroke-width:0.21748;stroke-opacity:0.768627"
-           x="-502.29013"
-           y="-212.66933"
-           id="text26"><tspan
-             sodipodi:role="line"
-             id="tspan26"
-             style="stroke-width:0.21748"
-             x="-502.29013"
-             y="-212.66933">Wastecooking @YouTube</tspan></text>
-      </a>
-    </a>
+    <text
+       xml:space="preserve"
+       style="font-size:42.5009px;line-height:1;font-family:'Yu Gothic';-inkscape-font-specification:'Yu Gothic';fill:#000080;fill-opacity:0.42;stroke-width:0.303578;stroke-opacity:0.768627"
+       x="-557.51428"
+       y="-80.500679"
+       id="text28"
+       transform="matrix(0.87921261,0,0,1.1373813,3.3333332e-6,-8.7500001e-6)"
+       inkscape:label="semmerl"><tspan
+         sodipodi:role="line"
+         id="tspan28"
+         style="stroke-width:0.303578;fill:#000080"
+         x="-557.51428"
+         y="-80.500679">Semmerl safen</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:42.5009px;line-height:1;font-family:'Yu Gothic';-inkscape-font-specification:'Yu Gothic';fill:#000080;fill-opacity:0.42;stroke-width:0.303578;stroke-opacity:0.768627"
+       x="-557.51428"
+       y="-202.94341"
+       id="text27"
+       transform="scale(0.87921262,1.1373813)"
+       inkscape:label="wastecooking"><tspan
+         sodipodi:role="line"
+         id="tspan27"
+         style="stroke-width:0.303578;fill:#000080"
+         x="-557.51428"
+         y="-202.94341">Wastecooking</tspan></text>
+    <path
+       id="rect28"
+       style="fill:#ff00ff;fill-opacity:0.42;stroke-width:0.1;stroke-opacity:0.768627"
+       d="M -966.72035,-730.72744 V 791.6432 H 1086.7104 V -730.72744 Z m 1372.88778,393.37702 -3.93413,295.033155 515.32462,3.934127 78.6753,59.006734 23.60268,357.973504 -86.54302,51.13899 -62.94035,216.35734 H 744.47184 l -251.76137,7.86774 -1188.00003,15.73495 -7.86755,-255.69514 118.01295,-7.86758 3.9341,-739.54969 z"
+       sodipodi:nodetypes="ccccccccccccccccccc"
+       inkscape:label="side" />
   </g>
 </svg>

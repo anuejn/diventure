@@ -18,9 +18,10 @@ place.get('cat').onClick(() => {
 })
 
 place.get('tv').onClick(() => {
-    window.open("https://youtu.be/aXByu2iraEA?si=41pXC-2rTudy681J", "_blank");
+    game.navigate('tv');
 })
 
 place.get('books').onClick(() => {
-    window.open("https://robin-foods.org", "_blank");
+    void game.getSound("book").play();
+    game.navigate("book_library");
 })
