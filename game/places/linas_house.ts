@@ -37,6 +37,9 @@ if (!party1 && !party2) {
     place.get('bg_party2').hide()
     place.get('bg_discoball').hide()
 
+    if (game.state.partyOver) {
+        await game.spawnItemOnce("croco", place.get("couch_spot"));
+    }
     const dialog = place.get("dialog_box_lina_no_party").dialog("right");
     (async () => {
         await place.get("lina").waitClick();
@@ -75,7 +78,6 @@ if (!party1 && !party2) {
                 }
             });
         } else { // this is after the birthday party
-            game.spawnItemOnce("croco", place.get("couch_spot"));
             await dialog.answerOptionsLoop({
                 "I was just nearby, coming to see if you had some new gossip!": async () => {
                     await dialog.sayOther("Haha, yes!")
