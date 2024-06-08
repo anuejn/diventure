@@ -95,6 +95,7 @@ export class Game {
   }
 
   start() {
+    if (this.started) return;
     void this.loadControls();
     this.started = true;
     this.navigate(this.state.currentPlace);
