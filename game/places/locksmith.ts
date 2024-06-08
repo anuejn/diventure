@@ -93,15 +93,17 @@ place.get('exit').onClick(() => {
                     await sleep(1000)
                     await dialog.sayOther("...")
                     await dialog.sayMe("...")
-                    await dialog.sayMe("Well I guess I actually went to the wrong locksmith after all!")
+                    await dialog.sayMe("Well I guess... I actually went to the wrong locksmith after all?")
                     await sleep(2000)
                     await dialog.sayOther("Maybe!")
+                    await dialog.sayOther("...")
+                    await dialog.sayMe("...")
                     await dialog.sayMe("Good bye!")
                     await dialog.sayOther("Bye, and good luck with your order!")
                     await sleep(3000)
                     await dialog.destroy()
                 },
-                "Uh, oh, I actually have to leave": async () => {
+                "Uh, oh... I actually have to leave": async () => {
                     await sleep(1000)
                     await dialog.sayOther("...")
                     await dialog.sayMe("...")

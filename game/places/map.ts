@@ -21,7 +21,10 @@ place.get('supermarket').onClick(() => {
     bike_navigate('frontdoor_supermarket')
 })
 
-place.get('library').onClick(() => {
-    bike_navigate('library')
-})
-
+place.get('library').hide()
+if (game.state.hadLastDialog) {
+    place.get('library').show()
+    place.get('library').onClick(() => {
+        bike_navigate('library')
+    })    
+}

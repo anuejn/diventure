@@ -25,9 +25,6 @@ const dialog = place.get("dialog_box").dialog("left");
                 await dialog.sayOther("Oh, so fast?")
                 await dialog.sayOther("You did not even buy anything!")
                 await sleep(2000)
-                await dialog.sayMe("...")
-                await dialog.sayOther("...")
-                await sleep(2000)
                 await dialog.destroy()
             },
         })
@@ -46,8 +43,8 @@ const dialog = place.get("dialog_box").dialog("left");
                 await dialog.sayOther("Oh, looks like you want to bake a cake!");
                 await sleep(1000)
 
-                await dialog.sayOther("... that would make €€€, please!")
-                const hint2Timeout = setTimeout(() => dialog.sayOther("... well, now you will also have to give me the money!"), 12000);
+                await dialog.sayOther("That would make €€€, please!")
+                const hint2Timeout = setTimeout(() => dialog.sayOther("Well, now you will also have to give me the money!"), 12000);
                 const cash = await place.get("dude").waitOtherDrop(item => item.itemName == "cash")
                 clearTimeout(hint2Timeout);
                 cash.destroy()
@@ -75,8 +72,8 @@ const dialog = place.get("dialog_box").dialog("left");
                 await dialog.sayMe("What a weired supermarket is this?")
                 await dialog.sayMe("I don't even see any shelves!")
                 await dialog.sayOther("Well...")
-                await dialog.sayOther("... building a supermarket in a video game is a lot of work!")
-                await dialog.sayOther("... so in this shop, you just give me your shopping list and get the products!")
+                await dialog.sayOther("...building a supermarket in a video game is a lot of work!")
+                await dialog.sayOther("So in this shop, you just give me your shopping list and get the products!")
                 await sleep(2000);
                 await dialog.sayOther("Good enough, eh?")
                 await dialog.sayOther("We're doing it in the old fashioned way, isn't retro a thing again nowerdays?")
