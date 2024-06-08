@@ -10,13 +10,15 @@ const inkscapeOutput = execSync(
     `inkscape -S ${path} 2> /dev/null`,
     { shell: true }
 )
+let baseName = undefined;
 const objectSizes = Object.fromEntries(inkscapeOutput.toString().split("\n").filter(x => x).map(line => {
     const [name, x, y, width, height] = line.split(",");
+    if (!baseName) baseName = name;
     return [name, {x, y, width, height}]
 }));
 
 for (const size of Object.values(objectSizes)) {
-    size.fraction = (size.width / objectSizes.svg1.width) * (size.height / objectSizes.svg1.height);
+    size.fraction = (size.width / objectSizes[baseName].width) * (size.height / objectSizes[baseName].height);
 }
 
 const optimizedSvg = svg.replaceAll(/\<image.*?\>/gs, (imageTag) => {
