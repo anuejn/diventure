@@ -108,6 +108,7 @@ async function updateOvenOpenState() {
                 await dialog.sayOther("But for that I need ingredients!")
             } else {
                 await dialog.sayOther("I really don't know what to bake with the combination of ingredients you put into me!")
+                await dialog.sayOther("If you dont know how to bake on your own, maybe you should look for a recipe?")
             }
             await dialog.destroy();
         }
