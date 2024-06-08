@@ -15,6 +15,15 @@ place.get('light_switch').onClick(() => {
 
 place.get('cat').onClick(() => {
     void game.getSound("cat").setVolume(10).play();
+    const dialog = place.get("dialog_cat").dialog("right");
+    (async () => {
+        await dialog.sayOther("Mauuu")
+        await dialog.sayOther("You found the Library!")
+        await dialog.sayOther("This is a bonus place, where you can find more resources about dumpster diving if you want")
+        await dialog.sayOther("Feel free to make yourself comfortable and be curious!")
+        await sleep(1000);
+        await dialog.destroy();
+    })()
 })
 
 place.get('tv').onClick(() => {
