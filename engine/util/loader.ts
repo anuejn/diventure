@@ -30,10 +30,12 @@ const arrayBufferCache: Record<string, AudioBuffer> = {};
 async function fetchAudioBuffer(url: string) {
   if (!(url in arrayBufferCache)) {
     try {
-      arrayBufferCache[url] = await fetch(url).then((res) => res.arrayBuffer()).then((arrayBuffer) => game.audioContext.decodeAudioData(arrayBuffer));
+      arrayBufferCache[url] = await fetch(url)
+        .then((res) => res.arrayBuffer())
+        .then((arrayBuffer) => game.audioContext.decodeAudioData(arrayBuffer));
     } catch (e) {
-      console.warn(`failed to load audio file: ${url}:`)
-      console.warn(e)
+      console.warn(`failed to load audio file: ${url}:`);
+      console.warn(e);
     }
   }
   return arrayBufferCache[url];
@@ -134,5 +136,5 @@ export function loadSound(name: string): Promise<AudioBuffer> {
   );
   if (!sound) throw Error(`sound '${name}' not found`);
 
-  return sounds[sound]().then((url) => fetchAudioBuffer(url as string))
+  return sounds[sound]().then((url) => fetchAudioBuffer(url as string));
 }
