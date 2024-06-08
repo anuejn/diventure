@@ -1,9 +1,17 @@
 // initialization
-control.addStyles({
-    width: '750px',
-    height: '130px',
-    margin: '20px',
-});
+if (window.innerWidth < 1000) {
+    control.addStyles({
+        width: '400px',
+        height: '83px',
+        margin: '10px',
+    });
+} else {
+    control.addStyles({
+        width: '625px',
+        height: '130px',
+        margin: '20px',
+    });
+}
 control.anchor('right', 'bottom')
 control.get('inventory')
     .hide()

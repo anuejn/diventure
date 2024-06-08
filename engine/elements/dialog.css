@@ -55,6 +55,7 @@
     width: 100%;
     justify-content: center;
     display: flex;
+    flex-wrap: wrap;
     padding: 50px 0;
     gap: 10px;
     pointer-events: none;
