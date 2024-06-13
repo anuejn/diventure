@@ -24,9 +24,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="0.0672594"
-     inkscape:cx="3508.8032"
-     inkscape:cy="2691.0737"
+     inkscape:zoom="0.1345188"
+     inkscape:cx="3036.7503"
+     inkscape:cy="2780.2805"
      inkscape:window-width="1368"
      inkscape:window-height="842"
      inkscape:window-x="-6"
@@ -87,16 +87,16 @@
     <text
        xml:space="preserve"
        style="font-size:42.5009px;line-height:1;font-family:'Yu Gothic';-inkscape-font-specification:'Yu Gothic';fill:#000080;fill-opacity:0.42;stroke-width:0.303578;stroke-opacity:0.768627"
-       x="-557.51428"
-       y="-80.500679"
+       x="-564.22559"
+       y="-94.335182"
        id="text28"
-       transform="matrix(0.87921261,0,0,1.1373813,3.3333332e-6,-8.7500001e-6)"
+       transform="scale(0.87921262,1.1373813)"
        inkscape:label="semmerl"><tspan
          sodipodi:role="line"
          id="tspan28"
-         style="stroke-width:0.303578;fill:#000080"
-         x="-557.51428"
-         y="-80.500679">Semmerl safen</tspan></text>
+         style="fill:#000080;stroke-width:0.303578"
+         x="-564.22559"
+         y="-94.335182">Safing bread (DE)</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:42.5009px;line-height:1;font-family:'Yu Gothic';-inkscape-font-specification:'Yu Gothic';fill:#000080;fill-opacity:0.42;stroke-width:0.303578;stroke-opacity:0.768627"
@@ -107,14 +107,26 @@
        inkscape:label="wastecooking"><tspan
          sodipodi:role="line"
          id="tspan27"
-         style="stroke-width:0.303578;fill:#000080"
+         style="fill:#000080;stroke-width:0.303578"
          x="-557.51428"
-         y="-202.94341">Wastecooking</tspan></text>
+         y="-202.94341">Wastecooking (DE)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:42.5009px;line-height:1;font-family:'Yu Gothic';-inkscape-font-specification:'Yu Gothic';fill:#000080;fill-opacity:0.42;stroke-width:0.303578;stroke-opacity:0.768627"
+       x="-476.33002"
+       y="-157.01634"
+       id="text27-6"
+       transform="scale(0.87921262,1.1373813)"
+       inkscape:label="wastecooking"><tspan
+         sodipodi:role="line"
+         id="tspan27-8"
+         style="fill:#000080;stroke-width:0.303578"
+         x="-476.33002"
+         y="-157.01634">Episode 1 (DE)</tspan></text>
     <path
        id="rect28"
        style="fill:#ff00ff;fill-opacity:0.42;stroke-width:0.1;stroke-opacity:0.768627"
-       d="M -966.72035,-730.72744 V 791.6432 H 1086.7104 V -730.72744 Z m 1372.88778,393.37702 -3.93413,295.033155 515.32462,3.934127 78.6753,59.006734 23.60268,357.973504 -86.54302,51.13899 -62.94035,216.35734 H 744.47184 l -251.76137,7.86774 -1188.00003,15.73495 -7.86755,-255.69514 118.01295,-7.86758 3.9341,-739.54969 z"
-       sodipodi:nodetypes="ccccccccccccccccccc"
-       inkscape:label="side" />
+       inkscape:label="side"
+       d="M 1085.28 -735.4238 L 1085.28 -730.72744 L -966.72035 -730.72744 L -966.72035 -729.93679 L -2530.8171 -729.93679 L -2530.8171 783.25302 L -966.72035 783.25302 L -966.72035 791.6432 L 1086.7104 791.6432 L 1086.7104 788.89246 L 2665.2285 788.89246 L 2665.2285 -735.4238 L 1085.28 -735.4238 z M 406.16743 -337.35042 L 402.2333 -42.317265 L 917.55792 -38.383138 L 996.23322 20.623596 L 1019.8359 378.5971 L 933.29288 429.73609 L 870.35253 646.09343 L 744.47184 646.09343 L 492.71047 653.96117 L -695.28937 669.69612 L -703.15711 414.00114 L -585.14416 406.1334 L -581.21003 -333.41629 L 406.16743 -337.35042 z " />
   </g>
 </svg>
