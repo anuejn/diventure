@@ -82,9 +82,11 @@ const dialog = place.get("dialog_box").dialog("left");
             },
         })
     }
+
 })()
 
 place.get('exit').onClick(() => {
     void game.getSound("door_exit").play();
     game.navigate('map')
 })
+

@@ -18,3 +18,27 @@ place.get('quartalsbericht').onClick(() => {
 place.get('isnuguat').onClick(() => {
     window.open("https://www.isnuguat.at", "_blank");
 })
+
+place.get('ministerium').onClick(() => {
+    window.open("https://www.bmk.gv.at/themen/klima_umwelt/abfall/abfallvermeidung/lebensmittel.html", "_blank");
+})
+
+place.get('sdgen').onClick(() => {
+    window.open("https://champions123.org/target-123", "_blank");
+})
+
+place.get('sdgde').onClick(() => {
+    window.open("https://champions123.org/target-123", "_blank");
+})
+
+place.get('awarenessday').onClick(() => {
+    window.open("https://www.un.org/en/observances/end-food-waste-day", "_blank");
+})
+
+place.get('legality').onClick(() => {
+    window.open("https://www.zerowasteaustria.at/containern-in-oesterreich.html", "_blank");
+})
+
+place.get('cityVienna').onClick(() => {
+    window.open("https://www.wien.gv.at/umweltschutz/abfall/lebensmittel/fakten.html", "_blank");
+})
