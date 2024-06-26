@@ -2,6 +2,13 @@ await game.getSound("door_bell1").play();
 
 place.get("cart").show(place.state.showCart || false)
 
+let respawn_shoppinglist = false;
+place.onLeave(() => {
+    if (respawn_shoppinglist) {
+        game.items["shoppinglist"].show()
+    }
+})
+
 const dialog = place.get("dialog_box").dialog("left");
 (async () => {
     await place.get("dude").waitClick();
@@ -37,6 +44,7 @@ const dialog = place.get("dialog_box").dialog("left");
                 const hintTimeout = setTimeout(() => dialog.sayOther("You will actually have to give the list to me!"), 12000)
                 const shoppinglist = await place.get("dude").waitOtherDrop(item => item.itemName == "shoppinglist");
                 clearTimeout(hintTimeout);
+                respawn_shoppinglist = true;
                 shoppinglist.hide()
                 await dialog.sayMe("Ah, here is it!");
 
@@ -59,7 +67,8 @@ const dialog = place.get("dialog_box").dialog("left");
                 await game.spawnItemOnce("eggs", place.get("slot_4"))
                 await game.spawnItemOnce("butter", place.get("slot_5"))
 
-                shoppinglist.destroy()
+                shoppinglist.destroy();
+                respawn_shoppinglist = false;
 
                 await dialog.sayMe("So, here you go");
                 await dialog.sayOther("Thank you, I wish you a nice day!");
