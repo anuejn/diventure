@@ -30,6 +30,7 @@ export class Game {
   anchoredElements: [SVGElement | HTMLElement, AnchorPlacement][] = [];
   topZIndex: number = 1;
   started = false;
+  initialLoadingDone = false;
 
   items: Record<string, Item> = {}; // use getItemById instead
   private itemsMutex = new Mutex();
@@ -84,6 +85,8 @@ export class Game {
     function clean() {
       events.forEach((e) => document.body.removeEventListener(e, unlock));
     }
+
+    this.initialLoadingDone = true;
   }
 
   async loadControls() {
@@ -199,13 +202,15 @@ export class Game {
   }
 
   async relayoutAnchors(force = false) {
+    if (!this.initialLoadingDone) return;
     if (this.loadingPlace && !force) return;
 
     const viewport = document.getElementById("viewport");
     if (!viewport) throw Error("viewport container is gone");
 
     const anchoredElements = [...this.anchoredElements];
-    for (const item of Object.keys(this.state.anchoredItems)) {
+    for (const [item, placement] of Object.entries(this.state.anchoredItems)) {
+      if (!getAnchorParent(placement)) return;
       const itemObject = await this.getItemById(item);
       anchoredElements.push([
         itemObject.svgElement,
