@@ -10,7 +10,7 @@ if (itemsInInventory.findIndex(item => item.itemName == "gloves") != -1) {
     })
 }
 
-if(game.state.wasDumpsterDiving){
+if(game.state.partyOver){
     place.get('sticker').onClick(() => {
         game.navigate('streetlamp')
     })
