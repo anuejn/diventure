@@ -51,6 +51,9 @@ export class Dialog {
     setTimeout(() => {
       bubble.style.opacity = "1";
     }, 100);
+    if (text.endsWith("...")) {
+      await sleep(1500);
+    }
     await sleep(750 + text.split(" ").length * 150);
   }
 
