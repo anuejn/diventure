@@ -3,8 +3,12 @@ place.get("lid").onClick(() => {
     game.navigate("trashbins");
 })
 
+const forbiddenItems = ["gloves", "key"];  // if we drop these items into the bin, we are stuck
 place.getMany(/slot_\d\d/).map(slot => {
-    slot.onOtherDrop(item => item.anchor(slot))
+    slot.onOtherDrop(item => {
+        if (forbiddenItems.includes(item.itemName)) return;
+        item.anchor(slot)
+    })
 })
 
 const food_list = ["apple", "banana", "bellpeper", "brezel", "butter", "candy", "chocolate", "eggs", "flour", "honey", "juice", "oat_milk", "oil_olive", "oil_sunflower", "sugar", "yogurt"]
