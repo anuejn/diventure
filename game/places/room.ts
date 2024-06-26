@@ -19,13 +19,24 @@ place.get('chair').onClick(() => {
 })
 
 place.get('night').hide();
+let sleeping = false;
+function updateSleeping() {
+    place.get('night').show(sleeping);
+    void game.getSound("bed").setVolume(2).play(sleeping);
+}
 place.get('bed').onClick(() => {
-    place.get('night').show();
-    void game.getSound("bed").setVolume(40).play();
+    sleeping = !sleeping;
+    updateSleeping();
     setTimeout(() => {
-        place.get('night').hide();
+        sleeping = false
+        updateSleeping()
     }, 9000)
 })
+place.onLeave(() => {
+    sleeping = false
+    updateSleeping()
+});
+
 
 let radio_on = true;
 place.get('radio').onClick(() => {
@@ -41,7 +52,7 @@ place.get('bg_lamp').onClick(() => {
     void game.getSound("light_switch").play();
 })
 
-function posterOnOff(posterX: string, picture: string){
+function posterOnOff(posterX: string, picture: string) {
     let poster_on = false;
     place.get(picture).hide()
     place.get(posterX).onClick(() => {
