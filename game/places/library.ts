@@ -14,7 +14,9 @@ place.get('light_switch').onClick(() => {
 })
 
 place.get('cat').onClick(() => {
-    void game.getSound("cat").setVolume(10).play();
+    place.state.cat = !place.state.cat;
+    void game.getSound("cat").setVolume(1).setLoop(true).play(place.state.cat);
+    if (!place.state.cat) return;
     const dialog = place.get("dialog_cat").dialog("right");
     (async () => {
         await dialog.sayOther("Mauuu")

@@ -29,12 +29,12 @@ place.get('dishes').onClick(async () => {
     }
 })
 
+function memespawn(meme: string, spot: string) {
+    place.get(spot).onClick(() => {
+        void game.spawnItemOnce(meme, place.get(spot), {size: "fill"});
+    })
+}
 if(game.state.wasDumpsterDiving){
-    function memespawn(meme: string, spot: string) {
-        place.get(spot).onClick(() => {
-            game.spawnItemOnce(meme, place.get(spot), {size: "fill"});
-        })
-    }
     memespawn("meme_1","meme_1")
     memespawn("meme_2","meme_2")
     memespawn("meme_3","meme_3")

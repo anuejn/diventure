@@ -30,6 +30,13 @@ export class Game {
   anchoredElements: [SVGElement | HTMLElement, AnchorPlacement][] = [];
   topZIndex: number = 1;
   started = false;
+  initialLoadingDone = false;
+  exibitionModeTimeout: NodeJS.Timeout | undefined;
+
+  config = makePersistedObject("game_config", {
+    exibitionMode: false,
+    exibitionModeTimeoutMs: 15 * 60 * 1000,
+  });
 
   items: Record<string, Item> = {}; // use getItemById instead
   private itemsMutex = new Mutex();
@@ -41,6 +48,19 @@ export class Game {
       anchoredItems: {},
       onceSpawnedItems: [],
     });
+
+    const inputEvents = ["touchstart", "touchend", "mousedown", "keydown"];
+    const resetTimeout = () => {
+      if (this.exibitionModeTimeout) {
+        clearTimeout(this.exibitionModeTimeout);
+      }
+      this.exibitionModeTimeout = setTimeout(() => {
+        if (!this.config.exibitionMode) return;
+        game.reset();
+      }, this.config.exibitionModeTimeoutMs);
+    };
+    inputEvents.forEach((e) => document.body.addEventListener(e, resetTimeout, false));
+
 
     this.state.subscribeChild("currentPlace", (place, oldPlace) => {
       if (place == oldPlace) return;
@@ -76,14 +96,15 @@ export class Game {
 
     this.audioContext = new AudioContext();
     // we need to "unblock" the audio context at the first user interaction
-    const events = ["touchstart", "touchend", "mousedown", "keydown"];
     const unlock = () => {
       void this.audioContext.resume().then(clean);
     };
-    events.forEach((e) => document.body.addEventListener(e, unlock, false));
+    inputEvents.forEach((e) => document.body.addEventListener(e, unlock, false));
     function clean() {
-      events.forEach((e) => document.body.removeEventListener(e, unlock));
+      inputEvents.forEach((e) => document.body.removeEventListener(e, unlock));
     }
+
+    this.initialLoadingDone = true;
   }
 
   async loadControls() {
@@ -199,13 +220,15 @@ export class Game {
   }
 
   async relayoutAnchors(force = false) {
+    if (!this.initialLoadingDone) return;
     if (this.loadingPlace && !force) return;
 
     const viewport = document.getElementById("viewport");
     if (!viewport) throw Error("viewport container is gone");
 
     const anchoredElements = [...this.anchoredElements];
-    for (const item of Object.keys(this.state.anchoredItems)) {
+    for (const [item, placement] of Object.entries(this.state.anchoredItems)) {
+      if (!getAnchorParent(placement) && !(item in this.items)) return;
       const itemObject = await this.getItemById(item);
       anchoredElements.push([
         itemObject.svgElement,
