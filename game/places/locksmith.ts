@@ -14,7 +14,7 @@ place.get('exit').onClick(() => {
     await dialog.sayOther("How can I help you?")
 
     const answerOptions: AnswerOptions = {
-        "I am just checking out the keychains": async () => {
+        "Oh, I am just checking out the keychains": async () => {
             await sleep(1000)
             await dialog.sayOther("Okay, then just let me know, if you need anything!")
             await place.get('dude').waitClick();
@@ -31,7 +31,7 @@ place.get('exit').onClick(() => {
         },
         "Uh, oh, I actually have to leave": async () => {
             await sleep(1000);
-            await dialog.sayOther("Okay then. See you!")
+            await dialog.sayOther("Okay, see you then!")
             await sleep(3000);
             await dialog.destroy();
         }
@@ -43,6 +43,7 @@ place.get('exit').onClick(() => {
             await sleep(1000);
             await dialog.sayMe("Yes!");
             await sleep(1000);
+            await dialog.sayOther("Hmmm!");
             await dialog.sayOther("I don't know about any order for Karl...");
             await dialog.sayOther("Ah, but maybe he's a friend of Alex?");
             await dialog.sayOther("He probably knows!");
@@ -64,11 +65,12 @@ place.get('exit').onClick(() => {
             await phonolog.sayOther("Hello?");
             await phonolog.sayMe("Oh hello Alex!");
             await phonolog.sayMe("There is a person picking up an order for Karl, do you know anything about that?");
-            await phonolog.sayOther("Hmm, let me think!");
+            await phonolog.sayOther("Hmm, let me see!");
+            await phonolog.sayOther("...");
             await phonolog.sayOther("I don't think so, no, nothing that I know of!");
-            await phonolog.sayMe("Strange, ok, thanks!");
-            await phonolog.sayMe("Tchau!");
-            await phonolog.sayOther("Tchau!");
+            await phonolog.sayMe("Very strange, but ok, thanks!");
+            await phonolog.sayMe("Tschüss!");
+            await phonolog.sayOther("Tschüss!");
             await sleep(2000);
             void game.getSound("hangup").play();
             await phonolog.destroy();
@@ -85,7 +87,7 @@ place.get('exit').onClick(() => {
                     await dialog.sayMe("...")
                     await dialog.sayMe("Ok, thank you anyways!")
                     await dialog.sayMe("Good bye!")
-                    await dialog.sayOther("Good bye!")
+                    await dialog.sayOther("Bye!")
                     await sleep(3000)
                     await dialog.destroy()
                 },
@@ -93,7 +95,7 @@ place.get('exit').onClick(() => {
                     await sleep(1000)
                     await dialog.sayOther("...")
                     await dialog.sayMe("...")
-                    await dialog.sayMe("Well I guess... I actually went to the wrong locksmith after all?")
+                    await dialog.sayMe("Well I guess... I probably went to the wrong locksmith after all?")
                     await sleep(2000)
                     await dialog.sayOther("Maybe!")
                     await dialog.sayOther("...")

@@ -11,9 +11,9 @@ const dialog = place.get("dialog_box").dialog("left");
     const itemsInInventory = await game.controls['inventory'].get('backpack_with_inventory').anchoredItemsRecursive();
     if (itemsInInventory.findIndex(item => item.itemName == "shoppinglist") == -1) {
         await dialog.answerOptionsLoop({
-            "Oh shit, I forgot my shopping list at home": async () => {
-                await dialog.sayMe("Probably in my Book on the Table")
-                await dialog.sayOther("Then you better get it.")
+            "Oh shit, I forgot my shopping list at home!": async () => {
+                await dialog.sayMe("It's probably in my book on the table")
+                await dialog.sayOther("Well, then you better get it.")
                 await dialog.sayOther("...")
                 await dialog.sayMe("...")
                 await dialog.sayOther("See you!")
@@ -21,16 +21,16 @@ const dialog = place.get("dialog_box").dialog("left");
                 await sleep(2000)
                 await dialog.destroy()
             },
-            "Actually, I have to go": async () => {
-                await dialog.sayOther("Oh, so fast?")
-                await dialog.sayOther("You did not even buy anything!")
+            "Actually, I have to go!": async () => {
+                await dialog.sayOther("Oh, already?")
+                await dialog.sayOther("You didn't even buy anything!")
                 await sleep(2000)
                 await dialog.destroy()
             },
         })
     } else {
         await dialog.answerOptionsLoop({
-            "I brought my shopping list": async () => {
+            "I brought my shopping list!": async () => {
                 await dialog.sayMe("Can you get me the stuff on it?")
                 await dialog.sayOther("Sure, if you give me your list!")
 
@@ -38,7 +38,7 @@ const dialog = place.get("dialog_box").dialog("left");
                 const shoppinglist = await place.get("dude").waitOtherDrop(item => item.itemName == "shoppinglist");
                 clearTimeout(hintTimeout);
                 shoppinglist.hide()
-                await dialog.sayMe("Ah, here is it!");
+                await dialog.sayMe("Here it is!");
 
                 await dialog.sayOther("Oh, looks like you want to bake a cake!");
                 await sleep(1000)
@@ -61,10 +61,10 @@ const dialog = place.get("dialog_box").dialog("left");
 
                 shoppinglist.destroy()
 
-                await dialog.sayMe("So, here you go");
+                await dialog.sayMe("There you go!");
                 await dialog.sayOther("Thank you, I wish you a nice day!");
                 await sleep(2000);
-                await dialog.sayOther("Don't forget anything!");
+                await dialog.sayOther("And don't forget anything!");
                 await sleep(2000);
                 await dialog.destroy()
             },
@@ -76,7 +76,7 @@ const dialog = place.get("dialog_box").dialog("left");
                 await dialog.sayOther("So in this shop, you just give me your shopping list and get the products!")
                 await sleep(2000);
                 await dialog.sayOther("Good enough, eh?")
-                await dialog.sayOther("We're doing it in the old fashioned way, isn't retro a thing again nowerdays?")
+                await dialog.sayOther("We're doing it in the old fashioned way, isn't retro a thing again nowadays?")
                 await dialog.sayMe("...")
                 await dialog.sayOther("...")
             },
@@ -89,4 +89,3 @@ place.get('exit').onClick(() => {
     void game.getSound("door_exit").play();
     game.navigate('map')
 })
-

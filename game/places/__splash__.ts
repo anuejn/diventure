@@ -1,5 +1,5 @@
-place.get('bg_dumpster').hide()
-place.get('bg_trashcan').hide()
+//place.get('bg_dumpster').hide()
+//place.get('bg_trashcan').hide()
 
 if (game.state.hadLastDialog) { // OUTRO
     place.get('bg_dumpster').show()

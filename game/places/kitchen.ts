@@ -21,9 +21,9 @@ place.get('dishes').onClick(async () => {
         const dialog = place.get("dialog_oven").dialog("right");
         await dialog.sayOther("Hey!")
         await dialog.sayOther("When you do this I get jealous!")
-        await dialog.sayOther("In this game you dont need to prepare dough")
-        await dialog.sayOther("Just put everything into me!")
-        await dialog.sayOther("I am a super-duper magical oven")
+        await dialog.sayOther("In this game you don't need to prepare dough!")
+        await dialog.sayOther("Just put your ingrediants inside of me!")
+        await dialog.sayOther("I am a super-duper magical oven!")
         await sleep(1000)
         await dialog.destroy()
     }
@@ -108,7 +108,8 @@ async function updateOvenOpenState() {
                 await dialog.sayOther("But for that I need ingredients!")
             } else {
                 await dialog.sayOther("I really don't know what to bake with the combination of ingredients you put into me!")
-                await dialog.sayOther("If you dont know how to bake on your own, maybe you should look for a recipe?")
+                await sleep(3000)
+                await dialog.sayOther("If you don't know how to bake on your own, maybe you can find a recipe?")
             }
             await dialog.destroy();
         }

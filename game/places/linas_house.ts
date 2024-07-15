@@ -37,9 +37,9 @@ if (!party1 && !party2) {
     place.get('bg_party2').hide()
     place.get('bg_discoball').hide()
 
-    if (game.state.partyOver) {
+    /*if (game.state.partyOver) {
         await game.spawnItemOnce("croco", place.get("couch_spot"));
-    }
+    }*/
     const dialog = place.get("dialog_box_lina_no_party").dialog("right");
     (async () => {
         await place.get("lina").waitClick();
@@ -50,53 +50,56 @@ if (!party1 && !party2) {
             await dialog.answerOptionsLoop({
                 "I was just nearby, coming to see if you had some new gossip!": async () => {
                     await dialog.sayOther("Haha, no sorry, not this time!")
-                    await dialog.sayOther("That Tina is dating Tom now I already told you a while ago.")
+                    await dialog.sayOther("That there is a cat at the library now I already told you.")
                     await dialog.sayOther("So no, no entertaining news from me today!")
-                    await dialog.sayMe("Hmm!")
+                    await dialog.sayMe("Ah yes I think I already knew about that!")
+                    await dialog.sayMe("Hmm, alright!")
                     await dialog.sayOther("...")
                 },
-                "Actually, I have to go. See you!": async () => {
+                "I actually have to leave. See you!": async () => {
                     await dialog.sayOther("Alright")
                     await dialog.sayOther("See you soon then I guess!")
                     await dialog.sayMe("Bussi, Baba!")
+                    await dialog.sayOther("Baba!")
                     await sleep(2000);
                     await dialog.destroy();
                 },
-                "Isn't it your Birthday soon?": async () => {
-                    await dialog.sayOther("Yeah, I sent you an invitation to bring with you.")
-                    await dialog.sayMe("True, I'm already very looking forward to it!")
+                "Isn't it your birthday soon?": async () => {
+                    await dialog.sayOther("Yeah, did you receive my invitation?")
+                    await dialog.sayOther("Don't forget to bring it along.")
+                    await dialog.sayMe("Yes yes, I'm already very looking forward to it!")
                     await dialog.sayMe("... really excited!")
                     await dialog.sayOther("Great!")
                 },
-                "Should I bring anything for your Birthday?": async () => {
-                    await dialog.sayOther("It would be so nice, if you could bake a cake!")
-                    await dialog.sayMe("Great idea, actually funny, 'cause I already wrote the ingrediants on a shopping list in my notebook.")
+                "Should I bring anything for your party?": async () => {
+                    await dialog.sayOther("It would be really nice, if you could bake a cake!")
+                    await dialog.sayMe("Great idea, actually funny, 'cause I already wrote the ingrediants on my shopping list.")
                     await dialog.sayOther("Haha funny indeed!")
                 }
             });
         } else { // this is after the birthday party
             await dialog.answerOptionsLoop({
                 "I was just nearby, coming to see if you had some new gossip!": async () => {
-                    await dialog.sayOther("Haha, yes!")
+                    await dialog.sayOther("Haha, well yes!")
                     await dialog.sayOther("I went dumpster diving  the other day and found some delicious cookies!")
                     await dialog.sayOther("I remembered you telling me you really liked them!")
                     await dialog.sayOther("... and I have some here for you if you like!")
                     const answerOptions: AnswerOptions = {
                         "*mompf mompf*": async () => {
-                            await dialog.sayMe("Ohhh thank you, the cookies are really delicious!")
+                            await dialog.sayMe("Ohhh thank you, they are really delicious!")
                         },
                         "Where did you get the cookies from?": async () => {
-                            await dialog.sayOther("The market around the corner");
-                            await dialog.sayOther("Their container often holds real treasures!");
-                            await dialog.sayMe("Good to know, I think I will check that out!");
-                            await dialog.sayOther("Very good idea!")
+                            await dialog.sayOther("Just from the market around the corner!");
+                            await dialog.sayOther("Their container often holds real TRASHERS!");
+                            await dialog.sayMe("Good to know, I think I will also check that one out!");
+                            await dialog.sayOther("Great, let me know how it went!")
                         },
                     };
                     if (game.state.triedDumpsterDiving && !game.state.wasDumpsterDiving) {
                         answerOptions["Actually I also tried to go dumpster diving recently..."] = async () => {
                             await dialog.sayMe("... but it didn't go very well!");
-                            await dialog.sayMe("The door was locked and I didnt have the right key!");
-                            await dialog.sayOther("What a pitty!")
+                            await dialog.sayMe("The door was locked and I didn't have the right key!");
+                            await dialog.sayOther("Oh, what a pitty!")
                             await dialog.sayMe("Yes right?")
                             await dialog.sayOther("Mhmm")
                             await dialog.sayOther("...")
@@ -134,11 +137,11 @@ if (!party1 && !party2) {
                             await game.spawnItem("key", place.get("key_spawn"), { size: "fill" })
                             await dialog.sayMe("What???")
                             await dialog.sayMe("Are you for real?")
-                            await dialog.sayMe("Thank you so much!")
+                            await dialog.sayMe("Thank youuu!")
                             await dialog.sayOther("Sure, no problem!")
                             await dialog.sayOther("We in the dumpster diving community help together!")
-                            await dialog.sayMe("Amazing, I will try it now!")
-                            await dialog.sayOther("Cool!")
+                            await dialog.sayMe("Amazing, now I can finally try it!")
+                            await dialog.sayOther("Yes, good luck and have fun!")
                             await sleep(2000)
                             await dialog.destroy()
                         }
@@ -148,6 +151,7 @@ if (!party1 && !party2) {
                 "Actually, I have to go. See you!": async () => {
                     await dialog.sayOther("See you soon then I guess!")
                     await dialog.sayOther("Baba!")
+                    await dialog.sayMe("Baba!")
                     await sleep(2000);
                     await dialog.destroy();
                 },
@@ -172,7 +176,7 @@ if (!party1 && !party2) {
                 }
             };
             if (itemsInInventory.findIndex(item => item.itemName == "cake") != -1) {
-                answerOptions["I brought a cake!"] = async () => {
+                answerOptions["I brought cake!"] = async () => {
                     await dialog.sayOther("Thank you!");
                     await dialog.sayOther("You can give it to me, so I can put it on the buffet!");
                     const cake = await place.get('lina').waitOtherDrop(item => item.itemName == "cake");
@@ -189,7 +193,7 @@ if (!party1 && !party2) {
             } else {
                 answerOptions["Oh shit, I forgot to bring cake!"] = async () => {
                     await dialog.sayMe("I will be right back!")
-                    await dialog.sayMe("With a cake haha!")
+                    await dialog.sayMe("... with cake haha!")
                     await sleep(2000);
                     await dialog.destroy();
                 };
@@ -224,14 +228,14 @@ if (!party1 && !party2) {
                                 "Not so much. It's too frustrating!": async () => {
                                     await dialog.sayOther("Oh, what a pitty!")
                                     await dialog.sayOther("But I'm sorry I can't really help you with that...")
-                                    await dialog.sayOther(`... better <a href="https://github.com/anuejn/diventure/issues">complain with the makers<a>!`)
+                                    await dialog.sayOther(`... better <a href="https://github.com/anuejn/diventure/issues", "_blank">complain with the makers<a>!`)
                                     await dialog.sayMe("...")
                                     await dialog.sayOther("...")
                                 },
                                 "I really like it!": async () => {
                                     await dialog.sayOther("Amazing, glad to hear! :)")
                                 },
-                                "It's too easy!": async () => {
+                                "Too easy!": async () => {
                                     await dialog.sayOther("Oh, ok wow. I will get out of your way then...")
                                     await dialog.sayOther("I am just a side character anyways!")
                                     await dialog.sayMe("...")
@@ -246,9 +250,9 @@ if (!party1 && !party2) {
                         "Where do you know Lina from?": async () => {
                             await dialog.sayOther("Oh, we got to know each other a few month ago at a cooking event!")
                             await dialog.answerOptions({
-                                "Ah, that sounds interesting - tell me more about that!": async () => {
+                                "That sounds interesting - tell me more about that!": async () => {
                                     await dialog.sayOther("Ahm, it was really great!")
-                                    await dialog.sayOther("But in the end we had way too much food left...")
+                                    await dialog.sayOther("But in the end we had way too much food left we couldn't eat all ...")
                                     await dialog.sayOther("... and had to throw a lot of it to the trash!")
                                     await dialog.sayMe("Oh no, that sounds really sad!")
                                     await dialog.sayOther("Yes I felt the same!")

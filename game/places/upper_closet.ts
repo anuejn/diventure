@@ -11,9 +11,9 @@ place.get('dishes').onClick(async () => {
     if (["flour", "sugar", "chocolate", "eggs", "butter"].some(x => itemsInInventory.includes(x))) {
         const dialog = place.get("dialog_dishes").dialog("right");
         await dialog.sayOther("Psst...")
-        await dialog.sayOther("We are actually just part of the static drawing")
-        await dialog.sayOther("In this game you dont need to prepare dough")
-        await dialog.sayOther("Just put everything in the oven!")
+        await dialog.sayOther("We are actually just part of the static drawing.")
+        await dialog.sayOther("In this game you don't need to prepare dough!")
+        await dialog.sayOther("Just put everything inside the oven!")
         await sleep(1000)
         await dialog.destroy()
     }
