@@ -19,13 +19,14 @@ place.get('cat').onClick(() => {
     if (!place.state.cat) return;
     const dialog = place.get("dialog_cat").dialog("right");
     (async () => {
-        await dialog.sayOther("Mauuu")
+        await dialog.sayOther("Miauuu")
         await dialog.sayOther("You found the Library!")
-        await dialog.sayOther("This is a bonus place, where you can find more resources about dumpster diving if you want")
+        await dialog.sayOther("This is a bonus place, where you can find more resources about saving food!")
         await dialog.sayOther("Feel free to make yourself comfortable and be curious!")
         await sleep(1000);
         await dialog.destroy();
-    })()
+        void game.getSound("cat").pause();
+    })()  
 })
 
 place.get('tv').onClick(() => {
